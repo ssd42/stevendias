@@ -1,0 +1,54 @@
+html{
+	font-family: "IBMPlexSans";
+	background: #F5F5F5;
+	font-size: 24px;
+	font-size: 3.0vw;
+	font-size: 4.5vh;
+}
+
+body{
+	font-family: inherit;
+	background: inherit;
+	font-size: inherit;
+}
+
+a, a:hover{
+	color:inherit;
+}
+
+.landing-page{
+	margin:0;
+	padding: 0;
+}
+
+.menu a{
+	padding: 8px;
+}
+
+.menu a{
+	color: inherit;
+	text-decoration-line: underline;
+	text-decoration-color: grey;
+	text-decoration-style: double;
+}	
+
+.menu a:hover{
+	color: grey;
+	text-decoration-line: none;
+}
+
+.fa-black{
+	margin-top: 25px;
+	margin-right: 10px;
+	margin-left: 10px;
+	color: black;
+}
+
+#error-msg{
+	font-size:40px; 
+}
+
+
+#tab{
+	padding-left: 2em;
+}
