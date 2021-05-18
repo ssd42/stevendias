@@ -1,6 +1,6 @@
 html{
 	font-family: "IBMPlexSans";
-	background: #F5F5F5;
+	background: #222831;
 	font-size: 24px;
 	font-size: 3.0vw;
 	font-size: 4.5vh;
@@ -8,6 +8,7 @@ html{
 
 body{
 	font-family: inherit;
+	color:#f2a365;
 	background: inherit;
 	font-size: inherit;
 }
@@ -42,6 +43,10 @@ a, a:hover{
 	margin-right: 10px;
 	margin-left: 10px;
 	color: black;
+}
+
+#custom-icons {
+	color: #E94560;
 }
 
 #error-msg{
