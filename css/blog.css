@@ -1,0 +1,77 @@
+html {
+    background-color: #F8F8F8; 
+    height: 100%; 
+    margin: 0;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+header, footer {
+    text-align: center;
+    padding: 1rem;
+}
+
+h2 { 
+    text-align: left;
+}
+
+article {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #DDD;
+    padding: 0.5rem 0;
+}
+
+article section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+time {
+    margin-right: 10px;
+    font-size: 1.2em;
+    opacity: 0.6;
+}
+
+.home-page-redirect, .article-title {
+    color: #99c1de;
+    text-decoration: none;
+}
+
+.home-page-redirect:hover, .article-title:hover { 
+    color: #bcd4e6;
+}
+
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Stacks the children vertically */
+    min-height: 100vh; /* Minimum height of 100% of the viewport height */
+}
+
+.container {
+    flex: 1; /* Makes the container grow to fill available space */
+    display: flex;
+    flex-direction: column; /* Keeps header, main, and footer in a column */
+    width: 33.33%; /* Your specified width */
+    margin: 0 auto; /* Centers the container horizontally */
+}
+
+main {
+    flex: 1; /* Allows main content to expand and push the footer downward */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+}
