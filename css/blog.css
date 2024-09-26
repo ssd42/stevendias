@@ -22,6 +22,7 @@ h2 {
     justify-content: space-between;
     border-bottom: 1px solid #DDD;
     padding: 0.5rem 0;
+    font-size: 1.2rem;
 }
 
 .article-enumerator section {
@@ -31,13 +32,13 @@ h2 {
 }
 
 time {
-    margin-right: 10px;
-    font-size: 1.2em;
+    margin-right: 20px;
+    font-size: 1rem;
     opacity: 0.6;
 }
 
 .home-page-redirect, .article-title {
-    color: #99c1de;
+    color: #4F7FAE;
     text-decoration: none;
 }
 
