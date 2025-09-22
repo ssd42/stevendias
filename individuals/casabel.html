@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CasaBela - Handcrafted Art & Decor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        ::selection {
+            background: rgba(119, 29, 57, 0.3);
+        }
+        .wine-bg {
+            background-color: #771d39;
+        }
+        .wine-text {
+            color: #771d39;
+        }
+        .wine-border {
+            border-color: #771d39;
+        }
+        .light-wine-bg {
+            background-color: #f8f1f3;
+        }
+    </style>
+</head>
+<body class="light-wine-bg font-serif">
+    <!-- Navigation -->
+    <nav class="wine-bg text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold tracking-wider">CasaBela</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#gallery" class="hover:text-gray-200 transition">Gallery</a>
+                    <a href="#about" class="hover:text-gray-200 transition">About</a>
+                    <a href="#contact" class="hover:text-gray-200 transition">Contact</a>
+                </div>
+                <button class="md:hidden focus:outline-none">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-40"></div>
+        <img src="http://static.photos/vintage/1200x630/5" alt="Art Studio" class="absolute w-full h-full object-cover">
+        <div class="relative z-10 text-center px-6">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6" data-aos="fade-down">CasaBela Artistry</h1>
+            <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Handcrafted paintings and vases that bring elegance to your space
+            </p>
+            <a href="#gallery" class="inline-block px-8 py-3 wine-bg text-white rounded-full hover:bg-opacity-90 transition" data-aos="fade-up" data-aos-delay="400">
+                Explore Collection
+            </a>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold wine-text text-center mb-16" data-aos="fade-down">Our Collection</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Painting 1 -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
+                    <img src="http://static.photos/abstract/640x360/10" alt="Abstract Painting" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Whispers of Wine</h3>
+                        <p class="text-gray-600">Abstract acrylic painting on canvas</p>
+                        <p class="text-gray-800 mt-2">$450</p>
+                    </div>
+                </div>
+                
+                <!-- Vase 1 -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                    <img src="http://static.photos/craft/640x360/15" alt="Handmade Vase" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Mediterranean Vase</h3>
+                        <p class="text-gray-600">Hand-thrown ceramic with glaze</p>
+                        <p class="text-gray-800 mt-2">$320</p>
+                    </div>
+                </div>
+                
+                <!-- Painting 2 -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                    <img src="http://static.photos/nature/640x360/20" alt="Landscape Painting" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Tuscan Sunset</h3>
+                        <p class="text-gray-600">Oil painting on stretched canvas</p>
+                        <p class="text-gray-800 mt-2">$580</p>
+                    </div>
+                </div>
+                
+                <!-- Vase 2 -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
+                    <img src="http://static.photos/craft/640x360/25" alt="Decorative Vase" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Boho Chic Vase</h3>
+                        <p class="text-gray-600">Hand-painted terracotta</p>
+                        <p class="text-gray-800 mt-2">$275</p>
+                    </div>
+                </div>
+                
+                <!-- Mixed Media -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                    <img src="http://static.photos/art/640x360/30" alt="Mixed Media Art" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Textured Memories</h3>
+                        <p class="text-gray-600">Mixed media on wood panel</p>
+                        <p class="text-gray-800 mt-2">$620</p>
+                    </div>
+                </div>
+                
+                <!-- Painting 3 -->
+                <div class="gallery-item bg-white rounded-lg overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                    <img src="http://static.photos/abstract/640x360/35" alt="Modern Painting" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold wine-text mb-2">Urban Elegance</h3>
+                        <p class="text-gray-600">Contemporary acrylic painting</p>
+                        <p class="text-gray-800 mt-2">$490</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <button class="px-6 py-3 wine-border wine-text border-2 rounded-full hover:bg-white transition">
+                    View Full Collection
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 wine-bg text-white">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10" data-aos="fade-right">
+                    <img src="http://static.photos/people/640x360/40" alt="Artist" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">The Artist Behind CasaBela</h2>
+                    <p class="text-lg mb-6">
+                        Welcome to CasaBela, where every piece tells a story. I'm Isabella, the artist and creator behind these unique works. Each painting and vase is handcrafted with passion and attention to detail.
+                    </p>
+                    <p class="text-lg mb-6">
+                        My inspiration comes from the rich colors of Mediterranean landscapes, the textures of ancient architecture, and the delicate balance between tradition and modernity.
+                    </p>
+                    <p class="text-lg">
+                        Every piece in my collection is one-of-a-kind, just like the spaces they'll adorn. I believe art should be accessible yet extraordinary, blending seamlessly into your home while making a statement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 px-6 light-wine-bg">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold wine-text text-center mb-16" data-aos="fade-down">What Our Clients Say</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md" data-aos="fade-up">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6">
+                        "The Tuscan Sunset painting transformed my living room. Isabella captured the light perfectly - it's like having a window to Italy!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/1" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Sophia R.</h4>
+                            <p class="text-sm text-gray-500">Interior Designer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6">
+                        "The Mediterranean Vase is even more beautiful in person. The craftsmanship is exceptional and it's become the centerpiece of my dining table."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/2" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Michael T.</h4>
+                            <p class="text-sm text-gray-500">Art Collector</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6">
+                        "Working with Isabella on a custom piece was a dream. She understood exactly what I wanted and created something beyond my expectations."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/3" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Emma L.</h4>
+                            <p class="text-sm text-gray-500">Gallery Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 wine-bg text-white p-10" data-aos="fade-right">
+                        <h2 class="text-3xl font-bold mb-6">Let's Connect</h2>
+                        <p class="mb-8">
+                            Interested in a custom piece or have questions about my work? I'd love to hear from you.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i data-feather="mail" class="mr-4"></i>
+                                <span>hello@casabela.art</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="phone" class="mr-4"></i>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="map-pin" class="mr-4"></i>
+                                <span>Studio 42, Arts District, CA</span>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold mb-4">Follow Along</h3>
+                            <div class="flex space-x-4">
+                                <a href="#" class="hover:text-gray-300 transition">
+                                    <i data-feather="instagram"></i>
+                                </a>
+                                <a href="#" class="hover:text-gray-300 transition">
+                                    <i data-feather="facebook"></i>
+                                </a>
+                                <a href="#" class="hover:text-gray-300 transition">
+                                    <i data-feather="twitter"></i>
+                                </a>
+                                <a href="#" class="hover:text-gray-300 transition">
+                                    <i data-feather="pinterest"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-10" data-aos="fade-left">
+                        <h2 class="text-3xl font-bold wine-text mb-6">Send a Message</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 mb-2">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-wine-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-wine-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="block text-gray-700 mb-2">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-wine-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full wine-bg text-white py-3 rounded-lg hover:bg-opacity-90 transition">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="wine-bg text-white py-12 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-4">CasaBela</h3>
+                    <p>Handcrafted art that tells your story.</p>
+                </div>
+                <div class="flex flex-col md:flex-row md:space-x-12 space-y-4 md:space-y-0">
+                    <div>
+                        <h4 class="font-semibold mb-3">Explore</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#gallery" class="hover:text-gray-300 transition">Gallery</a></li>
+                            <li><a href="#about" class="hover:text-gray-300 transition">About</a></li>
+                            <li><a href="#contact" class="hover:text-gray-300 transition">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Information</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="hover:text-gray-300 transition">Shipping</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition">Returns</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition">Commissions</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="hover:text-gray-300 transition">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p>&copy; 2023 CasaBela. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        feather.replace();
+        
+        // Mobile menu toggle
+        document.querySelector('nav button').addEventListener('click', function() {
+            const menu = document.querySelector('.md\\:flex.space-x-8');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            menu.classList.toggle('flex-col');
+            menu.classList.toggle('absolute');
+            menu.classList.toggle('top-16');
+            menu.classList.toggle('left-0');
+            menu.classList.toggle('right-0');
+            menu.classList.toggle('wine-bg');
+            menu.classList.toggle('p-4');
+            menu.classList.toggle('space-y-4');
+            menu.classList.toggle('space-x-0');
+        });
+    </script>
+</body>
+</html>
