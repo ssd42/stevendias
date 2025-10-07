@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConstructHub — Build Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* --- Design System --- */
+    :root {
+      /* Brand Colors - Construction-inspired palette */
+      --primary: #FF6B35;        /* Safety Orange */
+      --primary-dark: #E85A28;
+      --primary-light: #FF8B61;
+      --secondary: #004E89;      /* Industrial Blue */
+      --secondary-dark: #003D6B;
+      --accent: #FFC914;         /* Caution Yellow */
+      --dark: #1A1A2E;
+      --dark-800: #25253D;
+      --dark-700: #303048;
+      --light: #F7F9FC;
+      --white: #FFFFFF;
+      --text-primary: #1A1A2E;
+      --text-secondary: #5A5A6E;
+      --text-tertiary: #8B8B9E;
+
+      /* Typography */
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+
+      /* Spacing */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+
+      /* Shadows */
+      --shadow-sm: 0 2px 8px rgba(26, 26, 46, 0.06);
+      --shadow-md: 0 4px 16px rgba(26, 26, 46, 0.1);
+      --shadow-lg: 0 8px 32px rgba(26, 26, 46, 0.12);
+      --shadow-xl: 0 16px 48px rgba(26, 26, 46, 0.16);
+
+      /* Border Radius */
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    /* --- Base Reset & Typography --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      color: var(--text-primary);
+      background: var(--white);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    /* --- Header --- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26, 26, 46, 0.08);
+      padding: var(--space-md) 0;
+      z-index: 1000;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    header.scrolled {
+      padding: var(--space-sm) 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--white);
+      font-size: 18px;
+      font-family: var(--font-display);
+      box-shadow: var(--shadow-md);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--dark);
+      letter-spacing: -0.03em;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn-demo {
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.7rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-demo:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(165deg,
+        var(--dark) 0%,
+        var(--dark-800) 50%,
+        var(--dark-700) 100%
+      );
+      color: var(--white);
+      padding: var(--space-2xl) var(--space-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 80%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 201, 20, 0.4) 50%,
+        transparent 100%
+      );
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 640px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: rgba(255, 107, 53, 0.15);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: var(--space-md);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: var(--space-md);
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--white) 0%, rgba(255, 255, 255, 0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: var(--space-md);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      padding: 1.1rem 2.2rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(255, 107, 53, 0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      padding: 1.1rem 2.2rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--white);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-visual {
+      position: relative;
+      padding: var(--space-lg);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .hero-card-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-card-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.6;
+    }
+
+    .hero-card-dot:nth-child(2) {
+      background: var(--accent);
+    }
+
+    .hero-card-dot:nth-child(3) {
+      background: var(--secondary);
+    }
+
+    .hero-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .hero-card-item {
+      background: rgba(255, 255, 255, 0.06);
+      padding: var(--space-sm);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* --- Stats Section --- */
+    .stats {
+      background: var(--white);
+      padding: var(--space-xl) var(--space-md);
+      border-bottom: 1px solid rgba(26, 26, 46, 0.08);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: var(--font-display);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* --- Features Section --- */
+    .features {
+      padding: var(--space-2xl) var(--space-md);
+      background: var(--light);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto var(--space-xl);
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-md);
+    }
+
+    .section-header h2 {
+      font-size: 3rem;
+      margin-bottom: var(--space-md);
+      color: var(--dark);
+    }
+
+    .section-header p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(26, 26, 46, 0.06);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(255, 107, 53, 0.2);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 201, 20, 0.1) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: var(--space-md);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .feature-list li::before {
+      content: '→';
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* --- Tech Stack --- */
+    .tech-stack {
+      padding: var(--space-2xl) var(--space-md);
+      background: var(--white);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+    }
+
+    .tech-item {
+      background: var(--light);
+      border: 1px solid rgba(26, 26, 46, 0.08);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .tech-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .tech-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-xs);
+    }
+
+    .tech-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    /* --- CTA Section --- */
+    .cta {
+      padding: var(--space-2xl) var(--space-md);
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-800) 100%);
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta h2 {
+      font-size: 3.5rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.2;
+    }
+
+    .cta p {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--space-lg);
+      line-height: 1.8;
+    }
+
+    .cta-features {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .cta-feature-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+    }
+
+    .cta-feature-item::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    /* --- Footer --- */
+    footer {
+      background: var(--dark);
+      color: rgba(255, 255, 255, 0.7);
+      padding: var(--space-xl) var(--space-md) var(--space-lg);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-lg);
+    }
+
+    .footer-brand {
+      max-width: 320px;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--white);
+      margin-bottom: var(--space-md);
+    }
+
+    .footer-logo span {
+      color: var(--primary);
+    }
+
+    .footer-brand p {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.8;
+      margin-bottom: var(--space-md);
+    }
+
+    .footer-section h4 {
+      color: var(--white);
+      font-size: 1rem;
+      margin-bottom: var(--space-md);
+      font-family: var(--font-primary);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      transition: color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: var(--space-md);
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* --- Responsive Design --- */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .cta h2 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        gap: var(--space-md);
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-icon">C</div>
+        <div class="logo">Construct<span>Hub</span></div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#integrations">Integrations</a></li>
+          <li><a href="#cta">Pricing</a></li>
+          <li><button class="btn-demo">Get Demo</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span>⚡</span> Production-Ready Intelligence
+          </div>
+          <h1>
+            Build Smarter with
+            <span class="highlight">Real-Time Intelligence</span>
+          </h1>
+          <p>
+            Enterprise-grade platform that transforms construction data into actionable insights.
+            Track permits, manage compliance, and optimize workflows—all from one powerful hub.
+          </p>
+          <div class="hero-cta">
+            <button class="btn-primary">
+              Start Free Trial →
+            </button>
+            <button class="btn-secondary">View Live Demo</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-dot"></div>
+              <div class="hero-card-dot"></div>
+              <div class="hero-card-dot"></div>
+            </div>
+            <div class="hero-card-content">
+              <div class="hero-card-item">🔍 Active Permits: 2,847 tracked</div>
+              <div class="hero-card-item">⚙️ Automation: 94% efficient</div>
+              <div class="hero-card-item">📊 Data Quality: 99.2% accuracy</div>
+              <div class="hero-card-item">⏱️ Processing: Real-time sync</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">$2.4M</div>
+          <div class="stat-label">Average Cost Savings</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">18hrs</div>
+          <div class="stat-label">Saved Per Week</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">40%</div>
+          <div class="stat-label">Faster Approvals</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Projects Managed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Platform Features</span>
+        <h2>Everything You Need to Build Better</h2>
+        <p>
+          From permit tracking to compliance automation, ConstructHub delivers
+          industrial-strength tools designed for modern construction teams.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Intelligent Permit Tracking</h3>
+          <p>
+            Automated permit discovery, status monitoring, and compliance tracking
+            across multiple jurisdictions with real-time updates.
+          </p>
+          <ul class="feature-list">
+            <li>Multi-source data aggregation</li>
+            <li>Automated status updates</li>
+            <li>Custom alert workflows</li>
+            <li>Historical trend analysis</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Workflow Automation</h3>
+          <p>
+            Streamline repetitive tasks with intelligent automation that learns
+            from your patterns and adapts to your process.
+          </p>
+          <ul class="feature-list">
+            <li>Custom automation pipelines</li>
+            <li>Scheduled job execution</li>
+            <li>Error handling & retry logic</li>
+            <li>Integration webhooks</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Analytics & Reporting</h3>
+          <p>
+            Transform raw data into strategic insights with customizable dashboards
+            and exportable reports for stakeholders.
+          </p>
+          <ul class="feature-list">
+            <li>Custom dashboard builder</li>
+            <li>Export to multiple formats</li>
+            <li>Scheduled report delivery</li>
+            <li>Data visualization tools</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Enterprise Security</h3>
+          <p>
+            Bank-grade security with role-based access control, audit logging,
+            and compliance with industry standards.
+          </p>
+          <ul class="feature-list">
+            <li>Role-based permissions</li>
+            <li>Complete audit trails</li>
+            <li>SOC 2 Type II certified</li>
+            <li>Encrypted data storage</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integrations" class="tech-stack">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Integrations</span>
+        <h2>Works With Your Existing Tools</h2>
+        <p>
+          Seamlessly integrates with the software you already use,
+          so your team stays productive from day one.
+        </p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-icon">📧</div>
+          <div class="tech-name">Email Alerts</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📊</div>
+          <div class="tech-name">Excel Export</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📱</div>
+          <div class="tech-name">SMS Notifications</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🗂️</div>
+          <div class="tech-name">Document Storage</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🔗</div>
+          <div class="tech-name">API Access</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📅</div>
+          <div class="tech-name">Calendar Sync</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Transform Your Workflow?</h2>
+        <p>
+          Join construction teams already using ConstructHub to save time,
+          reduce errors, and make data-driven decisions.
+        </p>
+        <div class="hero-cta">
+          <button class="btn-primary">Start 14-Day Free Trial</button>
+          <button class="btn-secondary">Schedule a Demo</button>
+        </div>
+        <div class="cta-features">
+          <div class="cta-feature-item">No credit card required</div>
+          <div class="cta-feature-item">Full feature access</div>
+          <div class="cta-feature-item">Cancel anytime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Construct<span>Hub</span></div>
+          <p>
+            Enterprise construction intelligence platform built for teams
+            who demand accuracy, speed, and reliability.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Product</h4>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#integrations">Integrations</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#case-studies">Case Studies</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#partners">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <ul class="footer-links">
+            <li><a href="#docs">Documentation</a></li>
+            <li><a href="#api">API Reference</a></li>
+            <li><a href="#support">Support</a></li>
+            <li><a href="#status">System Status</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 ConstructHub. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
