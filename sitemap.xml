@@ -17,10 +17,5 @@
   </url>
 
   <!-- Blog Posts -->
-  <url>
-    <loc>https://stevendias.com/blog/chatgpt-image-generator/</loc>
-    <lastmod>2024-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+
 </urlset>
