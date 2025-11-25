@@ -7,902 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-  <style>
-    /* --- Design System --- */
-    :root {
-      /* AWR Brand Colors - inspired by logo and brochure */
-      --primary-green: #4A7C2C;        /* Logo green */
-      --primary-dark: #1A1A1A;         /* Black from logo */
-      --accent-burgundy: #771919;      /* Brochure burgundy */
-      --accent-gold: #D4AF37;          /* Accent highlight */
-      --light-gray: #F5F5F5;
-      --medium-gray: #8B8B8B;
-      --dark-gray: #2C2C2C;
-      --white: #FFFFFF;
-      --text-primary: #1A1A1A;
-      --text-secondary: #4A4A4A;
-      --text-tertiary: #8B8B8B;
-
-      /* Typography */
-      --font-primary: 'Inter', -apple-system, sans-serif;
-      --font-display: 'Montserrat', sans-serif;
-
-      /* Spacing */
-      --space-xs: 0.5rem;
-      --space-sm: 1rem;
-      --space-md: 1.5rem;
-      --space-lg: 2.5rem;
-      --space-xl: 4rem;
-      --space-2xl: 6rem;
-
-      /* Shadows */
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
-      --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.20);
-
-      /* Border Radius */
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --radius-xl: 20px;
-    }
-
-    /* --- Base Reset & Typography --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-primary);
-      color: var(--text-primary);
-      background: var(--white);
-      line-height: 1.7;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-display);
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 var(--space-md);
-    }
-
-    /* --- Header --- */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      padding: var(--space-md) 0;
-      z-index: 1000;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    header.scrolled {
-      padding: var(--space-sm) 0;
-      box-shadow: var(--shadow-md);
-    }
-
-    header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo-wrapper {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* AWR Logo recreation */
-    .logo-mark {
-      font-size: 28px;
-      font-weight: 900;
-      font-family: var(--font-display);
-      letter-spacing: -0.05em;
-    }
-
-    .logo-mark .a-letter {
-      color: var(--primary-green);
-    }
-
-    .logo-mark .wr-letters {
-      color: var(--primary-dark);
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-text .main {
-      font-size: 1.1rem;
-      font-weight: 800;
-      font-family: var(--font-display);
-      color: var(--primary-dark);
-      line-height: 1;
-    }
-
-    .logo-text .sub {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--medium-gray);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: var(--space-lg);
-      align-items: center;
-    }
-
-    nav a {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      transition: color 0.2s ease;
-      position: relative;
-    }
-
-    nav a:hover {
-      color: var(--primary-green);
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--primary-green);
-      transition: width 0.3s ease;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    .btn-contact {
-      background: var(--primary-green);
-      color: var(--white);
-      padding: 0.7rem 1.8rem;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-
-    .btn-contact:hover {
-      background: #3a6222;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(74, 124, 44, 0.3);
-    }
-
-    /* --- Hero Section --- */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(135deg,
-        var(--primary-dark) 0%,
-        var(--dark-gray) 100%
-      );
-      color: var(--white);
-      padding: var(--space-2xl) var(--space-md);
-      position: relative;
-      overflow: hidden;
-      margin-top: 80px;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 60%;
-      height: 100%;
-      background-image:
-        linear-gradient(135deg, rgba(74, 124, 44, 0.1) 0%, transparent 50%),
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 10px,
-          rgba(255, 255, 255, 0.02) 10px,
-          rgba(255, 255, 255, 0.02) 20px
-        );
-      pointer-events: none;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg,
-        transparent 0%,
-        var(--primary-green) 50%,
-        transparent 100%
-      );
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: var(--space-xl);
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-content {
-      max-width: 680px;
-    }
-
-    .hero-image {
-      position: relative;
-      height: 600px;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-xl);
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .hero-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(74, 124, 44, 0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-xs);
-      background: rgba(74, 124, 44, 0.2);
-      border: 1px solid rgba(74, 124, 44, 0.4);
-      padding: 0.5rem 1.2rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent-gold);
-      margin-bottom: var(--space-md);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .hero h1 {
-      font-size: 4.5rem;
-      font-weight: 900;
-      margin-bottom: var(--space-md);
-      line-height: 1.05;
-    }
-
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: var(--space-lg);
-      font-weight: 400;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: var(--space-md);
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--primary-green);
-      color: var(--white);
-      padding: 1.1rem 2.5rem;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 1rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 24px rgba(74, 124, 44, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .btn-primary:hover {
-      background: #3a6222;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(74, 124, 44, 0.4);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--white);
-      padding: 1.1rem 2.5rem;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 1rem;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--white);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-      margin-top: var(--space-xl);
-      padding-top: var(--space-xl);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .hero-stat {
-      text-align: left;
-    }
-
-    .hero-stat-number {
-      font-size: 3rem;
-      font-weight: 900;
-      font-family: var(--font-display);
-      color: var(--primary-green);
-      line-height: 1;
-      margin-bottom: var(--space-xs);
-    }
-
-    .hero-stat-label {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* --- Services Section --- */
-    .services {
-      padding: var(--space-2xl) var(--space-md);
-      background: var(--white);
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto var(--space-xl);
-    }
-
-    .section-tag {
-      display: inline-block;
-      background: var(--primary-green);
-      color: var(--white);
-      padding: 0.4rem 1.2rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-md);
-    }
-
-    .section-header h2 {
-      font-size: 3.5rem;
-      margin-bottom: var(--space-md);
-      color: var(--primary-dark);
-    }
-
-    .section-header p {
-      font-size: 1.15rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-      margin-top: var(--space-xl);
-    }
-
-    .service-card {
-      background: var(--light-gray);
-      border-radius: var(--radius-md);
-      padding: var(--space-lg);
-      border: 2px solid transparent;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-burgundy) 100%);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary-green);
-      background: var(--white);
-    }
-
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-icon {
-      width: 72px;
-      height: 72px;
-      background: var(--white);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      margin-bottom: var(--space-md);
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .service-card:hover .service-icon {
-      transform: scale(1.1);
-      background: var(--primary-green);
-    }
-
-    .service-card:hover .service-icon span {
-      filter: brightness(0) invert(1);
-    }
-
-    .service-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: var(--space-sm);
-      color: var(--primary-dark);
-    }
-
-    .service-card p {
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--space-md);
-      font-size: 0.95rem;
-    }
-
-    .service-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .service-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-xs);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .service-list li::before {
-      content: '▪';
-      color: var(--primary-green);
-      font-weight: 900;
-      font-size: 1.2rem;
-      line-height: 1.4;
-    }
-
-    /* --- Portfolio Section --- */
-    .portfolio {
-      padding: var(--space-2xl) var(--space-md);
-      background: var(--light-gray);
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-lg);
-      margin-top: var(--space-xl);
-    }
-
-    .portfolio-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      height: 500px;
-    }
-
-    .portfolio-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-xl);
-    }
-
-    .portfolio-image {
-      width: 100%;
-      height: 65%;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .portfolio-image::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 100px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-    }
-
-    .portfolio-content {
-      padding: var(--space-lg);
-      position: relative;
-    }
-
-    .portfolio-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: var(--space-xs);
-      color: var(--primary-dark);
-    }
-
-    .portfolio-location {
-      color: var(--medium-gray);
-      font-size: 0.9rem;
-      margin-bottom: var(--space-sm);
-      font-weight: 600;
-    }
-
-    .portfolio-services {
-      display: flex;
-      gap: var(--space-xs);
-      flex-wrap: wrap;
-    }
-
-    .portfolio-tag {
-      background: rgba(74, 124, 44, 0.1);
-      color: var(--primary-green);
-      padding: 0.3rem 0.8rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    /* --- About/History Section --- */
-    .about {
-      padding: var(--space-2xl) var(--space-md);
-      background: var(--primary-dark);
-      color: var(--white);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 20px,
-        rgba(255, 255, 255, 0.02) 20px,
-        rgba(255, 255, 255, 0.02) 40px
-      );
-      pointer-events: none;
-    }
-
-    .about-content {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .about h2 {
-      font-size: 3rem;
-      margin-bottom: var(--space-lg);
-      color: var(--white);
-    }
-
-    .about p {
-      font-size: 1.2rem;
-      line-height: 1.9;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: var(--space-md);
-    }
-
-    .about-highlight {
-      background: rgba(74, 124, 44, 0.2);
-      border-left: 4px solid var(--primary-green);
-      padding: var(--space-md) var(--space-lg);
-      margin: var(--space-lg) 0;
-      border-radius: var(--radius-sm);
-    }
-
-    .about-highlight p {
-      margin: 0;
-      font-style: italic;
-      font-weight: 500;
-    }
-
-    /* --- CTA Section --- */
-    .cta {
-      padding: var(--space-2xl) var(--space-md);
-      background: var(--primary-green);
-      color: var(--white);
-      text-align: center;
-    }
-
-    .cta h2 {
-      font-size: 3.5rem;
-      margin-bottom: var(--space-md);
-      line-height: 1.2;
-    }
-
-    .cta p {
-      font-size: 1.25rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: var(--space-lg);
-      line-height: 1.8;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-features {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-lg);
-      margin-top: var(--space-lg);
-      flex-wrap: wrap;
-    }
-
-    .cta-feature-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xs);
-      color: rgba(255, 255, 255, 0.95);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .cta-feature-item::before {
-      content: '✓';
-      color: var(--accent-gold);
-      font-weight: 900;
-      font-size: 1.3rem;
-    }
-
-    /* --- Footer --- */
-    footer {
-      background: var(--primary-dark);
-      color: rgba(255, 255, 255, 0.7);
-      padding: var(--space-lg) var(--space-md) var(--space-md);
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: var(--space-md);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: var(--space-md);
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    .footer-logo .logo-mark {
-      font-size: 28px;
-    }
-
-    .footer-nav {
-      display: flex;
-      gap: var(--space-lg);
-      list-style: none;
-    }
-
-    .footer-nav a {
-      color: rgba(255, 255, 255, 0.7);
-      transition: color 0.2s ease;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .footer-nav a:hover {
-      color: var(--primary-green);
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-    }
-
-    .footer-year {
-      color: var(--primary-green);
-      font-weight: 700;
-    }
-
-    /* --- Responsive Design --- */
-    @media (max-width: 1024px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-image {
-        height: 400px;
-        margin-top: var(--space-lg);
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .section-header h2 {
-        font-size: 2rem;
-      }
-
-      .cta h2 {
-        font-size: 2rem;
-      }
-
-      nav ul {
-        display: none;
-      }
-
-      .hero-stats {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
-      }
-
-      .footer-content {
-        flex-direction: column;
-        gap: var(--space-md);
-        text-align: center;
-      }
-
-      .footer-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: var(--space-xs);
-        text-align: center;
-      }
-    }
-
-    /* Scroll animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.8s ease-out forwards;
-    }
-  </style>
+  <link rel="stylesheet" href="awrgroup-styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <header id="header">
     <div class="container">
       <a href="#" class="logo-wrapper">
-        <div class="logo-icon">
-          <div class="logo-mark">
-            <span class="a-letter">A</span><span class="wr-letters">WR</span>
-          </div>
-        </div>
-        <div class="logo-text">
-          <div class="main">AWR GROUP</div>
-          <div class="sub">Since 1947</div>
-        </div>
+        <img src="./awrgroup-assets/icons/0.JPG" alt="AWR Group Inc. Logo" class="logo-image">
       </a>
       <nav>
         <ul>
           <li><a href="#services">Services</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#about">About</a></li>
-          <li><button class="btn-contact">Contact Us</button></li>
+          <li><a href="#contact" class="btn-contact">Contact Us</a></li>
         </ul>
       </nav>
     </div>
@@ -921,11 +40,11 @@
           </h1>
           <p>
             Specialized structural repair, historic restoration, and exterior cleaning for landmark
-            buildings across New York and beyond. AWR Group delivers elegant, seamless project
+            buildings across the New York metro area. AWR Group delivers elegant, seamless project
             management with unmatched craftsmanship.
           </p>
           <div class="hero-cta">
-            <button class="btn-primary">Request Consultation</button>
+            <a href="#contact" class="btn-primary">Request Consultation</a>
             <button class="btn-secondary">View Our Work</button>
           </div>
 
@@ -966,7 +85,7 @@
       <div class="services-grid">
         <div class="service-card">
           <div class="service-icon">
-            <span>🏛️</span>
+            <i data-lucide="building-2"></i>
           </div>
           <h3>Masonry & Facade Restoration</h3>
           <p>
@@ -982,7 +101,7 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🔨</span>
+            <i data-lucide="home"></i>
           </div>
           <h3>Roofing</h3>
           <p>
@@ -1005,14 +124,13 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🪟</span>
+            <i data-lucide="square-dashed-bottom"></i>
           </div>
           <h3>Windows & Restoration</h3>
           <p>
-            Window replacement, refurbishment, and historic wood restoration services.
+            Window refurbishment and historic wood restoration services.
           </p>
           <ul class="service-list">
-            <li>Replacement</li>
             <li>Refurbishment</li>
             <li>Painting</li>
             <li>Caulking</li>
@@ -1022,21 +140,21 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>💰</span>
+            <i data-lucide="sparkles"></i>
           </div>
           <h3>Exterior Cleaning</h3>
           <p>
-            Professional water blasting and exterior cleaning services.
+            Professional power washing and exterior cleaning services.
           </p>
           <ul class="service-list">
-            <li>Water blasting</li>
+            <li>Power washing</li>
             <li>Exterior cleaning</li>
           </ul>
         </div>
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🔍</span>
+            <i data-lucide="search"></i>
           </div>
           <h3>Inspections & Repairs</h3>
           <p>
@@ -1052,14 +170,13 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>⚙️</span>
+            <i data-lucide="wrench"></i>
           </div>
           <h3>Steel & Structural</h3>
           <p>
-            Interior shaft repairs, steel beam work, and structural steel services.
+            Steel beam work and structural steel services.
           </p>
           <ul class="service-list">
-            <li>Interior shaft repairs</li>
             <li>Block repairs/replacement</li>
             <li>Lintel repair/replacement</li>
             <li>I-beam repair/replacement</li>
@@ -1068,7 +185,7 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🏗️</span>
+            <i data-lucide="hard-hat"></i>
           </div>
           <h3>Specialty Services</h3>
           <p>
@@ -1077,7 +194,6 @@
           <ul class="service-list">
             <li>Copper dormer repairs/replacement</li>
             <li>Snow-guard installation</li>
-            <li>Playground installation</li>
             <li>Plaza replacement</li>
             <li>Walls, decks, mechanical rooms, roofs, loading docks</li>
           </ul>
@@ -1085,7 +201,7 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🏢</span>
+            <i data-lucide="store"></i>
           </div>
           <h3>Awnings</h3>
           <p>
@@ -1099,7 +215,7 @@
 
         <div class="service-card">
           <div class="service-icon">
-            <span>🌊</span>
+            <i data-lucide="layers"></i>
           </div>
           <h3>Scaffolding</h3>
           <p>
@@ -1107,7 +223,8 @@
           </p>
           <ul class="service-list">
             <li>Scaffolding installation</li>
-            <li>Scaffolding maintenance</li>
+            <li>Suspended scaffolding</li>
+            <li>Supported scaffolding</li>
           </ul>
         </div>
       </div>
@@ -1125,112 +242,111 @@
         </p>
       </div>
 
-      <div class="portfolio-grid">
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/crysler-building.jpg');">
+      <div class="portfolio-carousel-wrapper">
+        <div class="portfolio-carousel" id="portfolioCarousel">
+          <div class="carousel-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">24</span>
           </div>
-          <div class="portfolio-content">
-            <h3>The Chrysler Building</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Windows</span>
-              <span class="portfolio-tag">Specialty</span>
-              <span class="portfolio-tag">Steel</span>
+
+          <div class="carousel-slide active">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/crysler-building.jpg');"></div>
+            <div class="carousel-content">
+              <h3>The Chrysler Building</h3>
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Windows</span>
+                <span class="portfolio-tag">Specialty</span>
+                <span class="portfolio-tag">Steel</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/nystate-capitol.jpg');">
-          </div>
-          <div class="portfolio-content">
-            <h3>NY State Capitol</h3>
-            <div class="portfolio-location">Albany, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Masonry</span>
-              <span class="portfolio-tag">Roofing</span>
-              <span class="portfolio-tag">Exterior Cleaning</span>
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/nystate-capitol.jpg');"></div>
+            <div class="carousel-content">
+              <h3>NY State Capitol</h3>
+              <div class="carousel-location">Albany, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Masonry</span>
+                <span class="portfolio-tag">Roofing</span>
+                <span class="portfolio-tag">Exterior Cleaning</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/radio-city.jpg');">
-          </div>
-          <div class="portfolio-content">
-            <h3>Radio City Music Hall</h3>
-            <div class="portfolio-location">1285 6th Avenue, Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Masonry</span>
-              <span class="portfolio-tag">Roofing</span>
-              <span class="portfolio-tag">Specialty</span>
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/radio-city.jpg');"></div>
+            <div class="carousel-content">
+              <h3>Radio City Music Hall</h3>
+              <div class="carousel-location">1285 6th Avenue, Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Masonry</span>
+                <span class="portfolio-tag">Roofing</span>
+                <span class="portfolio-tag">Specialty</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/woolworth.jpg');">
-          </div>
-          <div class="portfolio-content">
-            <h3>Woolworth Building</h3>
-            <div class="portfolio-location">233 Broadway, Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Masonry</span>
-              <span class="portfolio-tag">Windows</span>
-              <span class="portfolio-tag">Roofing</span>
-              <span class="portfolio-tag">Exterior Cleaning</span>
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/woolworth.jpg');"></div>
+            <div class="carousel-content">
+              <h3>Woolworth Building</h3>
+              <div class="carousel-location">233 Broadway, Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Masonry</span>
+                <span class="portfolio-tag">Windows</span>
+                <span class="portfolio-tag">Roofing</span>
+                <span class="portfolio-tag">Exterior Cleaning</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/flatiron.webp');">
-          </div>
-          <div class="portfolio-content">
-            <h3>Flatiron Building</h3>
-            <div class="portfolio-location">175 Fifth Avenue, Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Historic Restoration</span>
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/flatiron.webp');"></div>
+            <div class="carousel-content">
+              <h3>Flatiron Building</h3>
+              <div class="carousel-location">175 Fifth Avenue, Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Historic Restoration</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/warwick-hotel.jpg');">
-          </div>
-          <div class="portfolio-content">
-            <h3>Warwick Hotel</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Masonry</span>
-              <span class="portfolio-tag">Roofing</span>
-              <span class="portfolio-tag">Exterior Cleaning</span>
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/warwick-hotel.jpg');"></div>
+            <div class="carousel-content">
+              <h3>Warwick Hotel</h3>
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Masonry</span>
+                <span class="portfolio-tag">Roofing</span>
+                <span class="portfolio-tag">Exterior Cleaning</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+              🏢
+            </div>
+            <div class="carousel-content">
+              <h3>685 3rd Avenue</h3>
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
+                <span class="portfolio-tag">Masonry</span>
+                <span class="portfolio-tag">Exterior Cleaning</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
-            <h3>685 3rd Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
-              <span class="portfolio-tag">Masonry</span>
-              <span class="portfolio-tag">Exterior Cleaning</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
-            🏢
-          </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>105 Hudson Street</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
               <span class="portfolio-tag">Scaffolding</span>
@@ -1238,14 +354,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>International Toy Center</h3>
-            <div class="portfolio-location">200 Fifth Avenue, Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">200 Fifth Avenue, Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
@@ -1255,14 +371,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>Hotel Pierre</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
@@ -1271,27 +387,27 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>50 East 42nd Street</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Exterior Cleaning</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>140 Riverside Drive</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
@@ -1299,13 +415,13 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/The_Eldorado_Apartments.jpg');">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/The_Eldorado_Apartments.jpg');">
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>The Eldorado</h3>
-            <div class="portfolio-location">300 Central Park West, Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">300 Central Park West, Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
@@ -1317,14 +433,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>1290 6th Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
@@ -1332,14 +448,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>1285 6th Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Specialty</span>
@@ -1347,14 +463,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>3 Hanover Square</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
@@ -1363,68 +479,68 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>255 East 49th Street</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Roofing</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>International Design Center</h3>
-            <div class="portfolio-location">Long Island City, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Long Island City, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Awnings</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>491 Broadway</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Specialty</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>335 Madison Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>750 Seventh Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Specialty</span>
@@ -1432,14 +548,14 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background: linear-gradient(135deg, var(--dark-gray) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: var(--medium-gray); font-size: 3rem;">
             🏢
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>540 Fifth Avenue</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
@@ -1448,13 +564,13 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/carlyle%20hotel.jpeg');">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/carlyle%20hotel.jpeg');">
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>The Carlyle Hotel</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
@@ -1462,20 +578,38 @@
           </div>
         </div>
 
-        <div class="portfolio-card">
-          <div class="portfolio-image" style="background-image: url('./awrgroup-assets/666broadway.jpeg');">
+          <div class="carousel-slide">
+            <div class="carousel-image" style="background-image: url('./awrgroup-assets/666broadway.jpeg');">
           </div>
-          <div class="portfolio-content">
+            <div class="carousel-content">
             <h3>666 Broadway</h3>
-            <div class="portfolio-location">Manhattan, NY</div>
-            <div class="portfolio-services">
+              <div class="carousel-location">Manhattan, NY</div>
+              <div class="carousel-services">
               <span class="portfolio-tag">Masonry</span>
               <span class="portfolio-tag">Windows</span>
               <span class="portfolio-tag">Roofing</span>
               <span class="portfolio-tag">Exterior Cleaning</span>
             </div>
           </div>
+          </div>
+
+          <!-- Carousel Controls -->
+          <div class="carousel-controls">
+            <button class="carousel-btn prev" aria-label="Previous slide">‹</button>
+            <button class="carousel-btn next" aria-label="Next slide">›</button>
+          </div>
+
+          <!-- Carousel Indicators -->
+          <div class="carousel-indicators"></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="logo-divider">
+    <div class="container">
+      <div class="logo-watermark">
+        <img src="./awrgroup-assets/icons/IMG_0381.PNG" alt="AWR Group" class="watermark-image">
       </div>
     </div>
   </section>
@@ -1512,7 +646,7 @@
     </div>
   </section>
 
-  <section class="cta">
+  <section id="contact" class="cta">
     <div class="container">
       <h2>Ready to Restore Your Building?</h2>
       <p>
@@ -1520,8 +654,10 @@
         Contact AWR Group today for a consultation on your restoration project.
       </p>
       <div class="hero-cta" style="justify-content: center; margin-bottom: var(--space-lg);">
-        <button class="btn-primary">Schedule Consultation</button>
-        <button class="btn-secondary">Call (555) 123-4567</button>
+        <a href="tel:7187290412" class="btn-phone">
+          <i data-lucide="phone"></i>
+          <span>(718) 729-0412</span>
+        </a>
       </div>
       <div class="cta-features">
         <div class="cta-feature-item">Free Initial Assessment</div>
@@ -1535,13 +671,7 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-logo">
-          <div class="logo-mark">
-            <span class="a-letter">A</span><span class="wr-letters">WR</span>
-          </div>
-          <div class="logo-text">
-            <div class="main">AWR GROUP</div>
-            <div class="sub">Since 1947</div>
-          </div>
+          <img src="./awrgroup-assets/icons/0.JPG" alt="AWR Group Inc." class="footer-logo-image">
         </div>
 
         <nav>
@@ -1556,39 +686,11 @@
 
       <div class="footer-bottom">
         <div>© <span class="footer-year">2025</span> AWR Group Inc. All rights reserved.</div>
-        <div>Building excellence since <span class="footer-year">1947</span></div>
+        <div>Building excellence since 1947</div>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Header scroll effect
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    // Fade in animations on scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-up');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.service-card, .portfolio-card').forEach(el => {
-      observer.observe(el);
-    });
-  </script>
+  <script src="awrgroup-script.js"></script>
 </body>
 </html>
