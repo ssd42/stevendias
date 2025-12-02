@@ -148,9 +148,10 @@ function createSwipeHint() {
 function lazyLoadCarouselImages() {
   const carouselImages = document.querySelectorAll('.carousel-image');
 
-  // Only preload the first 3 carousel images
+  // Only load the first 3 slides immediately
   carouselImages.forEach((img, index) => {
     if (index < 3) {
+      // Preload first 3 images
       const bgImage = img.style.backgroundImage;
       if (bgImage) {
         const url = bgImage.slice(5, -2); // Extract URL from url('...')
@@ -201,7 +202,7 @@ if (carousel) {
     touchEndY = e.touches[0].clientY;
   }, { passive: true });
 
-  carousel.addEventListener('touchend', () => {
+  carousel.addEventListener('touchend', (e) => {
     if (!isSwiping) return;
     isSwiping = false;
     handleSwipe();

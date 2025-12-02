@@ -1,0 +1,6 @@
+name,type,amount,frequency,category,next_date,start_date,is_active
+Monthly Rent,expense,2000.00,monthly,Housing,2024-12-01,2020-01-01,true
+Netflix,expense,15.99,monthly,Subscriptions,2024-12-08,2020-01-01,true
+Internet Bill,expense,65.00,monthly,Utilities,2024-12-15,2020-01-01,true
+Salary,income,3500.00,biweekly,Income,2024-12-04,2020-01-01,true
+Car Insurance,expense,150.00,monthly,Insurance,2024-12-10,2020-01-01,true

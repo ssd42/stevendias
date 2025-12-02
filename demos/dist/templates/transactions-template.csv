@@ -1,0 +1,6 @@
+date,description,amount,category,tags,account
+2024-01-15,Grocery Store,-125.50,Groceries,"essential,recurring",My Checking Account
+2024-01-15,Paycheck,3500.00,Paycheck,"income,regular",My Checking Account
+2024-01-16,Netflix Subscription,-15.99,Subscriptions,"discretionary,subscription",My Checking Account
+2024-01-18,Gas Station,-45.00,Gas,"essential,variable",My Checking Account
+2024-01-20,Restaurant Dinner,-75.00,Dining,"discretionary,one-time",My Checking Account
