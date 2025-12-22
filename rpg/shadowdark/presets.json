@@ -23,5 +23,10 @@
     "file": "Baragon.json",
     "name": "Baragon",
     "description": "Player character"
+  },
+  {
+    "file": "Sleigher.json",
+    "name": "Sleigher",
+    "description": "Player character"
   }
 ]

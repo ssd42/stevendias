@@ -1,0 +1,73 @@
+{
+  "_comment": "SHADOWDARK CHARACTER PRESET TEMPLATE - Delete this _comment line before using",
+  "_comment2": "Fill in all fields. Leave empty strings for unused fields.",
+
+  "name": "Sleigher",
+  "ancestry": "Harefolk (reskinned Human)",
+  "class": "Thief",
+  "background": "Oathbound Enforcer / Outcast Watchman",
+  "alignment": "Chaotic Good",
+  "title": "The Red Oath",
+  "deity": "",
+  "languages": "Common, (add 1 local Reinlands tongue if desired)",
+  "notes": "Harefolk vampire (curse, not a power source). No default mechanical buffs. Sunlight discomfort + narrative complications. Blood hunger creates hard choices/temptations. Heightened senses can justify advantage on scent/motion perception at GM discretion. Fast, impulsive, loyal to the party but distrusts institutions.",
+
+  "ac": "13",
+  "hpCur": "16",
+  "hpMax": "16",
+  "move": "30",
+
+  "level": "3",
+  "xp": "0",
+  "luck": "1",
+  "coins": "25",
+
+  "str": "13",
+  "dex": "15",
+  "con": "12",
+  "int": "9",
+  "wis": "11",
+  "cha": "10",
+
+  "atk": "+3",
+  "spellAtk": "",
+  "save1": "DEX",
+  "save2": "INT",
+
+  "talent1": "Harefolk (Human) Talent: +1 DEX (predatory reflexes; stealth/initiative/finesse focus).",
+  "talent2": "Thief Talent: Backstab (extra damage from surprise/advantage; set up ambushes).",
+  "talent4": "",
+  "talent7": "",
+  "talent10": "",
+
+  "weapons": "Short sword (finesse), Daggers x2 (thrown/backup).",
+  "spellsKnown": "",
+
+  "inv1": "Short sword",
+  "inv2": "Dagger",
+  "inv3": "Dagger",
+  "inv4": "Leather armor",
+  "inv5": "Thieves’ tools",
+  "inv6": "Dark hooded cloak (red cloak if you want the visual tie-in)",
+  "inv7": "Grappling hook",
+  "inv8": "Rope (50 ft)",
+  "inv9": "Chalk",
+  "inv10": "Caltrops",
+  "inv11": "Oil flask",
+  "inv12": "Tinderbox",
+  "inv13": "Waterskin",
+  "inv14": "Bandages",
+  "inv15": "Silver mirror shard (vampire paranoia / scouting corners)",
+  "inv16": "Sealed vial (for “blood hunger” roleplay prop)",
+  "inv17": "",
+  "inv18": "",
+  "inv19": "",
+  "inv20": "",
+
+  "armor": "Leather (AC base 11) + DEX",
+  "rations": "3",
+  "torches": "2",
+
+  "conditions": "",
+  "log": ""
+}
