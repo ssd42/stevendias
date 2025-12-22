@@ -1,0 +1,27 @@
+[
+  {
+    "file": "preset-1.json",
+    "name": "Example Fighter",
+    "description": "Human Fighter - Great for beginners"
+  },
+  {
+    "file": "preset-2.json",
+    "name": "Example Wizard",
+    "description": "Elf Wizard - Spellcaster with low HP"
+  },
+  {
+    "file": "preset-3.json",
+    "name": "Example Priest",
+    "description": "Dwarf Priest - Healer and support"
+  },
+  {
+    "file": "Ron.json",
+    "name": "Ron",
+    "description": "Player character"
+  },
+  {
+    "file": "Baragon.json",
+    "name": "Baragon",
+    "description": "Player character"
+  }
+]

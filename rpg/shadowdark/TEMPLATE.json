@@ -1,0 +1,73 @@
+{
+  "_comment": "SHADOWDARK CHARACTER PRESET TEMPLATE - Delete this _comment line before using",
+  "_comment2": "Fill in all fields. Leave empty strings for unused fields.",
+
+  "name": "",
+  "ancestry": "",
+  "class": "",
+  "background": "",
+  "alignment": "",
+  "title": "",
+  "deity": "",
+  "languages": "",
+  "notes": "",
+
+  "ac": "",
+  "hpCur": "",
+  "hpMax": "",
+  "move": "",
+
+  "level": "",
+  "xp": "",
+  "luck": "",
+  "coins": "",
+
+  "str": "",
+  "dex": "",
+  "con": "",
+  "int": "",
+  "wis": "",
+  "cha": "",
+
+  "atk": "",
+  "spellAtk": "",
+  "save1": "",
+  "save2": "",
+
+  "talent1": "",
+  "talent2": "",
+  "talent4": "",
+  "talent7": "",
+  "talent10": "",
+
+  "weapons": "",
+  "spellsKnown": "",
+
+  "inv1": "",
+  "inv2": "",
+  "inv3": "",
+  "inv4": "",
+  "inv5": "",
+  "inv6": "",
+  "inv7": "",
+  "inv8": "",
+  "inv9": "",
+  "inv10": "",
+  "inv11": "",
+  "inv12": "",
+  "inv13": "",
+  "inv14": "",
+  "inv15": "",
+  "inv16": "",
+  "inv17": "",
+  "inv18": "",
+  "inv19": "",
+  "inv20": "",
+
+  "armor": "",
+  "rations": "",
+  "torches": "",
+
+  "conditions": "",
+  "log": ""
+}

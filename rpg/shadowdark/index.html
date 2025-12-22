@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shadowdark Character Sheet (Unofficial)</title>
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --card:#121621;
+      --card2:#0f131c;
+      --ink:#e9eef7;
+      --muted:#aab4c5;
+      --line:#263044;
+      --accent:#8dd6ff;
+      --good:#55e39a;
+      --warn:#ffcf5a;
+      --bad:#ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --r:14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(141,214,255,.12), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(85,227,154,.10), transparent 55%),
+        radial-gradient(700px 600px at 55% 90%, rgba(255,207,90,.08), transparent 55%),
+        var(--bg);
+      color:var(--ink);
+    }
+    a{color:var(--accent)}
+    .wrap{max-width:1180px;margin:22px auto;padding:0 14px 40px}
+    header{
+      display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .title h1{margin:0;font-size:20px;letter-spacing:.5px}
+    .title p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;
+    }
+    button, .btn{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color:var(--ink);
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:13px;
+      box-shadow:0 4px 10px rgba(0,0,0,.25);
+      display:inline-flex;gap:8px;align-items:center;
+    }
+    button:hover{border-color:#34435f}
+    button:active{transform:translateY(1px)}
+    button.primary{
+      border-color:rgba(141,214,255,.45);
+      box-shadow:0 10px 25px rgba(141,214,255,.12);
+    }
+    button.danger{border-color:rgba(255,107,107,.45)}
+    .pill{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      border:1px dashed var(--line);
+      padding:6px 10px;border-radius:999px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.25fr .9fr;
+      gap:14px;
+    }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      border:1px solid rgba(38,48,68,.9);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(38,48,68,.8);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+    }
+    .card .hd h2{margin:0;font-size:14px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+    .card .bd{padding:14px}
+
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:12px;color:var(--muted);letter-spacing:.3px}
+    input[type="text"], input[type="number"], textarea, select{
+      width:100%;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(10,12,16,.55);
+      color:var(--ink);
+      outline:none;
+    }
+    input[type="number"]{font-family:var(--mono)}
+    textarea{min-height:88px;resize:vertical}
+    .small{font-size:12px;color:var(--muted)}
+    .kpi{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:10px
+    }
+    @media (max-width:720px){ .kpi{grid-template-columns:repeat(2,1fr)} }
+
+    .combatStat{
+      border:2px solid rgba(141,214,255,.4);
+      background:linear-gradient(135deg, rgba(141,214,255,.08), rgba(85,227,154,.06));
+      border-radius:14px;
+      padding:12px;
+      box-shadow:0 6px 20px rgba(141,214,255,.15);
+    }
+    .combatStat label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--accent);
+      font-weight:700;
+    }
+    .combatStat input{
+      font-size:28px;
+      font-weight:700;
+      text-align:center;
+      padding:12px;
+      background:rgba(9,11,16,.6);
+    }
+
+    .damageBox{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:12px;
+      border:1px solid rgba(255,107,107,.3);
+      background:rgba(255,107,107,.05);
+      border-radius:12px;
+      margin-top:10px;
+    }
+    .damageBox input{
+      width:90px;
+      text-align:center;
+      font-size:18px;
+      font-weight:700;
+    }
+    .damageBox button{
+      flex:1;
+      justify-content:center;
+    }
+
+    .statusEffects{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:10px;
+    }
+    @media (max-width:720px){ .statusEffects{grid-template-columns:repeat(2,1fr)} }
+    .statusCheck{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      background:rgba(9,11,16,.3);
+      border-radius:10px;
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .statusCheck:hover{
+      border-color:rgba(255,207,90,.4);
+      background:rgba(255,207,90,.08);
+    }
+    .statusCheck input[type="checkbox"]{
+      width:16px;
+      height:16px;
+      cursor:pointer;
+    }
+    .statusCheck.active{
+      border-color:rgba(255,107,107,.5);
+      background:rgba(255,107,107,.12);
+    }
+
+    .quickRef{
+      margin-top:10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .quickRef .toggle{
+      padding:10px 12px;
+      background:rgba(141,214,255,.05);
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:13px;
+      font-weight:600;
+      color:var(--accent);
+    }
+    .quickRef .toggle:hover{
+      background:rgba(141,214,255,.1);
+    }
+    .quickRef .content{
+      padding:12px;
+      background:rgba(9,11,16,.3);
+      font-size:12px;
+      line-height:1.6;
+      display:none;
+    }
+    .quickRef .content.show{
+      display:block;
+    }
+    .quickRef .content strong{
+      color:var(--accent);
+    }
+    .quickRef .content ul{
+      margin:6px 0;
+      padding-left:20px;
+    }
+
+    .diceRoller{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(70px, 1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+    .diceBtn{
+      padding:12px 8px;
+      font-family:var(--mono);
+      font-size:14px;
+      font-weight:700;
+      min-width:0;
+    }
+    .rollResult{
+      margin-top:10px;
+      padding:10px 12px;
+      border:1px solid rgba(141,214,255,.4);
+      background:rgba(141,214,255,.08);
+      border-radius:10px;
+      text-align:center;
+      font-family:var(--mono);
+      font-size:18px;
+      font-weight:700;
+      color:var(--accent);
+      display:none;
+    }
+    .rollResult.show{
+      display:block;
+    }
+
+    .presetModal{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:rgba(0,0,0,.85);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:1000;
+    }
+    .presetModal.show{
+      display:flex;
+    }
+    .presetBox{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      padding:24px;
+      max-width:500px;
+      width:90%;
+      box-shadow:0 20px 60px rgba(0,0,0,.5);
+    }
+    .presetBox h3{
+      margin:0 0 16px 0;
+      font-size:18px;
+      color:var(--ink);
+    }
+    .presetList{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:16px;
+    }
+    .presetBtn{
+      padding:16px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color:var(--ink);
+      border-radius:12px;
+      cursor:pointer;
+      font-size:14px;
+      text-align:left;
+      transition:all .2s;
+    }
+    .presetBtn:hover{
+      border-color:rgba(141,214,255,.5);
+      background:rgba(141,214,255,.1);
+    }
+    .presetBtn .name{
+      font-weight:700;
+      margin-bottom:4px;
+    }
+    .presetBtn .desc{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .inventorySlots{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+      gap:8px;
+    }
+    .invSlot{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      background:rgba(9,11,16,.3);
+      border-radius:10px;
+    }
+    .invSlot .num{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
+      min-width:18px;
+    }
+    .invSlot input{
+      flex:1;
+      padding:6px 8px;
+      font-size:12px;
+      min-width:0;
+    }
+
+    .spellSlots{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .spellTier{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      background:rgba(9,11,16,.3);
+      border-radius:10px;
+    }
+    .spellTier .tierLabel{
+      font-size:11px;
+      font-weight:700;
+      min-width:55px;
+      color:var(--muted);
+    }
+    .spellTier .slots{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .spellTier input[type="checkbox"]{
+      width:20px;
+      height:20px;
+      cursor:pointer;
+    }
+    .spellTier .slotCheck{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      border:2px solid var(--line);
+      border-radius:6px;
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .spellTier .slotCheck input{
+      width:16px;
+      height:16px;
+    }
+    .spellTier .slotCheck:has(input:checked){
+      border-color:var(--accent);
+      background:rgba(141,214,255,.15);
+    }
+
+    .talentsList{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .talentItem{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      background:rgba(9,11,16,.3);
+      border-radius:10px;
+    }
+    .talentItem .lvl{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
+      min-width:40px;
+    }
+    .talentItem input{
+      flex:1;
+      padding:6px 8px;
+      font-size:12px;
+    }
+
+    .deathTracker{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border:2px solid rgba(255,107,107,.4);
+      background:rgba(255,107,107,.08);
+      border-radius:12px;
+    }
+    .deathTracker .label{
+      font-size:12px;
+      font-weight:700;
+      color:var(--bad);
+    }
+    .deathTracker .deathSlots{
+      display:flex;
+      gap:6px;
+    }
+    .deathTracker input[type="checkbox"]{
+      width:20px;
+      height:20px;
+      cursor:pointer;
+    }
+
+    .statGrid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    .stat{
+      border:1px solid rgba(38,48,68,.9);
+      background:rgba(9,11,16,.55);
+      border-radius:14px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      align-items:center;
+    }
+    .stat .name{
+      font-weight:700;
+      letter-spacing:.8px;
+      font-size:11px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .stat .modDisplay{
+      font-family:var(--mono);
+      font-size:36px;
+      font-weight:700;
+      line-height:1;
+      text-align:center;
+      min-width:80px;
+    }
+    .stat .scoreInput{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:var(--muted);
+    }
+    .stat .scoreInput input{
+      width:50px;
+      padding:4px 6px;
+      text-align:center;
+      font-size:13px;
+      border-radius:8px;
+    }
+    .stat .slotsInfo{
+      font-size:10px;
+      color:var(--muted);
+      text-align:center;
+    }
+    .mod{
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;
+    }
+    .badge{
+      border:1px solid rgba(38,48,68,.9);
+      background:rgba(9,11,16,.4);
+      border-radius:12px;
+      padding:8px 10px;
+      display:flex;justify-content:space-between;gap:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      align-items:center;
+    }
+    .badge b{font-family:var(--sans);font-size:12px;color:var(--muted);font-weight:600}
+    .badge .v{font-family:var(--mono)}
+    .good{color:var(--good)}
+    .warn{color:var(--warn)}
+    .bad{color:var(--bad)}
+    .twoCol{
+      display:grid;grid-template-columns:1fr 1fr;gap:10px
+    }
+    @media (max-width:720px){ .twoCol{grid-template-columns:1fr} }
+
+    .list{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .list textarea{min-height:180px}
+    .fine textarea{min-height:120px}
+
+    .torchBox{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      align-items:start;
+    }
+    @media (max-width:720px){ .torchBox{grid-template-columns:1fr} }
+
+    .timer{
+      border:1px solid rgba(38,48,68,.9);
+      background:rgba(9,11,16,.55);
+      border-radius:14px;
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .timer .clock{
+      font-family:var(--mono);
+      font-size:24px;
+      letter-spacing:1px;
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:10px;
+    }
+    .timer .clock span{color:var(--muted);font-size:12px}
+    .timer .controls{display:flex;gap:10px;flex-wrap:wrap}
+    .timer .controls button{flex:1;justify-content:center;min-width:120px}
+    .hint{font-size:12px;color:var(--muted);line-height:1.35}
+
+    .footerNote{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    /* Print */
+    @media print{
+      body{background:#fff;color:#000}
+      .wrap{max-width:none;margin:0;padding:0}
+      header, .toolbar, .footerNote, .pill, .timer .controls, .hint, .damageBox, .diceRoller, .rollResult, .quickRef, .timer, .presetModal{display:none !important}
+      .card{box-shadow:none;border-color:#aaa}
+      input, textarea, select{background:#fff;color:#000;border-color:#777}
+      .card .hd{background:#fff;border-bottom-color:#bbb}
+      .card .hd h2{color:#000}
+      .badge{background:#fff;border-color:#bbb}
+      .combatStat{border-color:#999;background:#fff}
+      .combatStat label{color:#000}
+      .statusCheck{border-color:#999;background:#fff}
+      .deathTracker{border-color:#999;background:#fff}
+      .stat{border-color:#999;background:#fff}
+      .stat .modDisplay{color:#000}
+      .invSlot{border-color:#999;background:#fff}
+      .spellTier{border-color:#999;background:#fff}
+      .talentItem{border-color:#999;background:#fff}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Shadowdark Character Sheet <span class="pill">unofficial • single-file</span></h1>
+        <p>Autosaves locally. Slot inventory, spell tracking, death timer, dice roller & 1-hour torches.</p>
+      </div>
+      <div class="toolbar">
+        <button id="btnLoadPreset" title="Load a preset character">📋 Load Preset</button>
+        <button class="primary" id="btnPrint" title="Print (or Save to PDF)">🖨️ Print</button>
+        <button id="btnExport" title="Export to JSON">⬇️ Export</button>
+        <button id="btnImport" title="Import from JSON">⬆️ Import</button>
+        <button class="danger" id="btnReset" title="Clear this sheet">🧨 Reset</button>
+      </div>
+    </header>
+
+    <!-- Preset Modal -->
+    <div class="presetModal" id="presetModal">
+      <div class="presetBox">
+        <h3>Load Preset Character</h3>
+        <div class="presetList" id="presetList">
+          <!-- Preset buttons will be loaded dynamically -->
+        </div>
+        <button id="btnClosePreset" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <section class="card">
+        <div class="hd">
+          <h2>Identity</h2>
+          <div class="small">Track the basics: name, ancestry, class, background, alignment, title.</div>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="field" style="grid-column: span 6;">
+              <label for="name">Character Name</label>
+              <input id="name" type="text" placeholder="e.g., Rone the Unlucky" />
+            </div>
+            <div class="field" style="grid-column: span 3;">
+              <label for="ancestry">Ancestry</label>
+              <input id="ancestry" type="text" placeholder="Human / Elf / Dwarf..." />
+            </div>
+            <div class="field" style="grid-column: span 3;">
+              <label for="class">Class</label>
+              <input id="class" type="text" placeholder="Fighter / Thief / Wizard / Priest..." />
+            </div>
+
+            <div class="field" style="grid-column: span 4;">
+              <label for="background">Background</label>
+              <input id="background" type="text" placeholder="Outcast / Scribe / Soldier..." />
+            </div>
+            <div class="field" style="grid-column: span 4;">
+              <label for="alignment">Alignment</label>
+              <select id="alignment">
+                <option value=""></option>
+                <option>Lawful</option>
+                <option>Neutral</option>
+                <option>Chaotic</option>
+              </select>
+            </div>
+            <div class="field" style="grid-column: span 4;">
+              <label for="title">Title</label>
+              <input id="title" type="text" placeholder="e.g., Seeker / Robber..." />
+            </div>
+
+            <div class="field" style="grid-column: span 4;">
+              <label for="deity">Deity (if Priest)</label>
+              <input id="deity" type="text" placeholder="God of Light, etc." />
+            </div>
+            <div class="field" style="grid-column: span 8;">
+              <label for="languages">Languages</label>
+              <input id="languages" type="text" placeholder="Common, Elvish, ..." />
+            </div>
+            <div class="field" style="grid-column: span 12;">
+              <label for="notes">Notes</label>
+              <input id="notes" type="text" placeholder="Quick reminders / bonds / quirks" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <section class="card">
+        <div class="hd">
+          <h2>Vitals</h2>
+          <div class="small">AC, HP, movement, luck, etc.</div>
+        </div>
+        <div class="bd">
+          <div class="kpi">
+            <div class="field combatStat">
+              <label for="ac">AC</label>
+              <input id="ac" type="number" step="1" />
+            </div>
+            <div class="field combatStat">
+              <label for="hpCur">HP (Current)</label>
+              <input id="hpCur" type="number" step="1" />
+            </div>
+            <div class="field combatStat">
+              <label for="hpMax">HP (Max)</label>
+              <input id="hpMax" type="number" step="1" />
+            </div>
+            <div class="field">
+              <label for="move">Move</label>
+              <input id="move" type="number" step="5" placeholder="e.g., 30" />
+            </div>
+          </div>
+
+          <div class="damageBox">
+            <label for="dmgInput" style="font-size:13px;color:var(--bad);font-weight:600">Take Damage:</label>
+            <input id="dmgInput" type="number" step="1" min="0" placeholder="0" />
+            <button id="btnApplyDmg">⚔️ Apply</button>
+            <button id="btnHeal">💚 Heal</button>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="twoCol">
+            <div class="field">
+              <label for="level">Level</label>
+              <input id="level" type="number" step="1" />
+            </div>
+            <div class="field">
+              <label for="xp">XP</label>
+              <input id="xp" type="number" step="1" />
+            </div>
+            <div class="field">
+              <label for="luck">Luck / Fortune</label>
+              <input id="luck" type="text" placeholder="If your table uses it" />
+            </div>
+            <div class="field">
+              <label for="coins">Coins</label>
+              <input id="coins" type="text" placeholder="gp / sp / cp" />
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="deathTracker">
+            <div class="label">Death Timer:</div>
+            <div class="deathSlots">
+              <label><input type="checkbox" id="death1" title="Round 1" /></label>
+              <label><input type="checkbox" id="death2" title="Round 2" /></label>
+              <label><input type="checkbox" id="death3" title="Round 3" /></label>
+              <label><input type="checkbox" id="death4" title="Round 4" /></label>
+              <label><input type="checkbox" id="death5" title="Round 5" /></label>
+            </div>
+            <div class="small" style="color:var(--bad)">Check one per round at 0 HP. Dead at 5 checks.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="field">
+            <label>Status Effects</label>
+            <div class="statusEffects">
+              <label class="statusCheck">
+                <input type="checkbox" id="status_prone" />
+                <span>Prone</span>
+              </label>
+              <label class="statusCheck">
+                <input type="checkbox" id="status_grappled" />
+                <span>Grappled</span>
+              </label>
+              <label class="statusCheck">
+                <input type="checkbox" id="status_poisoned" />
+                <span>Poisoned</span>
+              </label>
+              <label class="statusCheck">
+                <input type="checkbox" id="status_blinded" />
+                <span>Blinded</span>
+              </label>
+              <label class="statusCheck">
+                <input type="checkbox" id="status_deafened" />
+                <span>Deafened</span>
+              </label>
+              <label class="statusCheck">
+                <input type="checkbox" id="status_frightened" />
+                <span>Frightened</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="footerNote">
+            Tip: you can keep this open on your phone. It autosaves to your browser.
+          </div>
+        </div>
+      </section>
+
+      <!-- LEFT: ABILITIES -->
+      <section class="card">
+        <div class="hd">
+          <h2>Abilities</h2>
+          <div class="small">Modifiers shown large. Enter scores (3–18) — mods auto-calc.</div>
+        </div>
+        <div class="bd">
+          <div class="statGrid" id="statGrid">
+            <!-- stats injected by JS -->
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="mod">
+            <div class="badge">
+              <b>Attack Bonus (quick)</b>
+              <span class="v" id="atkBonus">—</span>
+            </div>
+            <div class="badge">
+              <b>Spellcasting Mod (quick)</b>
+              <span class="v" id="spellMod">—</span>
+            </div>
+          </div>
+
+          <div class="footerNote">
+            Quick calc only (based on STR/DEX for attack, INT/WIS for spells depending on your class). Override in notes if your table differs.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: SAVES / CHECKS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Checks & Saves</h2>
+          <div class="small">Use as a quick reference (fill in your class bonuses if any).</div>
+        </div>
+        <div class="bd">
+          <div class="twoCol">
+            <div class="field">
+              <label for="atk">Attack Bonus (final)</label>
+              <input id="atk" type="text" placeholder="e.g., +2" />
+            </div>
+            <div class="field">
+              <label for="spellAtk">Spell Attack / DC</label>
+              <input id="spellAtk" type="text" placeholder="e.g., +3 / DC 12" />
+            </div>
+            <div class="field">
+              <label for="save1">Save / Check Notes</label>
+              <input id="save1" type="text" placeholder="e.g., Advantage vs poison" />
+            </div>
+            <div class="field">
+              <label for="save2">Other</label>
+              <input id="save2" type="text" placeholder="e.g., Turn undead +2" />
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="field">
+            <label>Talents (by level)</label>
+            <div class="talentsList">
+              <div class="talentItem">
+                <div class="lvl">Lvl 1:</div>
+                <input id="talent1" type="text" placeholder="Ancestry or class talent..." />
+              </div>
+              <div class="talentItem">
+                <div class="lvl">Lvl 2:</div>
+                <input id="talent2" type="text" placeholder="Class talent..." />
+              </div>
+              <div class="talentItem">
+                <div class="lvl">Lvl 4:</div>
+                <input id="talent4" type="text" placeholder="Class talent..." />
+              </div>
+              <div class="talentItem">
+                <div class="lvl">Lvl 7:</div>
+                <input id="talent7" type="text" placeholder="Class talent..." />
+              </div>
+              <div class="talentItem">
+                <div class="lvl">Lvl 10:</div>
+                <input id="talent10" type="text" placeholder="Class talent..." />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEFT: ATTACKS / SPELLS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Attacks & Spells</h2>
+          <div class="small">Keep it lightweight: weapon lines + spell list.</div>
+        </div>
+        <div class="bd">
+          <div class="twoCol">
+            <div class="field">
+              <label for="weapons">Weapons / Attacks</label>
+              <textarea id="weapons" placeholder="Dagger +?, d4&#10;Shortsword +?, d6&#10;Bow +?, d6"></textarea>
+            </div>
+            <div class="field">
+              <label>Spell Slots (check when used)</label>
+              <div class="spellSlots">
+                <div class="spellTier">
+                  <div class="tierLabel">Tier 1:</div>
+                  <div class="slots">
+                    <label class="slotCheck"><input type="checkbox" id="spell1_1" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell1_2" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell1_3" /></label>
+                  </div>
+                </div>
+                <div class="spellTier">
+                  <div class="tierLabel">Tier 2:</div>
+                  <div class="slots">
+                    <label class="slotCheck"><input type="checkbox" id="spell2_1" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell2_2" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell2_3" /></label>
+                  </div>
+                </div>
+                <div class="spellTier">
+                  <div class="tierLabel">Tier 3:</div>
+                  <div class="slots">
+                    <label class="slotCheck"><input type="checkbox" id="spell3_1" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell3_2" /></label>
+                  </div>
+                </div>
+                <div class="spellTier">
+                  <div class="tierLabel">Tier 4:</div>
+                  <div class="slots">
+                    <label class="slotCheck"><input type="checkbox" id="spell4_1" /></label>
+                    <label class="slotCheck"><input type="checkbox" id="spell4_2" /></label>
+                  </div>
+                </div>
+                <div class="spellTier">
+                  <div class="tierLabel">Tier 5:</div>
+                  <div class="slots">
+                    <label class="slotCheck"><input type="checkbox" id="spell5_1" /></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="field">
+            <label for="spellsKnown">Known Spells / Miracles</label>
+            <textarea id="spellsKnown" placeholder="List your known spells here..." style="min-height:100px"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: GEAR / INVENTORY + TORCH -->
+      <section class="card">
+        <div class="hd">
+          <h2>Gear, Inventory & Light</h2>
+          <div class="small">Gear, slots, and a simple torch timer.</div>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label>Inventory Slots (slots = STR score)</label>
+            <div class="inventorySlots" id="inventorySlots">
+              <!-- Generated by JS -->
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="timer">
+            <div class="clock">
+              <div>
+                <div id="torchClock">60:00</div>
+                <span id="torchState" class="small">Torch: ready</span>
+              </div>
+              <div class="badge" style="min-width:160px">
+                <b>Torches</b>
+                <span class="v"><input id="torches" type="number" step="1" min="0" style="width:72px;padding:6px 8px;border-radius:10px" /></span>
+              </div>
+            </div>
+
+            <div class="controls">
+              <button id="torchStart">🔥 Start / Resume</button>
+              <button id="torchPause">⏸️ Pause</button>
+              <button id="torchNew">🕯️ New Torch (-1)</button>
+            </div>
+
+            <div class="hint">
+              Default duration is 60:00. "New Torch" resets the timer to 60:00 and reduces your torch count by 1 (won't go below 0).
+              This is just a table aid—use whatever your group tracks.
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="twoCol">
+            <div class="field">
+              <label for="armor">Armor / Shield</label>
+              <input id="armor" type="text" placeholder="Leather, Shield..." />
+            </div>
+            <div class="field">
+              <label for="rations">Rations</label>
+              <input id="rations" type="number" step="1" min="0" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL WIDTH: DICE ROLLER -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Dice Roller</h2>
+          <div class="small">Quick rolls when you need them.</div>
+        </div>
+        <div class="bd">
+          <div class="diceRoller">
+            <button class="diceBtn" data-die="d20">d20</button>
+            <button class="diceBtn" data-die="d12">d12</button>
+            <button class="diceBtn" data-die="d10">d10</button>
+            <button class="diceBtn" data-die="d8">d8</button>
+            <button class="diceBtn" data-die="d6">d6</button>
+            <button class="diceBtn" data-die="d4">d4</button>
+          </div>
+          <div id="rollResult" class="rollResult"></div>
+
+          <div class="quickRef">
+            <div class="toggle" id="quickRefToggle">
+              <span>📖 Quick Reference</span>
+              <span>▼</span>
+            </div>
+            <div class="content" id="quickRefContent">
+              <strong>Common DCs:</strong>
+              <ul>
+                <li><strong>Easy:</strong> DC 9</li>
+                <li><strong>Moderate:</strong> DC 12</li>
+                <li><strong>Hard:</strong> DC 15</li>
+                <li><strong>Extreme:</strong> DC 18</li>
+              </ul>
+              <strong>Advantage/Disadvantage:</strong> Roll 2d20, take higher (advantage) or lower (disadvantage).
+              <br/><br/>
+              <strong>Light Sources:</strong> Torch lasts 1 hour real-time (60 minutes). Lantern lasts 6 hours of use.
+              <br/><br/>
+              <strong>Common Actions:</strong> Move, Attack, Cast Spell, Dash (double move), Disengage, Hide, Help, Use Object.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL WIDTH: STORY / CONDITIONS -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Conditions, Bonds, & Session Log</h2>
+          <div class="small">Anything you don't want to forget mid-crawl.</div>
+        </div>
+        <div class="bd">
+          <div class="twoCol">
+            <div class="field">
+              <label for="conditions">Conditions / Wounds</label>
+              <textarea id="conditions" placeholder="Injured, exhausted, cursed, etc."></textarea>
+            </div>
+            <div class="field">
+              <label for="log">Session Notes</label>
+              <textarea id="log" placeholder="Treasure found, NPCs, hooks, damage taken..."></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="footerNote">
+      Unofficial Shadowdark fan tool with slot-based inventory, spell slot tracking, talent progression, death timer, and 1-hour torch duration.
+      Perfect for one-shots and new players!
+    </p>
+  </div>
+
+  <input id="fileInput" type="file" accept="application/json" style="display:none" />
+
+  <script>
+    // --------- Utilities ----------
+    const $ = (id) => document.getElementById(id);
+
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const toInt = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? Math.trunc(n) : 0;
+    };
+    const abilityMod = (score) => Math.floor((score - 10) / 2);
+    const fmtMod = (m) => (m >= 0 ? `+${m}` : `${m}`);
+
+    // --------- Build Stat UI ----------
+    const STATS = [
+      { key: "str", label: "STR" },
+      { key: "dex", label: "DEX" },
+      { key: "con", label: "CON" },
+      { key: "int", label: "INT" },
+      { key: "wis", label: "WIS" },
+      { key: "cha", label: "CHA" },
+    ];
+
+    const statGrid = $("statGrid");
+    for (const s of STATS) {
+      const wrap = document.createElement("div");
+      wrap.className = "stat";
+      const slotsHint = s.key === "str" ? '<div class="slotsInfo" id="strSlots">Gear Slots: —</div>' : '';
+      wrap.innerHTML = `
+        <div class="name">${s.label}</div>
+        <div class="modDisplay" id="${s.key}Mod">+0</div>
+        <div class="scoreInput">
+          <span>Score:</span>
+          <input id="${s.key}" type="number" step="1" min="1" max="30" placeholder="10" />
+        </div>
+        ${slotsHint}
+      `;
+      statGrid.appendChild(wrap);
+    }
+
+    // --------- Build Inventory Slots ----------
+    const invGrid = $("inventorySlots");
+    const MAX_INV_SLOTS = 20; // Support up to 20 STR
+    for (let i = 1; i <= MAX_INV_SLOTS; i++) {
+      const slot = document.createElement("div");
+      slot.className = "invSlot";
+      slot.id = `invSlot${i}`;
+      slot.innerHTML = `
+        <div class="num">${i}.</div>
+        <input id="inv${i}" type="text" placeholder="Item..." />
+      `;
+      invGrid.appendChild(slot);
+    }
+
+    // --------- Autosave ----------
+    const STORAGE_KEY = "shadowdark_sheet_v1";
+
+    const allFields = () => {
+      // Grab inputs/textarea/select plus stat fields we injected
+      const nodes = document.querySelectorAll("input, textarea, select");
+      return Array.from(nodes).filter(n => n.id && n.type !== "file");
+    };
+
+    function serialize() {
+      const data = {};
+      for (const el of allFields()) {
+        if (el.type === "number") {
+          data[el.id] = el.value === "" ? "" : toInt(el.value);
+        } else {
+          data[el.id] = el.value ?? "";
+        }
+      }
+      // Torch timer persisted separately
+      data.__torch = {
+        remainingMs: torch.remainingMs,
+        running: torch.running,
+        lastTick: torch.lastTick,
+        durationMs: torch.durationMs
+      };
+      return data;
+    }
+
+    function apply(data) {
+      for (const el of allFields()) {
+        if (!(el.id in data)) continue;
+        const v = data[el.id];
+        el.value = (v === null || v === undefined) ? "" : String(v);
+      }
+      if (data.__torch) {
+        torch.durationMs = data.__torch.durationMs ?? torch.durationMs;
+        torch.remainingMs = data.__torch.remainingMs ?? torch.durationMs;
+        torch.running = !!data.__torch.running;
+        torch.lastTick = data.__torch.lastTick ?? 0;
+      }
+      recalcAll();
+      renderTorch();
+      if (torch.running) startTorchLoop(); // resume if it was running
+    }
+
+    function save() {
+      const data = serialize();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function load() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        apply(JSON.parse(raw));
+      } catch {
+        // ignore corrupted storage
+      }
+    }
+
+    // --------- Calculations ----------
+    function recalcStats() {
+      for (const s of STATS) {
+        const score = toInt($(s.key).value || 10);
+        const mod = abilityMod(score);
+        const modEl = $(s.key + "Mod");
+        modEl.textContent = fmtMod(mod);
+        modEl.classList.remove("good","warn","bad");
+        if (mod >= 2) modEl.classList.add("good");
+        else if (mod <= -1) modEl.classList.add("bad");
+        else modEl.classList.add("warn");
+      }
+
+      // Update STR slots display and inventory visibility
+      const strScore = toInt($("str").value || 10);
+      const slotsEl = $("strSlots");
+      if (slotsEl) {
+        slotsEl.textContent = `Gear Slots: ${strScore}`;
+      }
+
+      // Show/hide inventory slots based on STR
+      for (let i = 1; i <= 20; i++) {
+        const slotEl = $(`invSlot${i}`);
+        if (slotEl) {
+          slotEl.style.display = i <= strScore ? '' : 'none';
+        }
+      }
+    }
+
+    function recalcQuickBonuses() {
+      // Quick estimate:
+      // Attack: best of STR/DEX mod
+      // Spell: best of INT/WIS mod (pick one depending on class; this is a quick helper)
+      const strM = abilityMod(toInt($("str").value || 10));
+      const dexM = abilityMod(toInt($("dex").value || 10));
+      const intM = abilityMod(toInt($("int").value || 10));
+      const wisM = abilityMod(toInt($("wis").value || 10));
+
+      const atk = Math.max(strM, dexM);
+      const spl = Math.max(intM, wisM);
+
+      $("atkBonus").textContent = fmtMod(atk);
+      $("spellMod").textContent = fmtMod(spl);
+    }
+
+    function recalcAll() {
+      recalcStats();
+      recalcQuickBonuses();
+      save();
+    }
+
+    // --------- Torch Timer ----------
+    const torch = {
+      durationMs: 60 * 60 * 1000, // 1 hour
+      remainingMs: 60 * 60 * 1000,
+      running: false,
+      intervalId: null,
+      lastTick: 0
+    };
+
+    function msToClock(ms) {
+      ms = Math.max(0, ms);
+      const totalSec = Math.ceil(ms / 1000);
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    }
+
+    function torchStateText() {
+      if (!torch.running && torch.remainingMs === torch.durationMs) return "Torch: ready";
+      if (!torch.running && torch.remainingMs > 0) return "Torch: paused";
+      if (torch.running && torch.remainingMs > 0) return "Torch: burning";
+      return "Torch: out";
+    }
+
+    function renderTorch() {
+      $("torchClock").textContent = msToClock(torch.remainingMs);
+      const st = $("torchState");
+      st.textContent = torchStateText();
+
+      st.classList.remove("good","warn","bad");
+      if (torch.remainingMs <= 0) st.classList.add("bad");
+      else if (torch.remainingMs <= 5 * 60 * 1000) st.classList.add("warn");
+      else st.classList.add("good");
+    }
+
+    function stopTorchLoop() {
+      if (torch.intervalId) {
+        clearInterval(torch.intervalId);
+        torch.intervalId = null;
+      }
+    }
+
+    function startTorchLoop() {
+      stopTorchLoop();
+      torch.running = true;
+      torch.lastTick = Date.now();
+      torch.intervalId = setInterval(() => {
+        const now = Date.now();
+        const dt = now - torch.lastTick;
+        torch.lastTick = now;
+
+        torch.remainingMs -= dt;
+        if (torch.remainingMs <= 0) {
+          torch.remainingMs = 0;
+          torch.running = false;
+          stopTorchLoop();
+        }
+        renderTorch();
+        save();
+      }, 250);
+      renderTorch();
+      save();
+    }
+
+    function pauseTorch() {
+      torch.running = false;
+      stopTorchLoop();
+      renderTorch();
+      save();
+    }
+
+    function newTorch() {
+      const t = $("torches");
+      const cur = clamp(toInt(t.value || 0), 0, 9999);
+      if (cur > 0) t.value = String(cur - 1);
+      torch.remainingMs = torch.durationMs;
+      torch.running = true;
+      startTorchLoop();
+      recalcAll(); // will save too
+    }
+
+    // --------- Export / Import ----------
+    function exportJSON() {
+      const data = serialize();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = (data.name ? `${data.name}` : "shadowdark-character") + ".json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          apply(data);
+          save();
+        } catch {
+          alert("That file doesn't look like valid JSON for this sheet.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // --------- Damage / Heal ----------
+    function applyDamage() {
+      const dmg = toInt($("dmgInput").value || 0);
+      if (dmg <= 0) return;
+      const cur = toInt($("hpCur").value || 0);
+      $("hpCur").value = String(Math.max(0, cur - dmg));
+      $("dmgInput").value = "";
+      recalcAll();
+    }
+
+    function healDamage() {
+      const heal = toInt($("dmgInput").value || 0);
+      if (heal <= 0) return;
+      const cur = toInt($("hpCur").value || 0);
+      const max = toInt($("hpMax").value || 0);
+      $("hpCur").value = String(Math.min(max, cur + heal));
+      $("dmgInput").value = "";
+      recalcAll();
+    }
+
+    // --------- Status Effects ----------
+    function updateStatusStyles() {
+      const checkboxes = document.querySelectorAll('.statusCheck input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        const label = cb.closest('.statusCheck');
+        if (cb.checked) {
+          label.classList.add('active');
+        } else {
+          label.classList.remove('active');
+        }
+      });
+    }
+
+    // --------- Dice Roller ----------
+    function rollDie(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
+    function showRoll(die, result) {
+      const resultEl = $("rollResult");
+      resultEl.textContent = `${die}: ${result}`;
+      resultEl.classList.add("show");
+      setTimeout(() => {
+        resultEl.classList.remove("show");
+      }, 3000);
+    }
+
+    // --------- Quick Reference Toggle ----------
+    function toggleQuickRef() {
+      const content = $("quickRefContent");
+      const toggle = $("quickRefToggle");
+      const arrow = toggle.querySelector("span:last-child");
+
+      if (content.classList.contains("show")) {
+        content.classList.remove("show");
+        arrow.textContent = "▼";
+      } else {
+        content.classList.add("show");
+        arrow.textContent = "▲";
+      }
+    }
+
+    // --------- Preset Loading ----------
+    async function loadPresetsManifest() {
+      try {
+        const response = await fetch('presets.json');
+        if (!response.ok) {
+          throw new Error('presets.json not found');
+        }
+        const presets = await response.json();
+        const container = $("presetList");
+        container.innerHTML = ''; // Clear existing buttons
+
+        presets.forEach(preset => {
+          const btn = document.createElement('button');
+          btn.className = 'presetBtn';
+          btn.dataset.preset = preset.file;
+          btn.innerHTML = `
+            <div class="name">${preset.name}</div>
+            <div class="desc">${preset.description}</div>
+          `;
+          btn.addEventListener("click", () => loadPreset(preset.file));
+          container.appendChild(btn);
+        });
+      } catch (error) {
+        const container = $("presetList");
+        container.innerHTML = '<p style="color:var(--ink);text-align:center;">No presets available. Create a presets.json file to add presets.</p>';
+      }
+    }
+
+    function openPresetModal() {
+      $("presetModal").classList.add("show");
+      loadPresetsManifest(); // Load presets when modal opens
+    }
+
+    function closePresetModal() {
+      $("presetModal").classList.remove("show");
+    }
+
+    async function loadPreset(filename) {
+      try {
+        const response = await fetch(filename);
+        if (!response.ok) {
+          throw new Error(`Failed to load preset: ${response.statusText}`);
+        }
+        const data = await response.json();
+        apply(data);
+        save();
+        closePresetModal();
+        alert(`Preset loaded successfully! Character: ${data.name || 'Unknown'}`);
+      } catch (error) {
+        alert(`Error loading preset: ${error.message}\n\nMake sure the file "${filename}" exists in the same folder as this HTML file.`);
+      }
+    }
+
+    // --------- Wire Up Events ----------
+    function wire() {
+      // Recalc & save on input
+      for (const el of allFields()) {
+        el.addEventListener("input", () => {
+          // keep torch count sane
+          if (el.id === "torches") el.value = String(clamp(toInt(el.value || 0), 0, 9999));
+          recalcAll();
+        });
+      }
+
+      // Damage/Heal buttons
+      $("btnApplyDmg").addEventListener("click", applyDamage);
+      $("btnHeal").addEventListener("click", healDamage);
+      $("dmgInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") applyDamage();
+      });
+
+      // Status effect checkboxes
+      document.querySelectorAll('.statusCheck input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener("change", () => {
+          updateStatusStyles();
+          save();
+        });
+      });
+
+      // Dice roller
+      document.querySelectorAll('.diceBtn').forEach(btn => {
+        btn.addEventListener("click", () => {
+          const die = btn.dataset.die;
+          const sides = parseInt(die.substring(1));
+          const result = rollDie(sides);
+          showRoll(die, result);
+        });
+      });
+
+      // Quick reference toggle
+      $("quickRefToggle").addEventListener("click", toggleQuickRef);
+
+      // Preset modal
+      $("btnLoadPreset").addEventListener("click", openPresetModal);
+      $("btnClosePreset").addEventListener("click", closePresetModal);
+      $("presetModal").addEventListener("click", (e) => {
+        if (e.target === $("presetModal")) closePresetModal();
+      });
+
+      // Preset buttons are now added dynamically in loadPresetsManifest()
+
+      $("btnPrint").addEventListener("click", () => window.print());
+
+      $("btnExport").addEventListener("click", exportJSON);
+
+      $("btnImport").addEventListener("click", () => $("fileInput").click());
+      $("fileInput").addEventListener("change", (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (f) importJSON(f);
+        e.target.value = "";
+      });
+
+      $("btnReset").addEventListener("click", () => {
+        if (!confirm("Reset this character sheet? This clears local autosave for this sheet.")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        stopTorchLoop();
+        // clear fields
+        for (const el of allFields()) el.value = "";
+        // reset torch
+        torch.durationMs = 60 * 60 * 1000;
+        torch.remainingMs = torch.durationMs;
+        torch.running = false;
+        renderTorch();
+        recalcAll();
+      });
+
+      $("torchStart").addEventListener("click", () => {
+        if (torch.remainingMs <= 0) torch.remainingMs = torch.durationMs;
+        startTorchLoop();
+      });
+      $("torchPause").addEventListener("click", pauseTorch);
+      $("torchNew").addEventListener("click", newTorch);
+
+      // sensible defaults
+      if ($("torches").value === "") $("torches").value = "6";
+      if ($("rations").value === "") $("rations").value = "0";
+      renderTorch();
+      updateStatusStyles();
+    }
+
+    // Init
+    wire();
+    load();
+    recalcAll();
+    renderTorch();
+    updateStatusStyles();
+  </script>
+</body>
+</html>
