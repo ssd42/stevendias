@@ -42,6 +42,7 @@
 
   "weapons": "Longsword (1d8), Dagger (1d4)",
   "spellsKnown": "",
+  "spellsLost": "",
 
   "inv1": "Chain mail",
   "inv2": "Shield (watch insignia)",

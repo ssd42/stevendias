@@ -813,6 +813,120 @@
       </div>
     </div>
 
+    <!-- Quick Reference -->
+    <div class="card">
+      <div class="hd">
+        <h2>📖 Quick Reference</h2>
+        <div class="small">Common actions, DCs, and rules for Shadowdark</div>
+      </div>
+      <div class="bd">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+
+          <!-- Common DCs -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Difficulty Classes</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Easy:</strong> DC 9</li>
+              <li><strong>Moderate:</strong> DC 12</li>
+              <li><strong>Hard:</strong> DC 15</li>
+              <li><strong>Extreme:</strong> DC 18</li>
+            </ul>
+          </div>
+
+          <!-- Common Actions -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Common Actions</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Attack:</strong> d20 + ATK vs AC</li>
+              <li><strong>Cast Spell:</strong> d20 + casting mod + level vs DC (10 + tier)</li>
+              <li><strong>Move:</strong> Up to your move distance</li>
+              <li><strong>Dash:</strong> Double move (action)</li>
+              <li><strong>Disengage:</strong> Move without opportunity attacks</li>
+              <li><strong>Help:</strong> Grant ally advantage</li>
+              <li><strong>Hide:</strong> Attempt to become hidden</li>
+              <li><strong>Use Object:</strong> Interact with environment</li>
+            </ul>
+          </div>
+
+          <!-- Combat Rules -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Combat</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Initiative:</strong> d20 + DEX mod (reroll ties)</li>
+              <li><strong>Attack Roll:</strong> d20 + attack bonus</li>
+              <li><strong>Damage:</strong> Weapon die + ability mod</li>
+              <li><strong>Critical Hit:</strong> Natural 20 = max damage + roll again</li>
+              <li><strong>Advantage:</strong> Roll 2d20, take higher</li>
+              <li><strong>Disadvantage:</strong> Roll 2d20, take lower</li>
+            </ul>
+          </div>
+
+          <!-- Death & Dying -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Death & Dying</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>0 HP:</strong> Character is dying</li>
+              <li><strong>Death Timer:</strong> Check 1 box per round at 0 HP</li>
+              <li><strong>Dead:</strong> 5 boxes checked = death</li>
+              <li><strong>Stabilize:</strong> Heal any HP to stop timer</li>
+              <li><strong>Recovery:</strong> Clear all death timer boxes on rest</li>
+            </ul>
+          </div>
+
+          <!-- Light & Vision -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Light & Vision</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Torch:</strong> Lasts 1 hour (real-time or rounds)</li>
+              <li><strong>Lantern:</strong> Lasts 6 hours of use</li>
+              <li><strong>Darkness:</strong> Disadvantage on attacks & checks</li>
+              <li><strong>Near Range:</strong> 5 ft (close combat)</li>
+              <li><strong>Far Range:</strong> 50 ft (ranged attacks)</li>
+            </ul>
+          </div>
+
+          <!-- Spellcasting -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Spellcasting</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Spell Check:</strong> d20 + casting mod + level vs DC (10 + tier)</li>
+              <li><strong>Success:</strong> Spell is cast</li>
+              <li><strong>Failure:</strong> Spell is lost until rest</li>
+              <li><strong>Casting Mod:</strong> INT (wizards) or WIS (priests)</li>
+              <li><strong>Spell Tiers:</strong> T1, T2, T3, T4, T5</li>
+            </ul>
+          </div>
+
+          <!-- Resting -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Resting & Recovery</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Rest:</strong> 1 hour of uninterrupted rest</li>
+              <li><strong>Restore:</strong> All HP, all lost spells, all death timer boxes</li>
+              <li><strong>Interrupted:</strong> Must start over</li>
+              <li><strong>Rations:</strong> 1 ration consumed per rest</li>
+            </ul>
+          </div>
+
+          <!-- Ability Checks -->
+          <div>
+            <h3 style="margin:0 0 12px 0;font-family:var(--display);font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:1px">Ability Checks</h3>
+            <ul style="margin:0;padding-left:20px;line-height:1.8">
+              <li><strong>Check:</strong> d20 + ability modifier vs DC</li>
+              <li><strong>Ability Mods:</strong> (Score - 10) ÷ 2, round down</li>
+              <li><strong>STR:</strong> Physical power, melee attacks</li>
+              <li><strong>DEX:</strong> Agility, ranged attacks, AC bonus</li>
+              <li><strong>CON:</strong> Endurance, HP bonus</li>
+              <li><strong>INT:</strong> Knowledge, wizard spells</li>
+              <li><strong>WIS:</strong> Perception, priest spells</li>
+              <li><strong>CHA:</strong> Personality, persuasion</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <input id="fileInput" type="file" accept="application/json" style="display:none" />

@@ -42,6 +42,7 @@
 
   "weapons": "Sledgehammer (1d10), Hand axe (1d6)",
   "spellsKnown": "",
+  "spellsLost": "",
 
   "inv1": "Medium armor",
   "inv2": "Shield",

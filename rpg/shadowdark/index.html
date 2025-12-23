@@ -590,63 +590,66 @@
       min-width:0;
     }
 
-    .spellSlots{
+    .spellTracker{
       display:flex;
       flex-direction:column;
       gap:8px;
+      max-height:300px;
+      overflow-y:auto;
+      padding:4px;
     }
-    .spellTier{
+    .spellItem{
       display:flex;
       align-items:center;
-      gap:8px;
-      padding:8px 12px;
+      gap:10px;
+      padding:10px 12px;
       border:1px solid var(--border);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.4), rgba(232,212,168,0.2));
       border-radius:var(--r);
       box-shadow:inset 0 1px 2px rgba(61,40,23,0.06);
+      transition:all .2s;
     }
-    .spellTier .tierLabel{
-      font-size:11px;
-      font-weight:700;
-      font-family:var(--display);
-      min-width:60px;
-      color:var(--ink-light);
-      letter-spacing:0.5px;
+    .spellItem.lost{
+      opacity:0.6;
+      border-color:var(--bad);
+      background:
+        linear-gradient(135deg, rgba(139,35,35,0.1), rgba(139,35,35,0.05)),
+        linear-gradient(180deg, rgba(255,255,255,0.4), rgba(232,212,168,0.2));
     }
-    .spellTier .slots{
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-    }
-    .spellTier input[type="checkbox"]{
+    .spellItem input[type="checkbox"]{
       width:20px;
       height:20px;
       cursor:pointer;
-      accent-color:var(--accent);
+      accent-color:var(--bad);
+      flex-shrink:0;
     }
-    .spellTier .slotCheck{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:26px;
-      height:26px;
-      border:2px solid var(--border);
-      border-radius:var(--r);
-      cursor:pointer;
-      transition:all .2s;
-      background:rgba(255,255,255,0.5);
+    .spellItem .spellName{
+      flex:1;
+      font-size:14px;
+      font-weight:600;
+      color:var(--ink);
+      font-family:var(--sans);
     }
-    .spellTier .slotCheck input{
-      width:16px;
-      height:16px;
+    .spellItem.lost .spellName{
+      text-decoration:line-through;
+      color:var(--muted);
     }
-    .spellTier .slotCheck:has(input:checked){
-      border-color:var(--accent);
+    .spellItem .tierBadge{
+      font-size:11px;
+      font-weight:700;
+      font-family:var(--display);
+      padding:4px 8px;
+      border-radius:999px;
       background:
-        linear-gradient(135deg, rgba(139,58,58,0.2), rgba(139,58,58,0.1)),
-        rgba(255,255,255,0.6);
-      box-shadow:inset 0 1px 3px rgba(139,58,58,0.2);
+        linear-gradient(135deg, rgba(139,58,58,0.15), rgba(139,58,58,0.08));
+      color:var(--accent);
+      border:1px solid var(--accent);
+      letter-spacing:0.5px;
+      flex-shrink:0;
+    }
+    .spellItem.lost .tierBadge{
+      opacity:0.5;
     }
 
     .talentsList{
@@ -914,7 +917,7 @@
       .stat .modDisplay{color:var(--ink)}
       .stat .name{color:var(--accent)}
       .invSlot{border-color:var(--border);background:rgba(255,255,255,0.4)}
-      .spellTier{border-color:var(--border);background:rgba(255,255,255,0.4)}
+      .spellItem{border-color:var(--border);background:rgba(255,255,255,0.4)}
       .talentItem{border-color:var(--border);background:rgba(255,255,255,0.4)}
     }
   </style>
@@ -1211,44 +1214,13 @@
               <textarea id="weapons" placeholder="Dagger +?, d4&#10;Shortsword +?, d6&#10;Bow +?, d6"></textarea>
             </div>
             <div class="field">
-              <label>Spell Slots (check when used)</label>
-              <div class="spellSlots">
-                <div class="spellTier">
-                  <div class="tierLabel">Tier 1:</div>
-                  <div class="slots">
-                    <label class="slotCheck"><input type="checkbox" id="spell1_1" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell1_2" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell1_3" /></label>
-                  </div>
-                </div>
-                <div class="spellTier">
-                  <div class="tierLabel">Tier 2:</div>
-                  <div class="slots">
-                    <label class="slotCheck"><input type="checkbox" id="spell2_1" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell2_2" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell2_3" /></label>
-                  </div>
-                </div>
-                <div class="spellTier">
-                  <div class="tierLabel">Tier 3:</div>
-                  <div class="slots">
-                    <label class="slotCheck"><input type="checkbox" id="spell3_1" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell3_2" /></label>
-                  </div>
-                </div>
-                <div class="spellTier">
-                  <div class="tierLabel">Tier 4:</div>
-                  <div class="slots">
-                    <label class="slotCheck"><input type="checkbox" id="spell4_1" /></label>
-                    <label class="slotCheck"><input type="checkbox" id="spell4_2" /></label>
-                  </div>
-                </div>
-                <div class="spellTier">
-                  <div class="tierLabel">Tier 5:</div>
-                  <div class="slots">
-                    <label class="slotCheck"><input type="checkbox" id="spell5_1" /></label>
-                  </div>
-                </div>
+              <label>Known Spells / Miracles (track lost spells)</label>
+              <div id="spellTracker" class="spellTracker">
+                <!-- Spell items will be generated dynamically from spellsKnown -->
+              </div>
+              <button id="btnRestoreSpells" style="width:100%;margin-top:8px" title="Restore all lost spells after a rest">🌙 Restore All Spells (Rest)</button>
+              <div class="hint" style="margin-top:8px">
+                Shadowdark spells: Roll d20 + casting mod + level vs DC (10 + tier). On failure, mark the spell as lost until rest.
               </div>
             </div>
           </div>
@@ -1256,8 +1228,12 @@
           <div style="height:10px"></div>
 
           <div class="field">
-            <label for="spellsKnown">Known Spells / Miracles</label>
-            <textarea id="spellsKnown" placeholder="List your known spells here..." style="min-height:100px"></textarea>
+            <label for="spellsKnown">Edit Known Spells / Miracles</label>
+            <textarea id="spellsKnown" placeholder="Format: Spell Name (T1), Another Spell (T2); Always Available Spell (always available)" style="min-height:100px"></textarea>
+            <input id="spellsLost" type="hidden" value="" />
+            <div class="hint">
+              Format example: "Cure Wounds (T1), Shield of Faith (T1), Holy Weapon (T2); Turn Undead (always available)"
+            </div>
           </div>
         </div>
       </section>
@@ -1481,6 +1457,7 @@
       }
       recalcAll();
       renderTorch();
+      renderSpellTracker(); // Render spells after loading data
       if (torch.running) startTorchLoop(); // resume if it was running
     }
 
@@ -1548,6 +1525,107 @@
       recalcStats();
       recalcQuickBonuses();
       save();
+    }
+
+    // --------- Spell Tracker ----------
+    function parseSpells(spellsKnownText) {
+      // Parse "Spell Name (T1), Another Spell (T2); Special (always available)"
+      // Returns array of {name, tier, alwaysAvailable}
+      if (!spellsKnownText || spellsKnownText.trim() === "") return [];
+
+      const spells = [];
+      const parts = spellsKnownText.split(/[,;]/).map(s => s.trim()).filter(s => s);
+
+      for (const part of parts) {
+        // Match "Spell Name (T#)" or "Spell Name (Tier #)" or variations
+        const match = part.match(/^(.+?)\s*\((?:T(?:ier\s*)?)?(\d+|always available)\)/i);
+        if (match) {
+          const name = match[1].trim();
+          const tierText = match[2].toLowerCase();
+          const alwaysAvailable = tierText === 'always available';
+          const tier = alwaysAvailable ? 0 : parseInt(tierText) || 0;
+          spells.push({ name, tier, alwaysAvailable });
+        } else if (part.trim()) {
+          // If no tier found, just add the spell with tier 0
+          spells.push({ name: part.trim(), tier: 0, alwaysAvailable: false });
+        }
+      }
+
+      return spells;
+    }
+
+    function renderSpellTracker() {
+      const spellsKnown = $("spellsKnown")?.value || "";
+      const spellsLostField = $("spellsLost");
+      const spellsLost = spellsLostField ? spellsLostField.value.split(',').map(s => s.trim()).filter(s => s) : [];
+
+      const spells = parseSpells(spellsKnown);
+      const container = $("spellTracker");
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      if (spells.length === 0) {
+        container.innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-style:italic;font-size:13px">No spells entered yet. Add spells in the textarea below.</div>';
+        return;
+      }
+
+      spells.forEach(spell => {
+        const isLost = spellsLost.includes(spell.name);
+        const item = document.createElement("div");
+        item.className = "spellItem" + (isLost ? " lost" : "");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = isLost;
+        checkbox.disabled = spell.alwaysAvailable; // Can't lose always-available spells
+        checkbox.title = spell.alwaysAvailable ? "Always available" : "Check if spell is lost";
+        checkbox.addEventListener("change", () => {
+          toggleSpellLost(spell.name);
+        });
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "spellName";
+        nameSpan.textContent = spell.name;
+
+        const badge = document.createElement("span");
+        badge.className = "tierBadge";
+        badge.textContent = spell.alwaysAvailable ? "Always" : `T${spell.tier}`;
+
+        item.appendChild(checkbox);
+        item.appendChild(nameSpan);
+        item.appendChild(badge);
+        container.appendChild(item);
+      });
+    }
+
+    function toggleSpellLost(spellName) {
+      const spellsLostField = $("spellsLost");
+      if (!spellsLostField) return;
+
+      let lostSpells = spellsLostField.value.split(',').map(s => s.trim()).filter(s => s);
+
+      if (lostSpells.includes(spellName)) {
+        // Remove from lost
+        lostSpells = lostSpells.filter(s => s !== spellName);
+      } else {
+        // Add to lost
+        lostSpells.push(spellName);
+      }
+
+      spellsLostField.value = lostSpells.join(', ');
+      renderSpellTracker();
+      save();
+    }
+
+    function restoreAllSpells() {
+      const spellsLostField = $("spellsLost");
+      if (spellsLostField) {
+        spellsLostField.value = "";
+        renderSpellTracker();
+        save();
+      }
     }
 
     // --------- Torch Timer ----------
@@ -1813,6 +1891,13 @@
       // Quick reference toggle
       $("quickRefToggle").addEventListener("click", toggleQuickRef);
 
+      // Spell tracker
+      $("spellsKnown").addEventListener("input", () => {
+        renderSpellTracker();
+        save();
+      });
+      $("btnRestoreSpells").addEventListener("click", restoreAllSpells);
+
       // Preset modal
       $("btnLoadPreset").addEventListener("click", openPresetModal);
       $("btnClosePreset").addEventListener("click", closePresetModal);
@@ -1866,6 +1951,7 @@
     load();
     recalcAll();
     renderTorch();
+    renderSpellTracker();
     updateStatusStyles();
   </script>
 </body>

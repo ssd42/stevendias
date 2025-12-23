@@ -33,6 +33,7 @@
   "talent10": "",
   "weapons": "Mace +2, d6\nCrossbow +0, d6",
   "spellsKnown": "Cure Wounds, Bless, Protection from Evil, Light",
+  "spellsLost": "",
   "inv1": "Mace",
   "inv2": "Crossbow",
   "inv3": "Bolts (20)",

@@ -10,8 +10,7 @@
   "title": "The Red Oath",
   "deity": "The Judge (Varkael Thrumm), Second Seat of Mada",
   "languages": "Common",
-  "notes": "Priest of the Second Seat, a subchurch of Mada devoted to The Judge (Varkael Thrumm). Turn Undead is always available. Miracles are risky; failure may lock miracles or cause judicial/divine consequences rather than wrath. Holy symbol is a gavel, representing finality and verdict. Vampiric Curse (Narrative): Vampiric Bite—Sleigher may bite a helpless, restrained, unconscious, or willing creature. Not a standard attack. Deals 1d4 damage; Sleigher heals 1 HP OR gains advantage on his next WIS-based miracle. Each use is considered a recorded judgment and may carry moral, social, or divine consequences at the GM’s discretion.",
-  
+  "notes": "Priest of the Second Seat, a subchurch of Mada devoted to The Judge (Varkael Thrumm). Turn Undead is always available. Miracles are risky; failure may lock miracles or cause judicial consequences rather than divine wrath. Holy symbol is a cracked gavel, representing finality and verdict. Vampiric Curse (Narrative): Vampiric Bite—Sleigher may bite a helpless, restrained, unconscious, or willing creature. Not a standard attack. Deals 1d4 damage; Sleigher heals 1 HP OR gains advantage on his next WIS-based miracle. Each use is considered a recorded judgment and may carry moral, social, or divine consequences at the GM’s discretion.",
   "ac": "13",
   "hpCur": "17",
   "hpMax": "17",
@@ -41,7 +40,8 @@
   "talent10": "",
 
   "weapons": "Mace (1d6), Dagger (1d4)",
-  "spellsKnown": "Cure Wounds (T1), Bless (T1), Hold Person (T2), Silence (T2); Turn Undead (always available)",
+  "spellsKnown": "Shield of Faith (T1), Cure Wounds (T1), Holy Weapon (T1), Cleansing Weapon (T2); Turn Undead (always available)",
+  "spellsLost": "",
 
   "inv1": "Holy symbol (cracked gavel of the Second Seat)",
   "inv2": "Light armor",
