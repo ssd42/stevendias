@@ -1,0 +1,1385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shadowdark GM Screen (Unofficial)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --parchment-light: #fdf8ed;
+      --parchment: #f4e4c1;
+      --parchment-dark: #e8d4a8;
+      --ink: #3d2817;
+      --ink-light: #5c4033;
+      --muted: #8b6f47;
+      --border: #a68a64;
+      --border-dark: #6b5638;
+      --accent: #8b3a3a;
+      --accent-light: #a0522d;
+      --good: #3d6b3d;
+      --warn: #b8860b;
+      --bad: #8b2323;
+      --shadow: 0 4px 12px rgba(61, 40, 23, 0.15);
+      --shadow-heavy: 0 6px 20px rgba(61, 40, 23, 0.25);
+      --r:4px;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: 'Crimson Text', Georgia, serif;
+      --display: 'Cinzel', serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      font-size:16px;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,111,71,0.03) 2px, rgba(139,111,71,0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,111,71,0.03) 2px, rgba(139,111,71,0.03) 4px),
+        radial-gradient(ellipse 800px 600px at 85% 15%, rgba(139,58,58,0.08), transparent 50%),
+        radial-gradient(ellipse 600px 500px at 10% 80%, rgba(160,82,45,0.06), transparent 50%),
+        radial-gradient(ellipse at center, var(--parchment-light), var(--parchment-dark)),
+        var(--parchment);
+      color:var(--ink);
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(61,40,23,0.15) 100%);
+      z-index: 9999;
+    }
+    a{color:var(--accent);text-decoration-thickness:1px;text-decoration-color:var(--accent-light)}
+    .wrap{max-width:1400px;margin:28px auto;padding:0 20px 50px;position:relative;z-index:1}
+    header{
+      display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+      margin-bottom:26px;
+      padding-bottom:20px;
+      border-bottom:2px solid var(--border);
+      position:relative;
+    }
+    header::after {
+      content: '⚔';
+      position:absolute;
+      bottom:-12px;
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--parchment);
+      padding:0 12px;
+      color:var(--accent);
+      font-size:16px;
+    }
+    .title h1{
+      margin:0;
+      font-family:var(--display);
+      font-size:36px;
+      letter-spacing:1px;
+      color:var(--ink);
+      font-weight:700;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+    }
+    .title p{margin:10px 0 0;color:var(--muted);font-size:16px;font-style:italic}
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;
+    }
+    button, .btn{
+      border:2px solid var(--border-dark);
+      background:
+        linear-gradient(135deg, var(--parchment-light) 0%, var(--parchment-dark) 100%);
+      color:var(--ink);
+      padding:12px 18px;
+      border-radius:var(--r);
+      cursor:pointer;
+      font-size:15px;
+      font-family:var(--display);
+      font-weight:600;
+      box-shadow:
+        var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+      display:inline-flex;gap:8px;align-items:center;
+      transition:all 0.2s ease;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    }
+    button:hover{
+      border-color:var(--accent);
+      background:linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+      box-shadow:
+        var(--shadow-heavy),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+    button:active{
+      transform:translateY(1px);
+      box-shadow:
+        0 2px 6px rgba(61, 40, 23, 0.2),
+        inset 0 1px 2px rgba(0,0,0,0.1);
+    }
+    button.primary{
+      border-color:var(--accent);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.15), rgba(139,58,58,0.05)),
+        linear-gradient(135deg, var(--parchment-light) 0%, var(--parchment-dark) 100%);
+      color:var(--accent);
+    }
+    button.danger{
+      border-color:var(--bad);
+      color:var(--bad);
+    }
+    button:disabled{
+      opacity:0.5;
+      cursor:not-allowed;
+    }
+    .pill{
+      font-family:var(--mono);
+      font-size:13px;
+      color:var(--muted);
+      border:1px solid var(--border);
+      background:rgba(232,212,168,0.3);
+      padding:6px 12px;
+      border-radius:999px;
+    }
+
+    .card{
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(139,111,71,0.02) 1px, rgba(139,111,71,0.02) 2px),
+        linear-gradient(180deg, var(--parchment-light) 0%, #faf5e6 50%, var(--parchment-light) 100%);
+      border:2px solid var(--border-dark);
+      border-radius:var(--r);
+      box-shadow:
+        var(--shadow),
+        inset 0 0 40px rgba(139,111,71,0.08);
+      overflow:hidden;
+      position:relative;
+      margin-bottom:18px;
+    }
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--accent);
+      opacity: 0.3;
+    }
+    .card::before {
+      top: 8px;
+      left: 8px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+    }
+    .card::after {
+      top: 8px;
+      right: 8px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+    }
+    .card .hd{
+      padding:18px 20px;
+      border-bottom:2px double var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(139,58,58,0.06) 50%,
+          transparent 100%),
+        linear-gradient(180deg, rgba(253,248,237,0.8), rgba(244,228,193,0.3));
+      position:relative;
+    }
+    .card .hd h2{
+      margin:0;
+      font-family:var(--display);
+      font-size:20px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--accent);
+      font-weight:700;
+      text-shadow:1px 1px 0 rgba(255,255,255,0.8);
+    }
+    .card .hd .small{font-size:13px}
+    .card .bd{padding:20px}
+
+    .badge{
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.4), rgba(232,212,168,0.2));
+      border-radius:var(--r);
+      padding:8px 12px;
+      display:inline-flex;justify-content:space-between;gap:12px;
+      font-family:var(--mono);
+      font-size:14px;
+      align-items:center;
+      box-shadow:inset 0 1px 2px rgba(61,40,23,0.06);
+    }
+    .badge b{
+      font-family:var(--display);
+      font-size:13px;
+      color:var(--ink-light);
+      font-weight:700;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+    }
+    .badge .v{font-family:var(--mono);font-weight:600;font-size:15px}
+    .good{color:var(--good)}
+    .warn{color:var(--warn)}
+    .bad{color:var(--bad)}
+
+    input[type="text"], input[type="number"], textarea, select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:var(--r);
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.5), rgba(232,212,168,0.2));
+      color:var(--ink);
+      outline:none;
+      font-family:var(--sans);
+      font-size:14px;
+      box-shadow:
+        inset 0 1px 3px rgba(61,40,23,0.1),
+        0 1px 0 rgba(255,255,255,0.8);
+      transition:all 0.2s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus{
+      border-color:var(--accent);
+      background:rgba(255,255,255,0.7);
+      box-shadow:
+        inset 0 1px 3px rgba(61,40,23,0.15),
+        0 0 0 2px rgba(139,58,58,0.2);
+    }
+    input[type="number"]{font-family:var(--mono);font-weight:600}
+    textarea{min-height:100px;resize:vertical;line-height:1.6}
+    .small{font-size:14px;color:var(--muted);font-style:italic}
+
+    /* Initiative Tracker */
+    .initiativeControls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+    .roundBadge{
+      font-size:20px;
+      font-weight:700;
+      font-family:var(--display);
+      color:var(--accent);
+      padding:10px 18px;
+      border:2px solid var(--accent);
+      border-radius:var(--r);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.12), rgba(139,58,58,0.05)),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment));
+      box-shadow:var(--shadow);
+    }
+    .initiativeList{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      max-height:500px;
+      overflow-y:auto;
+      padding:4px;
+    }
+    .combatant{
+      display:grid;
+      grid-template-columns:30px 1fr auto auto auto;
+      gap:12px;
+      align-items:center;
+      padding:14px 16px;
+      border:2px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.5), rgba(232,212,168,0.3));
+      border-radius:var(--r);
+      transition:all 0.2s ease;
+      box-shadow:inset 0 1px 2px rgba(61,40,23,0.06);
+    }
+    .combatant.active{
+      border-color:var(--accent);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.15), rgba(139,58,58,0.08)),
+        linear-gradient(180deg, rgba(255,255,255,0.6), rgba(232,212,168,0.4));
+      box-shadow:
+        var(--shadow),
+        inset 0 0 15px rgba(139,58,58,0.1);
+    }
+    .combatant .arrow{
+      font-size:20px;
+      color:var(--accent);
+      font-weight:700;
+    }
+    .combatant .name{
+      font-weight:700;
+      font-family:var(--display);
+      font-size:16px;
+      color:var(--ink);
+    }
+    .combatant .init{
+      width:60px;
+      padding:6px 10px;
+      text-align:center;
+      font-size:16px;
+      font-weight:700;
+    }
+    .combatant .vital{
+      font-family:var(--mono);
+      font-size:14px;
+      color:var(--ink-light);
+      white-space:nowrap;
+    }
+    .combatant .removeBtn{
+      padding:6px 12px;
+      font-size:14px;
+      min-width:0;
+    }
+    .addCombatantForm{
+      display:grid;
+      grid-template-columns:1fr 80px 80px 80px auto;
+      gap:10px;
+      align-items:end;
+      margin-top:12px;
+      padding:16px;
+      border:2px dashed var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,0.3);
+    }
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{
+      font-size:12px;
+      color:var(--ink-light);
+      letter-spacing:.5px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-family:var(--display);
+    }
+
+    /* Player Vitals */
+    .playerGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
+    }
+    .playerCard{
+      border:2px solid var(--border-dark);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.06), transparent),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment));
+      border-radius:var(--r);
+      padding:16px;
+      box-shadow:
+        var(--shadow),
+        inset 0 0 20px rgba(139,111,71,0.08);
+      position:relative;
+    }
+    .playerCard::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      border: 1px solid rgba(139,58,58,0.15);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .playerCard .name{
+      font-weight:700;
+      font-family:var(--display);
+      font-size:18px;
+      color:var(--accent);
+      margin-bottom:10px;
+      text-shadow:1px 1px 0 rgba(255,255,255,0.7);
+    }
+    .playerCard .hpBar{
+      position:relative;
+      height:32px;
+      border:2px solid var(--border-dark);
+      border-radius:var(--r);
+      background:rgba(255,255,255,0.4);
+      overflow:hidden;
+      margin-bottom:10px;
+    }
+    .playerCard .hpFill{
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      transition:width 0.3s ease, background-color 0.3s ease;
+      background:var(--good);
+    }
+    .playerCard .hpText{
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100%;
+      font-family:var(--mono);
+      font-weight:700;
+      font-size:16px;
+      color:var(--ink);
+      text-shadow:1px 1px 0 rgba(255,255,255,0.8);
+    }
+    .playerCard .stats{
+      display:flex;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .playerCard .statBox{
+      flex:1;
+      text-align:center;
+      padding:8px;
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,0.4);
+    }
+    .playerCard .statBox .label{
+      font-size:11px;
+      color:var(--muted);
+      font-family:var(--display);
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    .playerCard .statBox .value{
+      font-size:20px;
+      font-weight:700;
+      font-family:var(--mono);
+      color:var(--ink);
+    }
+    .playerCard .hpControls{
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .playerCard .hpControls button{
+      flex:1;
+      padding:8px;
+      font-size:18px;
+      justify-content:center;
+    }
+    .playerCard .conditions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .conditionTag{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      background:var(--warn);
+      color:white;
+      font-weight:600;
+      font-family:var(--display);
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    /* Enemy Stat Blocks */
+    .enemyGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:14px;
+    }
+    .enemyCard{
+      border:2px solid var(--border-dark);
+      background:
+        linear-gradient(135deg, rgba(160,82,45,0.08), transparent),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment));
+      border-radius:var(--r);
+      padding:14px;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .enemyCard.empty{
+      border-style:dashed;
+      opacity:0.6;
+    }
+    .enemyCard input, .enemyCard textarea{
+      padding:6px 8px;
+      font-size:13px;
+    }
+    .enemyCard textarea{
+      min-height:60px;
+      font-size:12px;
+    }
+    .enemyCard .actions{
+      display:flex;
+      gap:6px;
+      margin-top:4px;
+    }
+    .enemyCard .actions button{
+      flex:1;
+      padding:8px;
+      font-size:12px;
+      justify-content:center;
+    }
+
+    /* GM Tools */
+    .toolsGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
+    }
+    .toolCard{
+      border:2px solid var(--border-dark);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.06), transparent),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment));
+      border-radius:var(--r);
+      padding:16px;
+      box-shadow:var(--shadow);
+    }
+    .toolCard h3{
+      margin:0 0 12px 0;
+      font-family:var(--display);
+      font-size:16px;
+      color:var(--accent);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      text-shadow:1px 1px 0 rgba(255,255,255,0.7);
+    }
+    .diceRoller{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:8px;
+    }
+    .diceBtn{
+      padding:12px 8px;
+      font-family:var(--mono);
+      font-size:15px;
+      font-weight:700;
+      min-width:0;
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.1), transparent),
+        linear-gradient(135deg, var(--parchment-light), var(--parchment-dark));
+      justify-content:center;
+    }
+    .rollResult{
+      margin-top:12px;
+      padding:12px 14px;
+      border:2px solid var(--accent);
+      background:
+        linear-gradient(135deg, rgba(139,58,58,0.12), rgba(139,58,58,0.05)),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment));
+      border-radius:var(--r);
+      text-align:center;
+      font-family:var(--mono);
+      font-size:20px;
+      font-weight:700;
+      color:var(--accent);
+      box-shadow:var(--shadow);
+      text-shadow:1px 1px 0 rgba(255,255,255,0.5);
+      min-height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .timer{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .timer .clock{
+      font-family:var(--mono);
+      font-size:22px;
+      font-weight:700;
+      text-align:center;
+      color:var(--ink);
+      padding:12px;
+      border:2px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,0.4);
+    }
+    .timer.alert .clock{
+      border-color:var(--bad);
+      background:
+        linear-gradient(135deg, rgba(139,35,35,0.15), rgba(139,35,35,0.05)),
+        rgba(255,255,255,0.4);
+      animation:pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%, 100%{transform:scale(1)}
+      50%{transform:scale(1.02)}
+    }
+    .timer .controls{
+      display:flex;
+      gap:8px;
+    }
+    .timer .controls button{
+      flex:1;
+      padding:8px;
+      font-size:12px;
+      justify-content:center;
+    }
+    .npcGen{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .npcGen .result{
+      min-height:60px;
+      padding:12px;
+      border:2px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,0.4);
+      font-family:var(--display);
+      font-size:18px;
+      color:var(--accent);
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:all 0.2s ease;
+    }
+    .npcGen .result:hover{
+      background:rgba(255,255,255,0.6);
+      border-color:var(--accent);
+    }
+
+    /* Scrollbar */
+    .initiativeList::-webkit-scrollbar{
+      width:10px;
+    }
+    .initiativeList::-webkit-scrollbar-track{
+      background:rgba(232,212,168,0.3);
+      border-radius:var(--r);
+    }
+    .initiativeList::-webkit-scrollbar-thumb{
+      background:var(--border);
+      border-radius:var(--r);
+    }
+    .initiativeList::-webkit-scrollbar-thumb:hover{
+      background:var(--border-dark);
+    }
+
+    /* Responsive */
+    @media (max-width:720px){
+      .addCombatantForm{
+        grid-template-columns:1fr;
+      }
+      .playerGrid{
+        grid-template-columns:1fr;
+      }
+      .toolsGrid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Shadowdark GM Screen <span class="pill">unofficial • single-file</span></h1>
+        <p>Track initiative, player vitals, enemies, and more. Autosaves locally.</p>
+      </div>
+      <div class="toolbar">
+        <button id="btnLoadParty" title="Load party from JSON files">📋 Load Party</button>
+        <button id="btnExport" title="Export GM state to JSON">⬇️ Export</button>
+        <button id="btnImport" title="Import GM state from JSON">⬆️ Import</button>
+        <button class="danger" id="btnReset" title="Clear all data">🧨 Reset</button>
+      </div>
+    </header>
+
+    <!-- Initiative Tracker -->
+    <div class="card">
+      <div class="hd">
+        <h2>⚔️ Initiative Tracker</h2>
+        <div class="initiativeControls">
+          <div class="roundBadge">Round: <span id="roundCounter">1</span></div>
+          <button class="primary" id="btnNextTurn">▶ Next Turn</button>
+          <button id="btnResetInit">🔄 Reset Combat</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="initiativeList" id="initiativeList">
+          <!-- Combatants will be added here -->
+        </div>
+
+        <div class="addCombatantForm">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" id="newCombatantName" placeholder="Character or enemy name..." />
+          </div>
+          <div class="field">
+            <label>Initiative</label>
+            <input type="number" id="newCombatantInit" placeholder="18" min="1" max="30" />
+          </div>
+          <div class="field">
+            <label>HP</label>
+            <input type="number" id="newCombatantHP" placeholder="20" min="1" />
+          </div>
+          <div class="field">
+            <label>AC</label>
+            <input type="number" id="newCombatantAC" placeholder="14" min="1" />
+          </div>
+          <button id="btnAddCombatant" class="primary">+ Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player Vitals -->
+    <div class="card">
+      <div class="hd">
+        <h2>👥 Player Vitals</h2>
+        <div class="small">Current HP, AC, and conditions for all players</div>
+      </div>
+      <div class="bd">
+        <div class="playerGrid" id="playerGrid">
+          <!-- Player cards will be added here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Enemy Stat Blocks -->
+    <div class="card">
+      <div class="hd">
+        <h2>👹 Enemy Stat Blocks</h2>
+        <div class="small">Quick reference for current encounter enemies</div>
+      </div>
+      <div class="bd">
+        <div class="enemyGrid" id="enemyGrid">
+          <!-- Enemy cards will be added here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- GM Tools -->
+    <div class="card">
+      <div class="hd">
+        <h2>🎲 GM Tools</h2>
+      </div>
+      <div class="bd">
+        <div class="toolsGrid">
+          <!-- Dice Roller -->
+          <div class="toolCard">
+            <h3>Dice Roller</h3>
+            <div class="diceRoller">
+              <button class="diceBtn" data-die="d20">d20</button>
+              <button class="diceBtn" data-die="d12">d12</button>
+              <button class="diceBtn" data-die="d10">d10</button>
+              <button class="diceBtn" data-die="d8">d8</button>
+              <button class="diceBtn" data-die="d6">d6</button>
+              <button class="diceBtn" data-die="d4">d4</button>
+            </div>
+            <div class="rollResult" id="rollResult">—</div>
+          </div>
+
+          <!-- Random Encounter Timer -->
+          <div class="toolCard">
+            <h3>Random Encounter Timer</h3>
+            <div class="timer" id="encounterTimer">
+              <div class="clock" id="encounterClock">10:00</div>
+              <div class="field">
+                <label>Interval (minutes)</label>
+                <input type="number" id="encounterInterval" value="10" min="1" max="60" />
+              </div>
+              <div class="controls">
+                <button id="btnTimerStart">▶ Start</button>
+                <button id="btnTimerPause">⏸ Pause</button>
+                <button id="btnTimerCheck">✓ Check Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- NPC Name Generator -->
+          <div class="toolCard">
+            <h3>NPC Name Generator</h3>
+            <div class="npcGen">
+              <div class="result" id="npcResult" title="Click to copy">
+                Click Generate
+              </div>
+              <button id="btnGenerateNPC" class="primary">✨ Generate Name</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GM Notes -->
+    <div class="card">
+      <div class="hd">
+        <h2>📝 GM Notes</h2>
+        <div class="small">Session notes, treasure, plot hooks, etc.</div>
+      </div>
+      <div class="bd">
+        <textarea id="gmNotes" placeholder="Write session notes here..." style="min-height:150px"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <input id="fileInput" type="file" accept="application/json" style="display:none" />
+
+  <script>
+    // ========== UTILITIES ==========
+    const $ = (id) => document.getElementById(id);
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const toInt = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? Math.trunc(n) : 0;
+    };
+    const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    // ========== STATE ==========
+    const state = {
+      players: [],
+      enemies: [],
+      initiative: {
+        round: 1,
+        currentTurn: 0,
+        combatants: []
+      },
+      encounterTimer: {
+        enabled: false,
+        intervalMinutes: 10,
+        remainingSeconds: 600,
+        intervalId: null
+      },
+      gmNotes: ""
+    };
+
+    const STORAGE_KEY = "shadowdark_gm_v1";
+
+    // ========== DATA PERSISTENCE ==========
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.error("Failed to save:", e);
+      }
+    }
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        Object.assign(state, data);
+        // Don't restore timer running state
+        state.encounterTimer.intervalId = null;
+      } catch (e) {
+        console.error("Failed to load:", e);
+      }
+    }
+
+    function exportJSON() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "gm-screen-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          Object.assign(state, data);
+          save();
+          render();
+          alert("GM state imported successfully!");
+        } catch {
+          alert("Invalid JSON file");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // ========== PARTY LOADING ==========
+    async function loadParty() {
+      try {
+        const response = await fetch('party.json');
+        if (!response.ok) throw new Error('party.json not found');
+
+        const files = await response.json();
+        state.players = [];
+
+        for (const filename of files) {
+          try {
+            const charResponse = await fetch(filename);
+            if (!charResponse.ok) continue;
+
+            const data = await charResponse.json();
+            state.players.push({
+              name: data.name || "Unknown",
+              ac: toInt(data.ac || 10),
+              hpCur: toInt(data.hpCur || 10),
+              hpMax: toInt(data.hpMax || 10),
+              conditions: [],
+              sourceFile: filename
+            });
+          } catch (e) {
+            console.error(`Failed to load ${filename}:`, e);
+          }
+        }
+
+        if (state.players.length > 0) {
+          save();
+          render();
+          alert(`Loaded ${state.players.length} player(s)!`);
+        } else {
+          throw new Error('No players loaded');
+        }
+      } catch (e) {
+        alert("Could not load party.json. Make sure the file exists and contains valid player file names.");
+      }
+    }
+
+    // ========== INITIATIVE TRACKER ==========
+    function addCombatant(name, initiative, hp, ac) {
+      state.initiative.combatants.push({
+        id: Date.now() + Math.random(),
+        name,
+        initiative: toInt(initiative),
+        hp: toInt(hp),
+        ac: toInt(ac),
+        type: 'custom'
+      });
+      sortInitiative();
+      save();
+      renderInitiative();
+    }
+
+    function removeCombatant(id) {
+      const index = state.initiative.combatants.findIndex(c => c.id === id);
+      if (index !== -1) {
+        state.initiative.combatants.splice(index, 1);
+        if (state.initiative.currentTurn >= state.initiative.combatants.length) {
+          state.initiative.currentTurn = 0;
+        }
+        save();
+        renderInitiative();
+      }
+    }
+
+    function sortInitiative() {
+      state.initiative.combatants.sort((a, b) => b.initiative - a.initiative);
+    }
+
+    function nextTurn() {
+      if (state.initiative.combatants.length === 0) return;
+
+      state.initiative.currentTurn++;
+      if (state.initiative.currentTurn >= state.initiative.combatants.length) {
+        state.initiative.currentTurn = 0;
+        state.initiative.round++;
+      }
+
+      save();
+      renderInitiative();
+    }
+
+    function resetCombat() {
+      if (!confirm("Reset combat? This will clear all combatants and reset the round counter.")) return;
+
+      state.initiative = {
+        round: 1,
+        currentTurn: 0,
+        combatants: []
+      };
+
+      save();
+      renderInitiative();
+    }
+
+    function renderInitiative() {
+      $("roundCounter").textContent = state.initiative.round;
+
+      const list = $("initiativeList");
+      if (state.initiative.combatants.length === 0) {
+        list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px">No combatants yet. Add players and enemies using the form below.</p>';
+        return;
+      }
+
+      list.innerHTML = state.initiative.combatants.map((c, i) => {
+        const isActive = i === state.initiative.currentTurn;
+        return `
+          <div class="combatant ${isActive ? 'active' : ''}">
+            <div class="arrow">${isActive ? '→' : ''}</div>
+            <div class="name">${c.name}</div>
+            <input type="number" class="init" value="${c.initiative}"
+                   onchange="updateCombatantInit('${c.id}', this.value)" />
+            <div class="vital">HP: ${c.hp}</div>
+            <div class="vital">AC: ${c.ac}</div>
+            <button class="removeBtn danger" onclick="removeCombatant('${c.id}')">×</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateCombatantInit(id, value) {
+      const combatant = state.initiative.combatants.find(c => c.id === id);
+      if (combatant) {
+        combatant.initiative = toInt(value);
+        sortInitiative();
+        save();
+        renderInitiative();
+      }
+    }
+
+    // ========== PLAYERS ==========
+    function adjustPlayerHP(index, delta) {
+      const player = state.players[index];
+      if (!player) return;
+
+      player.hpCur = clamp(player.hpCur + delta, 0, player.hpMax);
+      save();
+      renderPlayers();
+    }
+
+    function renderPlayers() {
+      const grid = $("playerGrid");
+
+      if (state.players.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px">No players loaded. Click "Load Party" to import player data.</p>';
+        return;
+      }
+
+      grid.innerHTML = state.players.map((p, i) => {
+        const hpPercent = (p.hpCur / p.hpMax) * 100;
+        let hpColor = '--good';
+        if (hpPercent < 25) hpColor = '--bad';
+        else if (hpPercent < 75) hpColor = '--warn';
+
+        return `
+          <div class="playerCard">
+            <div class="name">${p.name}</div>
+            <div class="hpBar">
+              <div class="hpFill" style="width:${hpPercent}%; background:var(${hpColor})"></div>
+              <div class="hpText">HP: ${p.hpCur}/${p.hpMax}</div>
+            </div>
+            <div class="stats">
+              <div class="statBox">
+                <div class="label">AC</div>
+                <div class="value">${p.ac}</div>
+              </div>
+            </div>
+            <div class="hpControls">
+              <button onclick="adjustPlayerHP(${i}, -1)">-1</button>
+              <button onclick="adjustPlayerHP(${i}, -5)">-5</button>
+              <button onclick="adjustPlayerHP(${i}, 1)">+1</button>
+              <button onclick="adjustPlayerHP(${i}, 5)">+5</button>
+            </div>
+            <div class="conditions">
+              ${p.conditions.map(c => `<span class="conditionTag">${c}</span>`).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ========== ENEMIES ==========
+    function initEnemies() {
+      if (state.enemies.length === 0) {
+        state.enemies = Array(5).fill(null).map(() => ({
+          id: Date.now() + Math.random(),
+          name: "",
+          ac: "",
+          hp: "",
+          attack: "",
+          damage: "",
+          notes: ""
+        }));
+      }
+    }
+
+    function updateEnemy(index, field, value) {
+      if (state.enemies[index]) {
+        state.enemies[index][field] = value;
+        save();
+      }
+    }
+
+    function clearEnemy(index) {
+      if (state.enemies[index]) {
+        state.enemies[index] = {
+          id: Date.now() + Math.random(),
+          name: "",
+          ac: "",
+          hp: "",
+          attack: "",
+          damage: "",
+          notes: ""
+        };
+        save();
+        renderEnemies();
+      }
+    }
+
+    function addEnemyToInit(index) {
+      const enemy = state.enemies[index];
+      if (!enemy || !enemy.name) {
+        alert("Please add a name to this enemy first!");
+        return;
+      }
+
+      const initiative = prompt(`Initiative roll for ${enemy.name}:`, "10");
+      if (!initiative) return;
+
+      state.initiative.combatants.push({
+        id: Date.now() + Math.random(),
+        name: enemy.name,
+        initiative: toInt(initiative),
+        hp: toInt(enemy.hp) || 1,
+        ac: toInt(enemy.ac) || 10,
+        type: 'enemy'
+      });
+
+      sortInitiative();
+      save();
+      renderInitiative();
+      alert(`${enemy.name} added to initiative!`);
+    }
+
+    function renderEnemies() {
+      const grid = $("enemyGrid");
+
+      grid.innerHTML = state.enemies.map((e, i) => {
+        const isEmpty = !e.name && !e.ac && !e.hp;
+
+        return `
+          <div class="enemyCard ${isEmpty ? 'empty' : ''}">
+            <div class="field">
+              <label>Name</label>
+              <input id="enemy${i}-name" type="text" value="${e.name}"
+                     onchange="updateEnemy(${i}, 'name', this.value)"
+                     placeholder="Goblin Scout" />
+            </div>
+            <div class="field">
+              <label>AC</label>
+              <input type="text" value="${e.ac}"
+                     onchange="updateEnemy(${i}, 'ac', this.value)"
+                     placeholder="13" />
+            </div>
+            <div class="field">
+              <label>HP</label>
+              <input type="text" value="${e.hp}"
+                     onchange="updateEnemy(${i}, 'hp', this.value)"
+                     placeholder="8" />
+            </div>
+            <div class="field">
+              <label>Attack</label>
+              <input type="text" value="${e.attack}"
+                     onchange="updateEnemy(${i}, 'attack', this.value)"
+                     placeholder="+2" />
+            </div>
+            <div class="field">
+              <label>Damage</label>
+              <input type="text" value="${e.damage}"
+                     onchange="updateEnemy(${i}, 'damage', this.value)"
+                     placeholder="d6" />
+            </div>
+            <div class="field">
+              <label>Notes</label>
+              <textarea onchange="updateEnemy(${i}, 'notes', this.value)"
+                        placeholder="Special abilities...">${e.notes}</textarea>
+            </div>
+            <div class="actions">
+              <button onclick="addEnemyToInit(${i})" ${isEmpty ? 'disabled' : ''}>⚔️ Add to Init</button>
+              <button class="danger" onclick="clearEnemy(${i})" ${isEmpty ? 'disabled' : ''}>Clear</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ========== DICE ROLLER ==========
+    function rollDie(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
+    function showRoll(die, result) {
+      const resultEl = $("rollResult");
+      resultEl.textContent = `${die}: ${result}`;
+    }
+
+    // ========== ENCOUNTER TIMER ==========
+    function updateTimerDisplay() {
+      const mins = Math.floor(state.encounterTimer.remainingSeconds / 60);
+      const secs = state.encounterTimer.remainingSeconds % 60;
+      $("encounterClock").textContent =
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      if (state.encounterTimer.remainingSeconds === 0) {
+        $("encounterTimer").classList.add('alert');
+      } else {
+        $("encounterTimer").classList.remove('alert');
+      }
+    }
+
+    function startTimer() {
+      if (state.encounterTimer.intervalId) return;
+
+      state.encounterTimer.enabled = true;
+      state.encounterTimer.intervalId = setInterval(() => {
+        if (state.encounterTimer.remainingSeconds > 0) {
+          state.encounterTimer.remainingSeconds--;
+          updateTimerDisplay();
+          save();
+        }
+
+        if (state.encounterTimer.remainingSeconds === 0) {
+          alert("⏰ Time for a random encounter check!");
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      if (state.encounterTimer.intervalId) {
+        clearInterval(state.encounterTimer.intervalId);
+        state.encounterTimer.intervalId = null;
+      }
+      state.encounterTimer.enabled = false;
+      save();
+    }
+
+    function checkNow() {
+      alert("🎲 Make your random encounter check!");
+      const interval = toInt($("encounterInterval").value) || 10;
+      state.encounterTimer.intervalMinutes = interval;
+      state.encounterTimer.remainingSeconds = interval * 60;
+      updateTimerDisplay();
+      save();
+    }
+
+    // ========== NPC NAME GENERATOR ==========
+    const npcNames = {
+      first: ["Gruk", "Thora", "Eldrin", "Sable", "Vex", "Orm", "Kara", "Zed",
+              "Brynn", "Lok", "Mara", "Finn", "Ash", "Rook", "Vale", "Nyx"],
+      descriptors: ["the Bold", "the Scarred", "Ironhand", "the Wary",
+                    "Shadowfoot", "the Quick", "Stoneheart", "the Clever",
+                    "the Brave", "Blackthorn", "the Wise", "Swiftblade",
+                    "the Silent", "Goldentongue", "the Grim", "Lightfoot"]
+    };
+
+    function generateNPC() {
+      const first = random(npcNames.first);
+      const desc = random(npcNames.descriptors);
+      const name = `${first} ${desc}`;
+
+      const resultEl = $("npcResult");
+      resultEl.textContent = name;
+
+      // Copy to clipboard
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(name).catch(() => {});
+      }
+    }
+
+    // ========== RENDER ALL ==========
+    function render() {
+      renderInitiative();
+      renderPlayers();
+      renderEnemies();
+      updateTimerDisplay();
+      $("gmNotes").value = state.gmNotes;
+      $("encounterInterval").value = state.encounterTimer.intervalMinutes;
+    }
+
+    // ========== EVENT LISTENERS ==========
+    function wire() {
+      // Header buttons
+      $("btnLoadParty").addEventListener("click", loadParty);
+      $("btnExport").addEventListener("click", exportJSON);
+      $("btnImport").addEventListener("click", () => $("fileInput").click());
+      $("fileInput").addEventListener("change", (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (f) importJSON(f);
+        e.target.value = "";
+      });
+      $("btnReset").addEventListener("click", () => {
+        if (!confirm("Reset all GM data? This will clear everything.")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        pauseTimer();
+        location.reload();
+      });
+
+      // Initiative
+      $("btnNextTurn").addEventListener("click", nextTurn);
+      $("btnResetInit").addEventListener("click", resetCombat);
+      $("btnAddCombatant").addEventListener("click", () => {
+        const name = $("newCombatantName").value.trim();
+        const init = $("newCombatantInit").value;
+        const hp = $("newCombatantHP").value;
+        const ac = $("newCombatantAC").value;
+
+        if (!name || !init) {
+          alert("Please enter at least a name and initiative!");
+          return;
+        }
+
+        addCombatant(name, init, hp || 1, ac || 10);
+
+        $("newCombatantName").value = "";
+        $("newCombatantInit").value = "";
+        $("newCombatantHP").value = "";
+        $("newCombatantAC").value = "";
+      });
+
+      // Dice roller
+      document.querySelectorAll('.diceBtn').forEach(btn => {
+        btn.addEventListener("click", () => {
+          const die = btn.dataset.die;
+          const sides = parseInt(die.substring(1));
+          const result = rollDie(sides);
+          showRoll(die, result);
+        });
+      });
+
+      // Encounter timer
+      $("btnTimerStart").addEventListener("click", startTimer);
+      $("btnTimerPause").addEventListener("click", pauseTimer);
+      $("btnTimerCheck").addEventListener("click", checkNow);
+      $("encounterInterval").addEventListener("change", (e) => {
+        const interval = toInt(e.target.value) || 10;
+        state.encounterTimer.intervalMinutes = interval;
+        state.encounterTimer.remainingSeconds = interval * 60;
+        updateTimerDisplay();
+        save();
+      });
+
+      // NPC Generator
+      $("btnGenerateNPC").addEventListener("click", generateNPC);
+      $("npcResult").addEventListener("click", () => {
+        const text = $("npcResult").textContent;
+        if (text !== "Click Generate" && navigator.clipboard) {
+          navigator.clipboard.writeText(text);
+          alert("Name copied to clipboard!");
+        }
+      });
+
+      // GM Notes
+      $("gmNotes").addEventListener("input", (e) => {
+        state.gmNotes = e.target.value;
+        save();
+      });
+    }
+
+    // Make functions global so onclick handlers work
+    window.removeCombatant = removeCombatant;
+    window.updateCombatantInit = updateCombatantInit;
+    window.adjustPlayerHP = adjustPlayerHP;
+    window.updateEnemy = updateEnemy;
+    window.clearEnemy = clearEnemy;
+    window.addEnemyToInit = addEnemyToInit;
+
+    // ========== INIT ==========
+    load();
+    initEnemies();
+    wire();
+    render();
+  </script>
+</body>
+</html>
