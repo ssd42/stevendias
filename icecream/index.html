@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>NJ Ice Cream Truck Sightings (PoC)</title>
+
+  <!-- Leaflet (map) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #101a2e;
+      --panel2: #0f1830;
+      --text: #e8eefc;
+      --muted: #a8b3d6;
+      --border: rgba(255,255,255,0.12);
+      --accent: #7aa2ff;
+      --accent2: #66e3c4;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --gap: 14px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background: radial-gradient(1200px 700px at 30% -10%, rgba(122,162,255,0.25), transparent 60%),
+                  radial-gradient(900px 600px at 85% 0%, rgba(102,227,196,0.18), transparent 55%),
+                  var(--bg);
+    }
+
+    header{
+      padding: 18px 18px 10px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .titleRow{
+      display:flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    h1{
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 900px;
+      line-height: 1.35;
+    }
+
+    main{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 18px 28px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent 45%),
+                  var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panelHeader{
+      padding: 14px 14px 12px;
+      display:flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.10);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .dot{
+      width: 9px; height: 9px; border-radius: 999px;
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(255,107,107,0.14);
+    }
+    .dot.ok{
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(102,227,196,0.14);
+    }
+
+    .controls{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    button{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    button:hover{ background: rgba(255,255,255,0.10); }
+    button.primary{
+      border-color: rgba(122,162,255,0.55);
+      background: rgba(122,162,255,0.16);
+    }
+    button.primary:hover{ background: rgba(122,162,255,0.22); }
+    button.danger{
+      border-color: rgba(255,107,107,0.55);
+      background: rgba(255,107,107,0.14);
+    }
+    button.danger:hover{ background: rgba(255,107,107,0.20); }
+
+    .mapWrap{
+      height: 520px;
+    }
+    #map{
+      height: 100%;
+      width: 100%;
+      background: #0a0f1c;
+    }
+
+    .below{
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 980px){
+      .below{ grid-template-columns: 1fr; }
+    }
+
+    .listPanel{
+      padding: 14px;
+    }
+    .listTop{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .listTop h2{
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .count{
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .card{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .cardLeft{
+      display:flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .town{
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+    .sighting{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+    .miniRow{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      font-size: 11px;
+      color: var(--muted);
+      max-width: 100%;
+    }
+    .pill code{
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+    }
+    .cardActions{
+      display:flex;
+      gap: 8px;
+      align-items: center;
+      justify-content:flex-end;
+      flex-shrink: 0;
+    }
+    .iconBtn{
+      padding: 7px 9px;
+      border-radius: 10px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    .iconBtn:hover{ background: rgba(255,255,255,0.09); }
+
+    .sidePanel{
+      padding: 14px;
+    }
+    .sidePanel h2{
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    form{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label{
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    input, textarea{
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.20);
+      color: var(--text);
+      padding: 10px 10px;
+      border-radius: 12px;
+      outline: none;
+      font-size: 13px;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(122,162,255,0.55);
+      box-shadow: 0 0 0 4px rgba(122,162,255,0.12);
+    }
+
+    .disabled{
+      opacity: 0.55;
+      pointer-events: none;
+      filter: grayscale(0.15);
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      border-top: 1px dashed rgba(255,255,255,0.16);
+      padding-top: 10px;
+      line-height: 1.35;
+    }
+
+    .toast{
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(16,26,46,0.95);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      max-width: min(520px, calc(100vw - 28px));
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 140ms ease, transform 140ms ease;
+      pointer-events: none;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="titleRow">
+      <div>
+        <h1>NJ Ice Cream Truck Sightings (Proof of Concept)</h1>
+        <p class="subtitle">
+          Public users can browse sightings. Verified users can add new locations. This demo stores everything in your browser (localStorage).
+        </p>
+      </div>
+
+      <div class="controls">
+        <span id="statusBadge" class="badge" title="Verification status">
+          <span id="statusDot" class="dot"></span>
+          <span id="statusText">Public user</span>
+        </span>
+        <button id="verifyBtn" class="primary">Verify</button>
+        <button id="logoutBtn">Log out</button>
+        <button id="resetBtn" class="danger" title="Clears demo data on this device">Reset demo data</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panelHeader">
+        <div class="badge" title="How to add">
+          Tip: Verified users can click the map to place a marker.
+        </div>
+        <div class="badge" title="Map view">
+          New Jersey bounds + zoom limits
+        </div>
+      </div>
+      <div class="mapWrap">
+        <div id="map" aria-label="Map of New Jersey"></div>
+      </div>
+    </section>
+
+    <section class="below">
+      <section class="panel listPanel">
+        <div class="listTop">
+          <h2>Recent sightings</h2>
+          <div class="count"><span id="count"></span></div>
+        </div>
+        <div id="cards" class="cards"></div>
+      </section>
+
+      <aside class="panel sidePanel">
+        <h2>Add a sighting</h2>
+        <div class="note">
+          Verified users only. Choose a point by clicking on the map, then fill out the town and last-sighting time.
+        </div>
+
+        <div id="formWrap" class="disabled">
+          <form id="addForm">
+            <label>
+              Selected coordinates
+              <input id="coords" type="text" placeholder="Click the map to select" readonly />
+            </label>
+
+            <label>
+              Town name
+              <input id="town" type="text" placeholder="e.g., Montclair" maxlength="60" required />
+            </label>
+
+            <label>
+              Last sighting (local time)
+              <input id="lastSeen" type="datetime-local" required />
+            </label>
+
+            <label>
+              Notes (optional)
+              <textarea id="notes" rows="3" placeholder="e.g., near the park / heard music around 3pm" maxlength="180"></textarea>
+            </label>
+
+            <button class="primary" type="submit">Add sighting</button>
+          </form>
+
+          <div class="hint">
+            PoC verification is a simple prompt (not secure). In production, you’d do real auth (JWT/session) and store sightings in a database.
+          </div>
+        </div>
+
+        <div id="lockedHint" class="hint">
+          Locked: click <b>Verify</b> to enable adding.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script>
+    // -----------------------------
+    // Simple PoC app state
+    // -----------------------------
+    const STORAGE_KEY = "nj_icecream_sightings_v1";
+    const AUTH_KEY = "nj_icecream_verified_v1";
+    const HOTSPOT_MIN_REPORTS = 2;
+    const HOTSPOT_PROXIMITY_METERS = 450;
+
+    // Markers turn red when zoomed OUT to this level or farther out
+    const HOTSPOT_ZOOM_CUTOFF = 12; // tweak (11–13 usually feels right)
+
+
+    // PoC "verified" secret. Replace or remove; real app should use real auth.
+    const POC_SECRET = "icecream-admin";
+
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+      statusBadge: $("statusBadge"),
+      statusDot: $("statusDot"),
+      statusText: $("statusText"),
+      verifyBtn: $("verifyBtn"),
+      logoutBtn: $("logoutBtn"),
+      resetBtn: $("resetBtn"),
+      formWrap: $("formWrap"),
+      lockedHint: $("lockedHint"),
+      addForm: $("addForm"),
+      coords: $("coords"),
+      town: $("town"),
+      lastSeen: $("lastSeen"),
+      notes: $("notes"),
+      cards: $("cards"),
+      count: $("count"),
+      toast: $("toast"),
+    };
+
+    let map;
+    let selectedLatLng = null;
+    let selectedMarker = null;
+    const markerById = new Map();
+
+    // NEW: layer to draw hotspot circles
+    let hotspotLayer = null;
+
+    function nowISOForDatetimeLocal() {
+      // datetime-local wants "YYYY-MM-DDTHH:MM"
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      const yyyy = d.getFullYear();
+      const mm = pad(d.getMonth() + 1);
+      const dd = pad(d.getDate());
+      const hh = pad(d.getHours());
+      const min = pad(d.getMinutes());
+      return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+    }
+
+    function toast(msg) {
+      els.toast.textContent = msg;
+      els.toast.classList.add("show");
+      window.clearTimeout(toast._t);
+      toast._t = window.setTimeout(() => els.toast.classList.remove("show"), 1800);
+    }
+
+    function isVerified() {
+      return localStorage.getItem(AUTH_KEY) === "true";
+    }
+
+    function setVerified(v) {
+      localStorage.setItem(AUTH_KEY, v ? "true" : "false");
+      renderAuthUI();
+    }
+
+    function loadSightings() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSightings(items) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    function formatLastSeen(isoOrLocal) {
+      // Store as ISO string if possible; accept datetime-local strings as fallback
+      const d = new Date(isoOrLocal);
+      if (!Number.isFinite(d.getTime())) return String(isoOrLocal);
+      return d.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    }
+
+    function sortSightingsNewestFirst(items) {
+      return [...items].sort((a, b) => {
+        const ta = new Date(a.lastSeen).getTime();
+        const tb = new Date(b.lastSeen).getTime();
+        return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
+      });
+    }
+
+    function makeId() {
+      // Simple unique-enough ID for a PoC
+      return `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    function renderAuthUI() {
+      const v = isVerified();
+      els.statusText.textContent = v ? "Verified user" : "Public user";
+      els.statusDot.classList.toggle("ok", v);
+
+      els.formWrap.classList.toggle("disabled", !v);
+      els.lockedHint.style.display = v ? "none" : "block";
+
+      els.verifyBtn.style.display = v ? "none" : "inline-flex";
+      els.logoutBtn.style.display = v ? "inline-flex" : "none";
+    }
+
+    // -----------------------------
+    // Hotspot clustering helpers (meters-based)
+    // -----------------------------
+    function clusterByProximity(points, thresholdMeters) {
+      // points: [{ id, lat, lng, ... }]
+      const clusters = [];
+      const visited = new Set();
+
+      for (let i = 0; i < points.length; i++) {
+        const a = points[i];
+        if (visited.has(a.id)) continue;
+
+        const cluster = [a];
+        visited.add(a.id);
+
+        // Expand cluster by repeatedly adding points close to ANY point in the cluster
+        let changed = true;
+        while (changed) {
+          changed = false;
+          for (let j = 0; j < points.length; j++) {
+            const b = points[j];
+            if (visited.has(b.id)) continue;
+
+            const closeToCluster = cluster.some((p) => {
+              const d = map.distance([p.lat, p.lng], [b.lat, b.lng]); // meters
+              return d <= thresholdMeters;
+            });
+
+            if (closeToCluster) {
+              cluster.push(b);
+              visited.add(b.id);
+              changed = true;
+            }
+          }
+        }
+
+        clusters.push(cluster);
+      }
+
+      return clusters;
+    }
+
+    function getClusterCenter(cluster) {
+      // centroid
+      let sumLat = 0, sumLng = 0;
+      for (const p of cluster) {
+        sumLat += p.lat;
+        sumLng += p.lng;
+      }
+      return [sumLat / cluster.length, sumLng / cluster.length];
+    }
+
+    function getClusterRadiusMeters(cluster, center) {
+      // max distance from center + padding
+      let maxD = 0;
+      for (const p of cluster) {
+        const d = map.distance(center, [p.lat, p.lng]);
+        if (d > maxD) maxD = d;
+      }
+      return Math.max(75, maxD + 80); // min radius + padding
+    }
+
+    // -----------------------------
+    // Map setup (New Jersey bounds)
+    // -----------------------------
+    function initMap() {
+      // Rough NJ bounding box:
+      // Southwest: (38.788, -75.559)
+      // Northeast: (41.357, -73.893)
+      const njBounds = L.latLngBounds(
+        L.latLng(38.788, -75.559),
+        L.latLng(41.357, -73.893)
+      );
+
+      // North Jersey focus bounds
+      const northJerseyBounds = L.latLngBounds(
+        L.latLng(40.45, -74.45),  // roughly New Brunswick-ish
+        L.latLng(41.35, -73.90)   // top-right NJ
+      );
+
+      map = L.map("map", {
+        center: northJerseyBounds.getCenter(),
+        zoom: 9,
+        minZoom: 7,
+        maxZoom: 16,
+        maxBounds: njBounds,
+        maxBoundsViscosity: 1.0
+      });
+
+      // Force North Jersey on first load
+      map.fitBounds(northJerseyBounds, { animate: false });
+
+      // Keep North Jersey framed on resize (PoC)
+      map.on("resize", () => {
+        map.fitBounds(northJerseyBounds, { animate: false });
+      });
+
+      // Less detailed map tiles
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; OpenStreetMap & CARTO',
+        subdomains: 'abcd',
+        maxZoom: 16
+      }).addTo(map);
+
+      // Layer for hotspot circles
+      hotspotLayer = L.layerGroup().addTo(map);
+
+      // click to select a location (verified only)
+      map.on("click", (e) => {
+        if (!isVerified()) {
+          toast("Public users can browse only. Verify to add a sighting.");
+          return;
+        }
+        selectedLatLng = e.latlng;
+        els.coords.value = `${selectedLatLng.lat.toFixed(5)}, ${selectedLatLng.lng.toFixed(5)}`;
+
+        if (selectedMarker) {
+          selectedMarker.setLatLng(selectedLatLng);
+        } else {
+          selectedMarker = L.marker(selectedLatLng, { draggable: true }).addTo(map);
+          selectedMarker.on("dragend", () => {
+            const p = selectedMarker.getLatLng();
+            selectedLatLng = p;
+            els.coords.value = `${p.lat.toFixed(5)}, ${p.lng.toFixed(5)}`;
+          });
+        }
+      });
+
+      map.on("zoomend", () => {
+        renderSightings(); // re-render markers with correct colors
+      });
+
+    }
+
+    function clearSelected() {
+      selectedLatLng = null;
+      els.coords.value = "";
+      if (selectedMarker) {
+        map.removeLayer(selectedMarker);
+        selectedMarker = null;
+      }
+    }
+
+    // -----------------------------
+    // Rendering sightings (map + cards + hotspot circles)
+    // -----------------------------
+    function renderSightings() {
+      const sightings = sortSightingsNewestFirst(loadSightings());
+
+      // Build a set of sighting IDs that are in a "hotspot cluster"
+      const hotspotIds = new Set();
+      const clusters = clusterByProximity(sightings, HOTSPOT_PROXIMITY_METERS);
+
+      clusters
+        .filter(c => c.length >= HOTSPOT_MIN_REPORTS)
+        .forEach((cluster) => {
+          cluster.forEach(p => hotspotIds.add(p.id));
+        });
+
+      const zoomedOutEnough = map.getZoom() <= HOTSPOT_ZOOM_CUTOFF;
+
+
+      // cards
+      els.cards.innerHTML = "";
+      els.count.textContent = `${sightings.length} total`;
+
+      if (sightings.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "card";
+        empty.innerHTML = `
+          <div class="cardLeft">
+            <div class="town">No sightings yet</div>
+            <div class="sighting">When verified users add sightings, they’ll appear here.</div>
+          </div>
+        `;
+        els.cards.appendChild(empty);
+      }
+
+      // map markers: rebuild quickly for PoC simplicity
+      markerById.forEach((m) => map.removeLayer(m));
+      markerById.clear();
+
+      // Hotspot circles: rebuild
+      if (hotspotLayer) hotspotLayer.clearLayers();
+
+      // Draw markers
+      sightings.forEach((s) => {
+        const isHot = hotspotIds.has(s.id);
+        const icon = (zoomedOutEnough && isHot) ? RED_ICON : BLUE_ICON;
+
+        const marker = L.marker([s.lat, s.lng], { icon }).addTo(map);
+
+        marker.bindPopup(
+          `<b>${escapeHtml(s.town)}</b><br/>Last sighting: ${escapeHtml(formatLastSeen(s.lastSeen))}${s.notes ? `<br/>Notes: ${escapeHtml(s.notes)}` : ""}`
+        );
+        markerById.set(s.id, marker);
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <div class="cardLeft">
+            <div class="town" title="${escapeHtml(s.town)}">${escapeHtml(s.town)}</div>
+            <div class="sighting"><b>Last sighting:</b> ${escapeHtml(formatLastSeen(s.lastSeen))}</div>
+            <div class="miniRow">
+              <span class="pill">Coords: <code>${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}</code></span>
+              ${s.notes ? `<span class="pill" title="${escapeHtml(s.notes)}">Notes: ${escapeHtml(truncate(s.notes, 34))}</span>` : ""}
+            </div>
+          </div>
+          <div class="cardActions">
+            <button class="iconBtn" data-action="zoom" data-id="${s.id}">Zoom</button>
+            <button class="iconBtn" data-action="popup" data-id="${s.id}">Details</button>
+            ${isVerified() ? `<button class="iconBtn" data-action="delete" data-id="${s.id}">Delete</button>` : ""}
+          </div>
+        `;
+
+        els.cards.appendChild(card);
+      });
+
+      // Hotspot circles (clusters)
+      // Tune these:
+      const PROXIMITY_METERS = 450;
+      const MIN_REPORTS = 2;
+
+      if (hotspotLayer && sightings.length >= MIN_REPORTS) {
+        const clusters = clusterByProximity(sightings, PROXIMITY_METERS);
+
+        clusters
+          .filter(c => c.length >= MIN_REPORTS)
+          .forEach((cluster) => {
+            const center = getClusterCenter(cluster);
+            const radius = getClusterRadiusMeters(cluster, center);
+
+            const circle = L.circle(center, {
+              radius,            // meters
+              color: "red",
+              weight: 2,
+              fillColor: "red",
+              fillOpacity: 0.10
+            });
+
+            circle.bindPopup(
+              `<b>Hotspot</b><br/>${cluster.length} reports within ~${PROXIMITY_METERS}m`
+            );
+
+            hotspotLayer.addLayer(circle);
+          });
+      }
+
+      // card actions
+      els.cards.querySelectorAll("button[data-action]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.getAttribute("data-action");
+          const id = btn.getAttribute("data-id");
+          if (!id) return;
+
+          if (action === "zoom") {
+            const marker = markerById.get(id);
+            if (!marker) return;
+            map.setView(marker.getLatLng(), 14, { animate: true });
+          }
+
+          if (action === "popup") {
+            const marker = markerById.get(id);
+            if (!marker) return;
+            marker.openPopup();
+          }
+
+          if (action === "delete") {
+            if (!isVerified()) {
+              toast("Only verified users can delete.");
+              return;
+            }
+            const items = loadSightings().filter((s) => s.id !== id);
+            saveSightings(items);
+            toast("Deleted sighting.");
+            renderSightings();
+          }
+        });
+      });
+    }
+
+    // -----------------------------
+    // Form submit (verified only)
+    // -----------------------------
+    function onAddSighting(e) {
+      e.preventDefault();
+      if (!isVerified()) {
+        toast("Verify first to add.");
+        return;
+      }
+      if (!selectedLatLng) {
+        toast("Click the map to select a location first.");
+        return;
+      }
+
+      const town = els.town.value.trim();
+      const lastSeenLocal = els.lastSeen.value; // "YYYY-MM-DDTHH:MM"
+      const notes = els.notes.value.trim();
+
+      if (!town) {
+        toast("Town name is required.");
+        return;
+      }
+      if (!lastSeenLocal) {
+        toast("Last sighting time is required.");
+        return;
+      }
+
+      // Convert datetime-local into a real Date in the user's local timezone, then store as ISO
+      const lastSeenISO = new Date(lastSeenLocal).toISOString();
+
+      const newItem = {
+        id: makeId(),
+        town,
+        lastSeen: lastSeenISO,
+        notes,
+        lat: selectedLatLng.lat,
+        lng: selectedLatLng.lng,
+        createdAt: new Date().toISOString()
+      };
+
+      const items = loadSightings();
+      items.push(newItem);
+      saveSightings(items);
+
+      els.addForm.reset();
+      els.lastSeen.value = nowISOForDatetimeLocal(); // reset to now for convenience
+      clearSelected();
+
+      toast("Added sighting.");
+      renderSightings();
+    }
+
+    // -----------------------------
+    // Auth buttons
+    // -----------------------------
+    function onVerify() {
+      const pw = window.prompt("Enter verifier code (PoC):");
+      if (pw === null) return;
+
+      if (pw === POC_SECRET) {
+        setVerified(true);
+        toast("Verified. You can add sightings now.");
+        renderSightings();
+      } else {
+        toast("Incorrect code.");
+      }
+    }
+
+    function onLogout() {
+      setVerified(false);
+      toast("Logged out.");
+      renderSightings();
+    }
+
+    function onReset() {
+      const ok = window.confirm("Reset demo data on this device? This clears saved sightings + verified state.");
+      if (!ok) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(AUTH_KEY);
+      clearSelected();
+      renderAuthUI();
+      renderSightings();
+      toast("Reset complete.");
+    }
+
+    // -----------------------------
+    // Utilities
+    // -----------------------------
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+    function truncate(s, n) {
+      const str = String(s);
+      return str.length > n ? str.slice(0, n - 1) + "…" : str;
+    }
+
+    const RED_ICON = new L.Icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    const BLUE_ICON = new L.Icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+
+    // -----------------------------
+    // Bootstrap
+    // -----------------------------
+    function seedIfEmpty() {
+        const existing = loadSightings();
+        if (existing.length > 0) return;
+
+        // --- North Jersey area to sprinkle pings ---
+        const north = {
+            minLat: 40.45,
+            maxLat: 41.20,
+            minLng: -74.45,
+            maxLng: -73.90
+        };
+
+        const towns = [
+            "Hoboken","Jersey City","Newark","Union City","Weehawken","West New York",
+            "Secaucus","North Bergen","Fort Lee","Englewood","Hackensack","Teaneck",
+            "Paramus","Ridgewood","Wayne","Paterson","Clifton","Passaic","Nutley",
+            "Bloomfield","Montclair","Maplewood","South Orange","Irvington","Elizabeth",
+            "Rahway","Linden","Bayonne","Kearny","Belleville","Summit","Millburn",
+            "Morristown","Parsippany","Livingston","West Orange","East Orange"
+        ];
+
+        function rand(min, max) {
+            return min + Math.random() * (max - min);
+        }
+
+        function randomRecentISO(daysBack = 7) {
+            const ms = daysBack * 24 * 60 * 60 * 1000;
+            const t = Date.now() - Math.floor(Math.random() * ms);
+            return new Date(t).toISOString();
+        }
+
+        // Keep your 2 "real-ish" samples
+        const sample = [
+            {
+            id: makeId(),
+            town: "Hoboken",
+            lastSeen: new Date(Date.now() - 1000 * 60 * 60 * 22).toISOString(),
+            notes: "Near the waterfront park",
+            lat: 40.7433,
+            lng: -74.0288,
+            createdAt: new Date().toISOString()
+            },
+            {
+            id: makeId(),
+            town: "Montclair",
+            lastSeen: new Date(Date.now() - 1000 * 60 * 60 * 54).toISOString(),
+            notes: "Heard music around Bloomfield Ave",
+            lat: 40.8259,
+            lng: -74.2090,
+            createdAt: new Date().toISOString()
+            }
+        ];
+        sample.push({
+            id: makeId(),
+            town: "Test Hotspot A",
+            lastSeen: new Date().toISOString(),
+            notes: "hotspot test",
+            lat: 40.7450,
+            lng: -74.0320,
+            createdAt: new Date().toISOString()
+            });
+
+            sample.push({
+            id: makeId(),
+            town: "Test Hotspot B",
+            lastSeen: new Date().toISOString(),
+            notes: "hotspot test",
+            lat: 40.7452,
+            lng: -74.0322,
+            createdAt: new Date().toISOString()
+            });
+
+
+        // Add a bunch of random pings
+        const EXTRA = 80; // <-- crank this up (200, 500) if you want
+        for (let i = 0; i < EXTRA; i++) {
+            const town = towns[Math.floor(Math.random() * towns.length)];
+            sample.push({
+            id: makeId(),
+            town,
+            lastSeen: randomRecentISO(10),
+            notes: Math.random() < 0.35 ? "🍦 music reported nearby" : "",
+            lat: rand(north.minLat, north.maxLat),
+            lng: rand(north.minLng, north.maxLng),
+            createdAt: new Date().toISOString()
+            });
+        }
+
+        saveSightings(sample);
+        }
+
+
+
+    (function init() {
+      seedIfEmpty();
+
+      initMap();
+      renderAuthUI();
+      renderSightings();
+
+      // Default lastSeen to now for convenience
+      els.lastSeen.value = nowISOForDatetimeLocal();
+
+      els.addForm.addEventListener("submit", onAddSighting);
+      els.verifyBtn.addEventListener("click", onVerify);
+      els.logoutBtn.addEventListener("click", onLogout);
+      els.resetBtn.addEventListener("click", onReset);
+    })();
+  </script>
+</body>
+</html>
