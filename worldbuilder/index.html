@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worldbuilder | DM's Atlas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <aside id="sidebar" class="closed">
+    <div class="sidebar-header">
+      <h1 class="map-title" id="map-name">World Map</h1>
+    </div>
+
+    <div class="sidebar-tools">
+      <div class="search-wrap">
+        <input id="search" class="search" placeholder="Search zones, NPCs, hooks..." />
+      </div>
+
+      <button class="mini-btn" id="btn-upload-image" title="Upload custom map image">Upload Image</button>
+      <button class="mini-btn" id="btn-add-zone" title="Draw a new zone on the map">Add New Zone</button>
+      <button class="mini-btn" id="btn-create-map" title="Create a new linked map">Create New Map</button>
+      <button class="mini-btn" id="btn-export" title="Export your atlas data as JSON">Export</button>
+      <button class="mini-btn" id="btn-import" title="Import atlas JSON (replaces current)">Import</button>
+      <button class="mini-btn danger" id="btn-reset" title="Reset to defaults (clears local edits)">Reset</button>
+      <button class="mini-btn" id="btn-help" title="Quick controls">Help</button>
+
+      <input id="file-input" type="file" accept="application/json" style="display:none;" />
+      <input id="image-input" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" style="display:none;" />
+    </div>
+
+    <!-- Storage Panel -->
+    <div class="storage-panel">
+      <div class="storage-header" style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin: 16px 12px 8px; font-weight: 600;">Cloud Sync</div>
+
+      <div style="padding: 0 12px 12px;">
+        <div style="margin-bottom: 8px;">
+          <label style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-dim); cursor: pointer;">
+            <input type="checkbox" id="use-appdata" checked style="margin: 0;">
+            <span>Use hidden folder (recommended)</span>
+          </label>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <input id="drive-filename" type="text" placeholder="worldbuilder.json" value="worldbuilder.json"
+            style="width: 100%; padding: 6px 8px; font-size: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.3); color: var(--text); border-radius: 3px;" />
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="mini-btn" id="btn-drive-connect" style="flex: 1;">Connect Drive</button>
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="mini-btn" id="btn-drive-save" disabled style="flex: 1;">Save to Drive</button>
+          <button class="mini-btn" id="btn-drive-load" disabled style="flex: 1;">Load from Drive</button>
+        </div>
+
+        <div id="drive-status" style="font-size: 0.7rem; color: var(--text-dim); padding: 6px 8px; background: rgba(0,0,0,0.2); border-radius: 3px; min-height: 24px;">
+          Not connected
+        </div>
+      </div>
+    </div>
+
+    <ul class="zone-list" id="zone-list"></ul>
+  </aside>
+
+  <main id="main-view">
+    <nav id="nav-bar">
+      <button class="btn btn-ghost" id="btn-sidebar">☰</button>
+      <button class="btn btn-gold" id="btn-back">← BACK</button>
+      <div id="breadcrumbs" class="cinzel"></div>
+
+      <div class="top-right-actions">
+        <div id="toggle-text" class="toggle" title="Text mode: click to add labels">
+          <span class="cinzel" style="font-size:0.75rem; color: var(--text-dim);">TEXT</span>
+          <span class="pill"></span>
+        </div>
+        <div id="toggle-edit" class="toggle" title="Edit mode: click a zone to edit lore">
+          <span class="cinzel" style="font-size:0.75rem; color: var(--text-dim);">EDIT</span>
+          <span class="pill"></span>
+        </div>
+        <button class="btn btn-ghost" id="btn-reset-view" title="Reset zoom/pan">Reset View</button>
+      </div>
+    </nav>
+
+    <div id="map-stage">
+      <div id="scrim"></div>
+
+      <div class="map-wrapper" id="map-wrapper">
+        <div id="map-content">
+          <img id="map-img" src="" alt="Map" />
+          <svg id="svg-overlay" viewBox="0 0 1000 600" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+
+      <!-- Lore Panel -->
+      <div id="info-panel">
+        <div class="panel-top">
+          <h2 id="info-title" class="cinzel" style="margin:0; color:var(--gold); font-size:1.05rem;">Region Name</h2>
+          <span class="close-btn" id="btn-close-panel" title="Close (Esc)">✕</span>
+        </div>
+
+        <p id="info-desc" style="font-size:0.88rem; line-height:1.6; margin-top:10px;"></p>
+
+        <div class="info-section">
+          <div class="info-header cinzel">Shops & Services</div>
+          <div id="info-shops"></div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-header cinzel">Notable NPCs</div>
+          <div id="info-npcs"></div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-header cinzel">Plot Hooks</div>
+          <ul id="info-hooks" style="padding-left:18px; font-size:0.82rem; margin:6px 0;"></ul>
+        </div>
+
+        <div id="info-actions"></div>
+      </div>
+
+      <!-- Edit Panel -->
+      <div id="edit-panel">
+        <div class="panel-top">
+          <h2 class="cinzel" style="margin:0; color:var(--gold); font-size:1.05rem;">Edit Zone Lore</h2>
+          <span class="close-btn" id="btn-close-edit" title="Close (Esc)">✕</span>
+        </div>
+
+        <div class="help">
+          Tip: For <b>Shops</b>, <b>NPCs</b>, <b>Hooks</b>, enter one per line. Changes are saved automatically to this browser.
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Zone Name</label>
+            <input id="edit-name" />
+          </div>
+          <div class="field">
+            <label>Travel Target Map ID (optional)</label>
+            <input id="edit-target" placeholder="e.g. bay_city" />
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:10px;">
+          <label>Description</label>
+          <textarea id="edit-desc"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Shops & Services (one per line)</label>
+            <textarea id="edit-shops"></textarea>
+          </div>
+          <div class="field">
+            <label>Notable NPCs (one per line)</label>
+            <textarea id="edit-npcs"></textarea>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:10px;">
+          <label>Plot Hooks (one per line)</label>
+          <textarea id="edit-hooks"></textarea>
+        </div>
+
+        <div class="help" id="edit-hint"></div>
+
+        <div class="edit-actions">
+          <button class="btn btn-ghost" id="btn-delete-zone" style="border-color: rgba(255,92,92,0.55);">Delete Zone</button>
+          <button class="btn btn-gold" id="btn-save-edit">Save</button>
+        </div>
+      </div>
+
+      <div id="tooltip"></div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
