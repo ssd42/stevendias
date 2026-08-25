@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mothership Character Sheet (Unofficial)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-dark: #0a0e14;
+      --bg-panel: #12161e;
+      --bg-input: #1a1f2b;
+      --border-main: #2d3748;
+      --border-bright: #4a5568;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+      --text-muted: #718096;
+      --accent-green: #48bb78;
+      --accent-amber: #ed8936;
+      --accent-red: #f56565;
+      --accent-blue: #4299e1;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-heavy: 0 6px 20px rgba(0, 0, 0, 0.6);
+      --glow-green: 0 0 8px rgba(72, 187, 120, 0.4);
+      --glow-red: 0 0 8px rgba(245, 101, 101, 0.4);
+      --r: 2px;
+      --mono: 'Share Tech Mono', 'Courier New', monospace;
+      --sans: 'Roboto', sans-serif;
+      --display: 'Orbitron', sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      font-size:16px;
+      background:
+        /* Grid pattern */
+        repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(72,187,120,0.03) 20px, rgba(72,187,120,0.03) 21px),
+        repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(72,187,120,0.03) 20px, rgba(72,187,120,0.03) 21px),
+        /* Gradient */
+        radial-gradient(ellipse at top left, rgba(66,153,225,0.08), transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(72,187,120,0.06), transparent 50%),
+        var(--bg-dark);
+      color:var(--text-primary);
+      position: relative;
+      min-height: 100vh;
+    }
+    /* Scanline effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.1),
+        rgba(0,0,0,0.1) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      z-index: 9999;
+      opacity: 0.3;
+    }
+    a{color:var(--accent-blue);text-decoration:none;border-bottom:1px solid var(--accent-blue)}
+    a:hover{color:var(--accent-green)}
+    .wrap{max-width:1400px;margin:28px auto;padding:0 20px 50px;position:relative;z-index:1}
+    header{
+      display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+      margin-bottom:26px;
+      padding-bottom:20px;
+      border-bottom:2px solid var(--border-main);
+      position:relative;
+    }
+    /* Decorative header accent */
+    header::after {
+      content: '⚠';
+      position:absolute;
+      bottom:-12px;
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--bg-dark);
+      padding:0 12px;
+      color:var(--accent-amber);
+      font-size:16px;
+    }
+    .title h1{
+      margin:0;
+      font-family:var(--display);
+      font-size:36px;
+      letter-spacing:2px;
+      color:var(--accent-green);
+      font-weight:900;
+      text-shadow: 0 0 12px rgba(72,187,120,0.5);
+      text-transform: uppercase;
+    }
+    .title p{margin:10px 0 0;color:var(--text-secondary);font-size:16px;font-weight:300}
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;
+    }
+    button, .btn{
+      border:1px solid var(--border-bright);
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.1) 0%, rgba(45,55,72,0.3) 100%),
+        var(--bg-panel);
+      color:var(--text-primary);
+      padding:12px 18px;
+      border-radius:var(--r);
+      cursor:pointer;
+      font-size:15px;
+      font-family:var(--display);
+      font-weight:600;
+      box-shadow: var(--shadow);
+      display:inline-flex;gap:8px;align-items:center;
+      transition:all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    button:hover{
+      border-color:var(--accent-green);
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.2) 0%, rgba(45,55,72,0.4) 100%),
+        var(--bg-panel);
+      box-shadow: var(--shadow-heavy), var(--glow-green);
+    }
+    button:active{
+      transform:translateY(1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+    button.primary{
+      border-color:var(--accent-green);
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.25), rgba(72,187,120,0.1)),
+        var(--bg-panel);
+      color:var(--accent-green);
+    }
+    button.danger{
+      border-color:var(--accent-red);
+      color:var(--accent-red);
+      background:
+        linear-gradient(135deg, rgba(245,101,101,0.2), rgba(245,101,101,0.05)),
+        var(--bg-panel);
+    }
+    button.danger:hover{
+      border-color:var(--accent-red);
+      box-shadow: var(--shadow-heavy), var(--glow-red);
+    }
+    .pill{
+      font-family:var(--mono);
+      font-size:13px;
+      color:var(--text-muted);
+      border:1px solid var(--border-main);
+      background:rgba(45,55,72,0.3);
+      padding:6px 12px;
+      border-radius:999px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.25fr .9fr;
+      gap:18px;
+    }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.02), transparent),
+        var(--bg-panel);
+      border:1px solid var(--border-main);
+      border-radius:var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    /* Tech corners */
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: var(--accent-green);
+      opacity: 0.5;
+      z-index: 1;
+    }
+    .card::before {
+      top: 6px;
+      left: 6px;
+      border-top: 1px solid;
+      border-left: 1px solid;
+    }
+    .card::after {
+      top: 6px;
+      right: 6px;
+      border-top: 1px solid;
+      border-right: 1px solid;
+    }
+    .card .hd{
+      padding:18px 20px;
+      border-bottom:1px solid var(--border-main);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(72,187,120,0.08) 50%,
+          transparent 100%),
+        rgba(18,22,30,0.8);
+      position:relative;
+    }
+    .card .hd h2{
+      margin:0;
+      font-family:var(--display);
+      font-size:18px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:var(--accent-green);
+      font-weight:700;
+      text-shadow: 0 0 8px rgba(72,187,120,0.4);
+    }
+    .card .hd .small{font-size:12px;color:var(--text-muted)}
+    .card .bd{padding:20px}
+
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field label{
+      font-size:12px;
+      color:var(--text-secondary);
+      letter-spacing:1px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-family:var(--display);
+    }
+    input[type="text"], input[type="number"], textarea, select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:var(--r);
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      color:var(--text-primary);
+      outline:none;
+      font-family:var(--sans);
+      font-size:15px;
+      transition:all 0.2s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus{
+      border-color:var(--accent-green);
+      background: rgba(72,187,120,0.05);
+      box-shadow: 0 0 0 2px rgba(72,187,120,0.2);
+    }
+    input[type="number"]{font-family:var(--mono);font-weight:600}
+    textarea{min-height:100px;resize:vertical;line-height:1.6}
+    .small{font-size:13px;color:var(--text-muted);font-style:italic}
+
+    .statBox{
+      border:2px solid var(--border-bright);
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.06), rgba(18,22,30,0.8)),
+        var(--bg-input);
+      border-radius:var(--r);
+      padding:18px;
+      box-shadow: var(--shadow);
+      position:relative;
+      min-height:140px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+    }
+    .statBox label{
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      color:var(--accent-green);
+      font-weight:700;
+      font-family:var(--display);
+      text-shadow: 0 0 6px rgba(72,187,120,0.4);
+    }
+    .statBox input{
+      font-size:32px;
+      font-weight:700;
+      text-align:center;
+      padding:20px 14px;
+      background: var(--bg-dark);
+      border:1px solid var(--border-main);
+      color:var(--accent-green);
+      line-height:1.2;
+      height:auto;
+      font-family: var(--mono);
+      text-shadow: 0 0 8px rgba(72,187,120,0.3);
+    }
+
+    .healthStress{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    .healthBox, .stressBox{
+      border:2px solid var(--accent-blue);
+      background:
+        linear-gradient(135deg, rgba(66,153,225,0.1), rgba(18,22,30,0.8)),
+        var(--bg-input);
+      border-radius:var(--r);
+      padding:16px;
+      box-shadow: var(--shadow);
+    }
+    .stressBox{
+      border-color:var(--accent-red);
+      background:
+        linear-gradient(135deg, rgba(245,101,101,0.1), rgba(18,22,30,0.8)),
+        var(--bg-input);
+    }
+    .healthBox label, .stressBox label{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      font-weight:700;
+      font-family:var(--display);
+      display:block;
+      margin-bottom:10px;
+    }
+    .healthBox label{color:var(--accent-blue)}
+    .stressBox label{color:var(--accent-red)}
+    .healthBox input, .stressBox input{
+      width:100%;
+      text-align:center;
+      font-size:28px;
+      font-weight:700;
+      padding:12px;
+      font-family:var(--mono);
+    }
+    .healthBox input{color:var(--accent-blue)}
+    .stressBox input{color:var(--accent-red)}
+
+    .saveGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .saveBox{
+      border:2px solid var(--accent-amber);
+      background:
+        linear-gradient(135deg, rgba(237,137,54,0.08), rgba(18,22,30,0.8)),
+        var(--bg-input);
+      border-radius:var(--r);
+      padding:16px;
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+    .saveBox label{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:var(--accent-amber);
+      font-weight:700;
+      font-family:var(--display);
+      display:block;
+      margin-bottom:10px;
+    }
+    .saveBox input{
+      width:100%;
+      text-align:center;
+      font-size:24px;
+      font-weight:700;
+      padding:10px;
+      font-family:var(--mono);
+      color:var(--accent-amber);
+    }
+
+    .skillsGrid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+    }
+    @media (max-width:720px){ .skillsGrid{grid-template-columns:1fr} }
+    .skillCheck{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      border-radius:var(--r);
+      transition:all .2s;
+    }
+    .skillCheck:hover{
+      border-color:var(--accent-green);
+      background: rgba(72,187,120,0.05);
+    }
+    .skillCheck input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      cursor:pointer;
+      accent-color:var(--accent-green);
+    }
+    .skillCheck label{
+      flex:1;
+      font-size:13px;
+      color:var(--text-primary);
+      cursor:pointer;
+      font-family:var(--sans);
+      margin:0;
+    }
+    .skillCheck.trained{
+      border-color:var(--accent-green);
+      background: rgba(72,187,120,0.1);
+      box-shadow: inset 0 0 8px rgba(72,187,120,0.2);
+    }
+
+    .inventorySlots{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+      gap:8px;
+    }
+    .invSlot{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      border-radius:var(--r);
+    }
+    .invSlot .num{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--text-muted);
+      min-width:22px;
+      font-weight:600;
+    }
+    .invSlot input{
+      flex:1;
+      padding:6px 8px;
+      font-size:12px;
+      min-width:0;
+    }
+
+    .talentsList{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .talentItem{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      border-radius:var(--r);
+    }
+    .talentItem .num{
+      font-family:var(--display);
+      font-size:11px;
+      color:var(--accent-green);
+      min-width:25px;
+      font-weight:700;
+      letter-spacing:0.5px;
+    }
+    .talentItem input{
+      flex:1;
+      padding:8px 10px;
+      font-size:13px;
+    }
+
+    .diceRoller{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(90px, 1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+    .diceBtn{
+      padding:14px 10px;
+      font-family:var(--mono);
+      font-size:16px;
+      font-weight:700;
+      min-width:0;
+    }
+    .rollResult{
+      margin-top:12px;
+      padding:16px;
+      border:2px solid var(--accent-green);
+      background:
+        linear-gradient(135deg, rgba(72,187,120,0.15), rgba(72,187,120,0.05)),
+        var(--bg-panel);
+      border-radius:var(--r);
+      text-align:center;
+      font-family:var(--mono);
+      font-size:24px;
+      font-weight:700;
+      color:var(--accent-green);
+      display:none;
+      box-shadow: var(--shadow), var(--glow-green);
+      text-shadow: 0 0 8px rgba(72,187,120,0.4);
+    }
+    .rollResult.show{
+      display:block;
+    }
+    .rollResult.success{
+      border-color:var(--accent-green);
+      background:linear-gradient(135deg, rgba(72,187,120,0.15), rgba(72,187,120,0.05)),var(--bg-panel);
+      color:var(--accent-green);
+    }
+    .rollResult.failure{
+      border-color:var(--accent-red);
+      background:linear-gradient(135deg, rgba(245,101,101,0.15), rgba(245,101,101,0.05)),var(--bg-panel);
+      color:var(--accent-red);
+      box-shadow: var(--shadow), var(--glow-red);
+    }
+    .statCheckBtn{
+      padding:8px 12px;
+      font-size:12px;
+      border:1px solid var(--border-bright);
+      background:var(--bg-input);
+      color:var(--text-primary);
+      border-radius:var(--r);
+      cursor:pointer;
+      font-family:var(--display);
+      font-weight:600;
+      transition:all 0.2s ease;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    .statCheckBtn:hover{
+      border-color:var(--accent-green);
+      background:rgba(72,187,120,0.1);
+    }
+    .criticalWarning{
+      animation:pulse 1.5s ease-in-out infinite;
+      border-color:var(--accent-red) !important;
+      box-shadow:0 0 20px rgba(245,101,101,0.5) !important;
+    }
+    @keyframes pulse{
+      0%, 100% { box-shadow:0 0 10px rgba(245,101,101,0.3); }
+      50% { box-shadow:0 0 25px rgba(245,101,101,0.7); }
+    }
+
+    .presetModal{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:rgba(10,14,20,.95);
+      backdrop-filter:blur(4px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:10000;
+    }
+    .presetModal.show{
+      display:flex;
+    }
+    .presetBox{
+      background: var(--bg-panel);
+      border:2px solid var(--border-bright);
+      border-radius:var(--r);
+      padding:28px;
+      max-width:540px;
+      width:90%;
+      box-shadow: var(--shadow-heavy);
+      position:relative;
+    }
+    .presetBox h3{
+      margin:0 0 18px 0;
+      font-size:22px;
+      font-family:var(--display);
+      color:var(--accent-green);
+      text-align:center;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      text-shadow: 0 0 8px rgba(72,187,120,0.4);
+    }
+    .presetList{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .presetBtn{
+      padding:16px;
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      color:var(--text-primary);
+      border-radius:var(--r);
+      cursor:pointer;
+      font-size:14px;
+      text-align:left;
+      transition:all .2s;
+    }
+    .presetBtn:hover{
+      border-color:var(--accent-green);
+      background: rgba(72,187,120,0.1);
+      box-shadow: var(--shadow);
+    }
+    .presetBtn .name{
+      font-weight:700;
+      font-family:var(--display);
+      margin-bottom:4px;
+      color:var(--accent-green);
+    }
+    .presetBtn .desc{
+      font-size:12px;
+      color:var(--text-muted);
+    }
+
+    .woundTracker{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    .woundCheck{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border-main);
+      background: var(--bg-input);
+      border-radius:var(--r);
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .woundCheck:hover{
+      border-color:var(--accent-red);
+      background: rgba(245,101,101,0.05);
+    }
+    .woundCheck input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      cursor:pointer;
+      accent-color:var(--accent-red);
+    }
+    .woundCheck.active{
+      border-color:var(--accent-red);
+      background: rgba(245,101,101,0.15);
+      box-shadow: inset 0 0 8px rgba(245,101,101,0.2);
+    }
+
+    .twoCol{
+      display:grid;grid-template-columns:1fr 1fr;gap:14px
+    }
+    @media (max-width:720px){ .twoCol{grid-template-columns:1fr} }
+
+    .footerNote{
+      margin-top:16px;
+      color:var(--text-muted);
+      font-size:13px;
+      line-height:1.5;
+      font-style:italic;
+    }
+
+    /* Print */
+    @media print{
+      body{background:var(--bg-dark);color:var(--text-primary)}
+      body::before{display:none}
+      .wrap{max-width:none;margin:0;padding:12px}
+      header::after, .toolbar, .footerNote, .pill, .diceRoller, .rollResult, .presetModal{display:none !important}
+      .card{
+        box-shadow:none;
+        border-color:var(--border-main);
+        page-break-inside:avoid;
+      }
+      .card::before, .card::after{display:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Mothership <span class="pill">unofficial • single-file</span></h1>
+        <p>Character Sheet with autosave, stress tracking, skill checks & dice roller.</p>
+      </div>
+      <div class="toolbar">
+        <span id="saveIndicator" class="pill" style="opacity:0;transition:opacity 0.3s;color:var(--accent-green)">✓ Saved</span>
+        <button id="btnLoadPreset" title="Load a preset character">📋 Load Preset</button>
+        <button class="primary" id="btnPrint" title="Print (or Save to PDF)">🖨️ Print</button>
+        <button id="btnExport" title="Export to JSON">⬇️ Export</button>
+        <button id="btnImport" title="Import from JSON">⬆️ Import</button>
+        <button class="danger" id="btnReset" title="Clear this sheet">🧨 Reset</button>
+      </div>
+    </header>
+
+    <!-- Preset Modal -->
+    <div class="presetModal" id="presetModal">
+      <div class="presetBox">
+        <h3>Load Preset Character</h3>
+        <div class="presetList" id="presetList">
+          <!-- Preset buttons will be loaded dynamically -->
+        </div>
+        <button id="btnClosePreset" style="width:100%">Cancel</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <section class="card">
+        <div class="hd">
+          <h2>Identity</h2>
+          <div class="small">Basic info: name, class, background</div>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="field" style="grid-column: span 6;">
+              <label for="name">Name</label>
+              <input id="name" type="text" placeholder="e.g., Marion Soto" />
+            </div>
+            <div class="field" style="grid-column: span 6;">
+              <label for="pronouns">Pronouns</label>
+              <input id="pronouns" type="text" placeholder="she/her, they/them..." />
+            </div>
+            <div class="field" style="grid-column: span 6;">
+              <label for="class">Class</label>
+              <input id="class" type="text" placeholder="Teamster / Scientist / Marine..." />
+            </div>
+            <div class="field" style="grid-column: span 6;">
+              <label for="background">Background</label>
+              <input id="background" type="text" placeholder="Asteroid Miner / Corporate..." />
+            </div>
+            <div class="field" style="grid-column: span 12;">
+              <label for="notes">Notes</label>
+              <textarea id="notes" placeholder="Personality, fears, bonds..." rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <section class="card">
+        <div class="hd">
+          <h2>Stats</h2>
+          <div class="small">Core stats (0-100)</div>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="field statBox" style="grid-column: span 3;">
+              <label for="strength">STR</label>
+              <input id="strength" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+            <div class="field statBox" style="grid-column: span 3;">
+              <label for="speed">SPD</label>
+              <input id="speed" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+            <div class="field statBox" style="grid-column: span 3;">
+              <label for="intellect">INT</label>
+              <input id="intellect" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+            <div class="field statBox" style="grid-column: span 3;">
+              <label for="combat">COM</label>
+              <input id="combat" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+          </div>
+
+          <div class="healthStress">
+            <div class="healthBox">
+              <label for="health">Health</label>
+              <input id="health" type="number" step="1" placeholder="0" />
+              <label for="healthMax" style="margin-top:8px">Max HP</label>
+              <input id="healthMax" type="number" step="1" placeholder="0" />
+            </div>
+            <div class="stressBox">
+              <label for="stress">Stress</label>
+              <input id="stress" type="number" step="1" placeholder="0" />
+              <label for="stressMax" style="margin-top:8px">Max Stress</label>
+              <input id="stressMax" type="number" step="1" placeholder="0" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEFT: SAVES -->
+      <section class="card">
+        <div class="hd">
+          <h2>Saves</h2>
+          <div class="small">Roll under these values</div>
+        </div>
+        <div class="bd">
+          <div class="saveGrid">
+            <div class="saveBox">
+              <label for="sanity">Sanity</label>
+              <input id="sanity" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+            <div class="saveBox">
+              <label for="fear">Fear</label>
+              <input id="fear" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+            <div class="saveBox">
+              <label for="body">Body</label>
+              <input id="body" type="number" step="1" min="0" max="100" placeholder="35" />
+            </div>
+          </div>
+
+          <div style="height:20px"></div>
+
+          <div class="field">
+            <label>Wounds & Conditions</label>
+            <div class="woundTracker">
+              <label class="woundCheck">
+                <input type="checkbox" id="wound_bleeding" />
+                <span>Bleeding</span>
+              </label>
+              <label class="woundCheck">
+                <input type="checkbox" id="wound_stunned" />
+                <span>Stunned</span>
+              </label>
+              <label class="woundCheck">
+                <input type="checkbox" id="wound_unconscious" />
+                <span>Unconscious</span>
+              </label>
+              <label class="woundCheck">
+                <input type="checkbox" id="wound_broken" />
+                <span>Broken</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="field">
+            <label for="wounds">Additional Wounds / Notes</label>
+            <textarea id="wounds" placeholder="Track injuries, radiation, etc." rows="3"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="credits">Credits</label>
+            <input id="credits" type="text" placeholder="e.g., 1,500 cr" />
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: SKILLS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Skills</h2>
+          <div class="small">Check trained skills</div>
+        </div>
+        <div class="bd">
+          <div class="skillsGrid">
+            <label class="skillCheck">
+              <input type="checkbox" id="skillAthleticsStr" />
+              <span>Athletics (STR)</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillAthleticsSpd" />
+              <span>Athletics (SPD)</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillAthleticsSwim" />
+              <span>Athletics (Swim)</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillBrawling" />
+              <span>Brawling</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillMartialArts" />
+              <span>Martial Arts</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillFirearms" />
+              <span>Firearms</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillLargeMachinery" />
+              <span>Large Machinery</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillMechRepair" />
+              <span>Mech Repair</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillMedicalExpertise" />
+              <span>Medical Expertise</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillComputers" />
+              <span>Computers</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillHacking" />
+              <span>Hacking</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillVehicles" />
+              <span>Vehicles</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillWeapons" />
+              <span>Weapons</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillLinguistics" />
+              <span>Linguistics</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillMathematics" />
+              <span>Mathematics</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillMilitaryTraining" />
+              <span>Military Training</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillPsychology" />
+              <span>Psychology</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillArt" />
+              <span>Art</span>
+            </label>
+            <label class="skillCheck">
+              <input type="checkbox" id="skillTheology" />
+              <span>Theology</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEFT: TALENTS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Talents</h2>
+          <div class="small">Class abilities & special training</div>
+        </div>
+        <div class="bd">
+          <div class="talentsList">
+            <div class="talentItem">
+              <div class="num">#1</div>
+              <input id="talent1" type="text" placeholder="Talent name or description..." />
+            </div>
+            <div class="talentItem">
+              <div class="num">#2</div>
+              <input id="talent2" type="text" placeholder="Talent name or description..." />
+            </div>
+            <div class="talentItem">
+              <div class="num">#3</div>
+              <input id="talent3" type="text" placeholder="Talent name or description..." />
+            </div>
+            <div class="talentItem">
+              <div class="num">#4</div>
+              <input id="talent4" type="text" placeholder="Talent name or description..." />
+            </div>
+            <div class="talentItem">
+              <div class="num">#5</div>
+              <input id="talent5" type="text" placeholder="Talent name or description..." />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: LOADOUT -->
+      <section class="card">
+        <div class="hd">
+          <h2>Loadout</h2>
+          <div class="small">Weapons & armor</div>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label for="loadoutWeapons">Weapons</label>
+            <textarea id="loadoutWeapons" placeholder="Pulse Rifle (5d10, burst)&#10;Riot Baton (1d10+STR)"></textarea>
+          </div>
+          <div class="field">
+            <label for="loadoutArmor">Armor</label>
+            <input id="loadoutArmor" type="text" placeholder="Hazard Suit (7 AP)" />
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL WIDTH: INVENTORY -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Inventory</h2>
+          <div class="small">Equipment & supplies</div>
+        </div>
+        <div class="bd">
+          <div class="inventorySlots" id="inventorySlots">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL WIDTH: DICE ROLLER -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Dice Roller</h2>
+          <div class="small">Quick rolls for checks & combat</div>
+        </div>
+        <div class="bd">
+          <div class="diceRoller">
+            <button class="diceBtn" data-die="d100">d100</button>
+            <button class="diceBtn" data-die="d20">d20</button>
+            <button class="diceBtn" data-die="d10">d10</button>
+            <button class="diceBtn" data-die="d6">d6</button>
+            <button class="diceBtn" data-die="d4">d4</button>
+          </div>
+
+          <div style="margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input id="diceCount" type="number" min="1" max="20" value="1" style="width:60px;padding:8px;text-align:center;" placeholder="#" />
+            <select id="diceType" style="width:80px;padding:8px;">
+              <option value="10">d10</option>
+              <option value="100">d100</option>
+              <option value="20">d20</option>
+              <option value="6">d6</option>
+              <option value="4">d4</option>
+            </select>
+            <button id="btnRollMultiple" style="padding:8px 16px;">Roll</button>
+            <button id="btnAdvantage" style="padding:8px 16px;" title="Roll 2d100, take lower">Advantage</button>
+            <button id="btnDisadvantage" style="padding:8px 16px;" title="Roll 2d100, take higher">Disadvantage</button>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label style="font-size:12px;color:var(--text-secondary);letter-spacing:1px;font-weight:600;text-transform:uppercase;font-family:var(--display);display:block;margin-bottom:8px;">Quick Stat Checks</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="statCheckBtn" data-stat="strength">STR Check</button>
+              <button class="statCheckBtn" data-stat="speed">SPD Check</button>
+              <button class="statCheckBtn" data-stat="intellect">INT Check</button>
+              <button class="statCheckBtn" data-stat="combat">COM Check</button>
+              <button class="statCheckBtn" data-stat="sanity">Sanity Save</button>
+              <button class="statCheckBtn" data-stat="fear">Fear Save</button>
+              <button class="statCheckBtn" data-stat="body">Body Save</button>
+            </div>
+          </div>
+
+          <div id="rollResult" class="rollResult"></div>
+
+          <div id="rollHistory" style="margin-top:14px;display:none;">
+            <label style="font-size:12px;color:var(--text-secondary);letter-spacing:1px;font-weight:600;text-transform:uppercase;font-family:var(--display);display:block;margin-bottom:8px;">Roll History</label>
+            <div id="rollHistoryList" style="display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:12px;color:var(--text-muted);"></div>
+          </div>
+
+          <div class="footerNote">
+            Tip: Mothership uses d100 for most checks (roll under your stat). d10 for damage and stress.
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL WIDTH: LOG -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Session Log</h2>
+          <div class="small">Mission notes, discoveries, trauma</div>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label for="log">Notes</label>
+            <textarea id="log" placeholder="Track mission objectives, discoveries, NPC contacts..." rows="6"></textarea>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="footerNote">
+      Unofficial Mothership fan tool with skill tracking, stress management, and inventory.
+      Perfect for quick reference at the table!
+    </p>
+  </div>
+
+  <input id="fileInput" type="file" accept="application/json" style="display:none" />
+
+  <script>
+    // --------- Utilities ----------
+    const $ = (id) => document.getElementById(id);
+
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const toInt = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? Math.trunc(n) : 0;
+    };
+
+    // Debounce utility
+    const debounce = (fn, delay) => {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn(...args), delay);
+      };
+    };
+
+    // Roll history tracker
+    const rollHistory = [];
+    const MAX_HISTORY = 10;
+
+    // --------- Build Inventory Slots ----------
+    const invGrid = $("inventorySlots");
+    const MAX_INV_SLOTS = 20;
+    for (let i = 1; i <= MAX_INV_SLOTS; i++) {
+      const slot = document.createElement("div");
+      slot.className = "invSlot";
+      slot.innerHTML = `
+        <div class="num">${i}.</div>
+        <input id="inv${i}" type="text" placeholder="Item..." />
+      `;
+      invGrid.appendChild(slot);
+    }
+
+    // --------- Autosave ----------
+    const STORAGE_KEY = "mothership_sheet_v1";
+
+    const allFields = () => {
+      const nodes = document.querySelectorAll("input, textarea, select");
+      return Array.from(nodes).filter(n => n.id && n.type !== "file");
+    };
+
+    function serialize() {
+      const data = {};
+      for (const el of allFields()) {
+        if (el.type === "number") {
+          data[el.id] = el.value === "" ? "" : toInt(el.value);
+        } else if (el.type === "checkbox") {
+          data[el.id] = el.checked;
+        } else {
+          data[el.id] = el.value ?? "";
+        }
+      }
+      return data;
+    }
+
+    function apply(data) {
+      for (const el of allFields()) {
+        if (!(el.id in data)) continue;
+        const v = data[el.id];
+        if (el.type === "checkbox") {
+          el.checked = !!v;
+        } else {
+          el.value = (v === null || v === undefined) ? "" : String(v);
+        }
+      }
+      updateWoundStyles();
+      updateSkillStyles();
+    }
+
+    function save() {
+      const data = serialize();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showSaveIndicator();
+    }
+
+    function showSaveIndicator() {
+      const indicator = $("saveIndicator");
+      indicator.style.opacity = "1";
+      setTimeout(() => {
+        indicator.style.opacity = "0";
+      }, 1500);
+    }
+
+    const debouncedSave = debounce(save, 500);
+
+    function load() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        apply(JSON.parse(raw));
+      } catch {
+        // ignore corrupted storage
+      }
+    }
+
+    // --------- Stat Validation ----------
+    function validateStatInput(input) {
+      const val = toInt(input.value);
+      if (input.value !== "" && (val < 0 || val > 100)) {
+        input.value = clamp(val, 0, 100);
+      }
+    }
+
+    // --------- Critical Warnings ----------
+    function checkCriticalConditions() {
+      const health = toInt($("health").value);
+      const healthMax = toInt($("healthMax").value);
+      const stress = toInt($("stress").value);
+      const stressMax = toInt($("stressMax").value);
+
+      const healthBox = document.querySelector('.healthBox');
+      const stressBox = document.querySelector('.stressBox');
+
+      // Critical health warning
+      if (healthMax > 0 && health <= 0) {
+        healthBox.classList.add('criticalWarning');
+      } else {
+        healthBox.classList.remove('criticalWarning');
+      }
+
+      // Critical stress warning
+      if (stressMax > 0 && stress >= stressMax) {
+        stressBox.classList.add('criticalWarning');
+      } else {
+        stressBox.classList.remove('criticalWarning');
+      }
+    }
+
+    // --------- Wound & Skill Styles ----------
+    function updateWoundStyles() {
+      const checkboxes = document.querySelectorAll('.woundCheck input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        const label = cb.closest('.woundCheck');
+        if (cb.checked) {
+          label.classList.add('active');
+        } else {
+          label.classList.remove('active');
+        }
+      });
+    }
+
+    function updateSkillStyles() {
+      const checkboxes = document.querySelectorAll('.skillCheck input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        const label = cb.closest('.skillCheck');
+        if (cb.checked) {
+          label.classList.add('trained');
+        } else {
+          label.classList.remove('trained');
+        }
+      });
+    }
+
+    // --------- Export / Import ----------
+    function exportJSON() {
+      const data = serialize();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = (data.name ? `${data.name}` : "mothership-character") + ".json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          apply(data);
+          save();
+        } catch {
+          alert("That file doesn't look like valid JSON for this sheet.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // --------- Dice Roller ----------
+    function rollDie(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
+    function showRoll(message, type = 'normal') {
+      const resultEl = $("rollResult");
+      resultEl.textContent = message;
+      resultEl.classList.remove('success', 'failure');
+      if (type === 'success') {
+        resultEl.classList.add('success');
+      } else if (type === 'failure') {
+        resultEl.classList.add('failure');
+      }
+      resultEl.classList.add("show");
+      setTimeout(() => {
+        resultEl.classList.remove("show");
+      }, 8000);
+    }
+
+    function addToHistory(entry) {
+      rollHistory.unshift(entry);
+      if (rollHistory.length > MAX_HISTORY) {
+        rollHistory.pop();
+      }
+      updateHistoryDisplay();
+    }
+
+    function updateHistoryDisplay() {
+      const historyEl = $("rollHistory");
+      const listEl = $("rollHistoryList");
+
+      if (rollHistory.length === 0) {
+        historyEl.style.display = "none";
+        return;
+      }
+
+      historyEl.style.display = "block";
+      listEl.innerHTML = rollHistory
+        .map(entry => `<div>${entry}</div>`)
+        .join('');
+    }
+
+    function rollMultipleDice() {
+      const count = Math.max(1, Math.min(20, toInt($("diceCount").value) || 1));
+      const sides = toInt($("diceType").value);
+      const rolls = [];
+      let total = 0;
+
+      for (let i = 0; i < count; i++) {
+        const roll = rollDie(sides);
+        rolls.push(roll);
+        total += roll;
+      }
+
+      const message = count === 1
+        ? `d${sides}: ${rolls[0]}`
+        : `${count}d${sides}: [${rolls.join(', ')}] = ${total}`;
+
+      showRoll(message);
+      addToHistory(message);
+    }
+
+    function rollAdvantage() {
+      const roll1 = rollDie(100);
+      const roll2 = rollDie(100);
+      const result = Math.min(roll1, roll2);
+      const message = `Advantage: [${roll1}, ${roll2}] → ${result}`;
+      showRoll(message);
+      addToHistory(message);
+    }
+
+    function rollDisadvantage() {
+      const roll1 = rollDie(100);
+      const roll2 = rollDie(100);
+      const result = Math.max(roll1, roll2);
+      const message = `Disadvantage: [${roll1}, ${roll2}] → ${result}`;
+      showRoll(message);
+      addToHistory(message);
+    }
+
+    function rollStatCheck(statId) {
+      const statValue = toInt($(statId).value);
+      if (statValue === 0) {
+        alert(`Please set your ${statId.toUpperCase()} value first!`);
+        return;
+      }
+
+      const roll = rollDie(100);
+      const success = roll <= statValue;
+      const statName = statId.charAt(0).toUpperCase() + statId.slice(1);
+      const resultText = success ? "SUCCESS" : "FAILURE";
+      const message = `${statName} Check: ${roll} vs ${statValue} → ${resultText}`;
+
+      showRoll(message, success ? 'success' : 'failure');
+      addToHistory(message);
+    }
+
+    // --------- Preset Loading ----------
+    async function loadPresetsManifest() {
+      try {
+        const response = await fetch('presets.json');
+        if (!response.ok) {
+          throw new Error('presets.json not found');
+        }
+        const presets = await response.json();
+        const container = $("presetList");
+        container.innerHTML = '';
+
+        presets.forEach(preset => {
+          const btn = document.createElement('button');
+          btn.className = 'presetBtn';
+          btn.innerHTML = `
+            <div class="name">${preset.name}</div>
+            <div class="desc">${preset.description}</div>
+          `;
+          btn.addEventListener("click", () => loadPreset(preset.file));
+          container.appendChild(btn);
+        });
+      } catch (error) {
+        const container = $("presetList");
+        container.innerHTML = '<p style="color:var(--text-muted);text-align:center;">No presets available.</p>';
+      }
+    }
+
+    function openPresetModal() {
+      $("presetModal").classList.add("show");
+      loadPresetsManifest();
+    }
+
+    function closePresetModal() {
+      $("presetModal").classList.remove("show");
+    }
+
+    async function loadPreset(filename) {
+      try {
+        const response = await fetch(filename);
+        if (!response.ok) {
+          throw new Error(`Failed to load preset: ${response.statusText}`);
+        }
+        const data = await response.json();
+        apply(data);
+        save();
+        closePresetModal();
+        alert(`Preset loaded: ${data.name || 'Unknown'}`);
+      } catch (error) {
+        alert(`Error loading preset: ${error.message}`);
+      }
+    }
+
+    // --------- Wire Up Events ----------
+    function wire() {
+      // Autosave with debounce
+      for (const el of allFields()) {
+        el.addEventListener("input", () => {
+          debouncedSave();
+
+          // Check critical conditions on health/stress changes
+          if (['health', 'healthMax', 'stress', 'stressMax'].includes(el.id)) {
+            checkCriticalConditions();
+          }
+        });
+        el.addEventListener("change", () => {
+          save();
+          if (el.type === "checkbox") {
+            updateWoundStyles();
+            updateSkillStyles();
+          }
+        });
+      }
+
+      // Stat validation
+      const statInputs = ['strength', 'speed', 'intellect', 'combat', 'sanity', 'fear', 'body'];
+      statInputs.forEach(id => {
+        const input = $(id);
+        if (input) {
+          input.addEventListener('blur', () => validateStatInput(input));
+        }
+      });
+
+      // Basic dice roller buttons
+      document.querySelectorAll('.diceBtn').forEach(btn => {
+        btn.addEventListener("click", () => {
+          const die = btn.dataset.die;
+          const sides = parseInt(die.substring(1));
+          const result = rollDie(sides);
+          const message = `${die}: ${result}`;
+          showRoll(message);
+          addToHistory(message);
+        });
+      });
+
+      // Enhanced dice roller
+      $("btnRollMultiple").addEventListener("click", rollMultipleDice);
+      $("btnAdvantage").addEventListener("click", rollAdvantage);
+      $("btnDisadvantage").addEventListener("click", rollDisadvantage);
+
+      // Quick stat check buttons
+      document.querySelectorAll('.statCheckBtn').forEach(btn => {
+        btn.addEventListener("click", () => {
+          const stat = btn.dataset.stat;
+          rollStatCheck(stat);
+        });
+      });
+
+      $("btnLoadPreset").addEventListener("click", openPresetModal);
+      $("btnClosePreset").addEventListener("click", closePresetModal);
+      $("presetModal").addEventListener("click", (e) => {
+        if (e.target === $("presetModal")) closePresetModal();
+      });
+
+      $("btnPrint").addEventListener("click", () => window.print());
+      $("btnExport").addEventListener("click", exportJSON);
+      $("btnImport").addEventListener("click", () => $("fileInput").click());
+      $("fileInput").addEventListener("change", (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (f) importJSON(f);
+        e.target.value = "";
+      });
+
+      $("btnReset").addEventListener("click", () => {
+        if (!confirm("Reset this character sheet?")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        for (const el of allFields()) {
+          if (el.type === "checkbox") {
+            el.checked = false;
+          } else {
+            el.value = "";
+          }
+        }
+        updateWoundStyles();
+        updateSkillStyles();
+        save();
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        // Ctrl/Cmd + S: Manual save
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+          e.preventDefault();
+          save();
+          showSaveIndicator();
+        }
+        // Ctrl/Cmd + E: Export
+        if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+          e.preventDefault();
+          exportJSON();
+        }
+        // Ctrl/Cmd + P: Print (browser default, but we can trigger it)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+          // Let browser handle this one
+        }
+      });
+    }
+
+    // Init
+    wire();
+    load();
+    updateWoundStyles();
+    updateSkillStyles();
+    checkCriticalConditions();
+  </script>
+</body>
+</html>

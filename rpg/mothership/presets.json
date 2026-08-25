@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Teamster",
+    "description": "Tough worker who keeps ships and stations running. Strong, practical, and good with machinery.",
+    "file": "preset-teamster.json"
+  },
+  {
+    "name": "Scientist",
+    "description": "Brilliant researcher seeking knowledge in the void. High intellect, trained in medical and computer skills.",
+    "file": "preset-scientist.json"
+  },
+  {
+    "name": "Marine",
+    "description": "Disciplined soldier trained for combat. Excels in firearms, tactics, and keeping the crew alive.",
+    "file": "preset-marine.json"
+  },
+  {
+    "name": "Android",
+    "description": "Synthetic being with logical mind and resilient frame. Superior fear saves but limited stress capacity.",
+    "file": "preset-android.json"
+  }
+]
