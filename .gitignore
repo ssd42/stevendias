@@ -19,3 +19,8 @@ demos/awrgroup-concepts/Images_from_sites/
 
 # Playwright MCP scratch output
 .playwright-mcp/
+
+# Local credentials / env (never commit)
+.env
+.env.*
+!.env.example
