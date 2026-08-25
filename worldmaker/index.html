@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cartographer's Parchment</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand__title">Cartographer's Parchment</div>
+        <div class="brand__subtitle">Craft your realm upon aged vellum</div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolgroup">
+        <div class="toolgroup__label">Terrain</div>
+          <button class="toolbtn" data-tool="land" title="Shade landmass">Shade</button>
+          <button class="toolbtn" data-tool="water" title="Mark water regions">Water</button>
+          <button class="toolbtn" data-tool="ocean" title="Deep seas">Depths</button>
+        </div>
+
+        <div class="toolgroup">
+          <div class="toolgroup__label">Marks</div>
+          <button class="toolbtn" data-tool="icon_city" title="Place settlement">City</button>
+          <button class="toolbtn" data-tool="icon_mountain" title="Mark peaks">Peak</button>
+          <button class="toolbtn" data-tool="icon_forest" title="Draw woods">Woods</button>
+          <button class="toolbtn" data-tool="icon_castle" title="Place fortress">Keep</button>
+          <button class="toolbtn" data-tool="icon_ruins" title="Ancient ruins">Ruins</button>
+        </div>
+
+        <div class="toolgroup">
+          <div class="toolgroup__label">Paths</div>
+          <button class="toolbtn" data-tool="road" title="Draw roads and trails">Road</button>
+        </div>
+
+        <div class="toolgroup">
+          <div class="toolgroup__label">Size</div>
+          <input id="sizeSlider" type="range" min="4" max="90" value="28" />
+          <div id="sizeValue" class="smallvalue">28</div>
+        </div>
+
+        <div class="toolgroup">
+          <div class="toolgroup__label">Actions</div>
+          <button id="undoBtn" class="actionbtn" title="Undo last action">Undo</button>
+          <button id="clearBtn" class="actionbtn" title="Clear everything">Clear</button>
+          <button id="exportBtn" class="actionbtn primary" title="Export PNG">Export PNG</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="stage">
+        <div class="stage__hint" id="hint">
+          Terrain: click vertices to draw region, double-click or Enter to fill • Marks: click to place • Paths: click points, double-click/Enter to finish • Esc to cancel
+        </div>
+
+        <div class="canvasWrap" id="canvasWrap">
+          <canvas id="baseCanvas"></canvas>
+          <canvas id="overlayCanvas"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__left">
+        Cartographer's note: Draw regions by placing vertices. Close shape with double-click or <kbd>Enter</kbd>.
+      </div>
+      <div class="footer__right" id="status">
+        Current: <span id="statusTool">Shade</span>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
