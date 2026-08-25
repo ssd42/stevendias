@@ -16,3 +16,6 @@ blog-ideas.md
 # AWR raw client photography (1.1GB of originals — web-sized copies live in
 # demos/awrgroup-assets/web/projects/)
 demos/awrgroup-concepts/Images_from_sites/
+
+# Playwright MCP scratch output
+.playwright-mcp/
