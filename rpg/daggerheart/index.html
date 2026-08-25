@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daggerheart Character Sheet (Unofficial)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Official Daggerheart colors */
+      --dh-purple: #6946A6;
+      --dh-purple-dark: #4a3175;
+      --dh-purple-light: #8a6bc4;
+      --dh-teal: #007581;
+      --dh-teal-dark: #005a63;
+      --dh-teal-light: #1a9aa8;
+
+      --parchment-light: #faf8f5;
+      --parchment: #f0ebe3;
+      --parchment-dark: #e0d8cc;
+      --ink: #2d2a3e;
+      --ink-light: #4a465c;
+      --muted: #7a7588;
+      --border: #c4bfb3;
+      --border-dark: #9a9488;
+
+      --hope: #2d8659;
+      --hope-light: #3da76e;
+      --fear: #a63c3c;
+      --stress: #c4783c;
+
+      --shadow: 0 4px 12px rgba(45, 42, 62, 0.12);
+      --shadow-heavy: 0 6px 20px rgba(45, 42, 62, 0.2);
+      --r:6px;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: 'Crimson Text', Georgia, serif;
+      --display: 'Cinzel', serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      font-size:16px;
+      background:
+        linear-gradient(135deg, rgba(105,70,166,0.03) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(0,117,129,0.03) 0%, transparent 50%),
+        linear-gradient(180deg, var(--parchment-light), var(--parchment-dark));
+      color:var(--ink);
+      min-height:100vh;
+    }
+    a{color:var(--dh-teal);text-decoration-thickness:1px}
+    .wrap{max-width:1400px;margin:0 auto;padding:24px 20px 50px}
+
+    header{
+      display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+      margin-bottom:24px;
+      padding-bottom:20px;
+      border-bottom:3px solid var(--dh-purple);
+      position:relative;
+    }
+    header::after {
+      content: '';
+      position:absolute;
+      bottom:-3px;
+      left:0;
+      width:120px;
+      height:3px;
+      background:var(--dh-teal);
+    }
+    .title h1{
+      margin:0;
+      font-family:var(--display);
+      font-size:32px;
+      letter-spacing:1px;
+      color:var(--dh-purple);
+      font-weight:700;
+    }
+    .title p{margin:8px 0 0;color:var(--muted);font-size:15px;font-style:italic}
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;
+    }
+    button{
+      border:2px solid var(--border-dark);
+      background:white;
+      color:var(--ink);
+      padding:10px 16px;
+      border-radius:var(--r);
+      cursor:pointer;
+      font-size:14px;
+      font-family:var(--display);
+      font-weight:600;
+      box-shadow:var(--shadow);
+      display:inline-flex;gap:8px;align-items:center;
+      transition:all 0.2s ease;
+    }
+    button:hover{
+      border-color:var(--dh-purple);
+      box-shadow:var(--shadow-heavy);
+    }
+    button:active{transform:translateY(1px)}
+    button.primary{
+      border-color:var(--dh-purple);
+      background:var(--dh-purple);
+      color:white;
+    }
+    button.primary:hover{background:var(--dh-purple-dark)}
+    button.danger{border-color:var(--fear);color:var(--fear)}
+    .pill{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--border);
+      background:white;
+      padding:4px 10px;
+      border-radius:999px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:20px;
+    }
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 18px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      background:linear-gradient(90deg, rgba(105,70,166,0.08), rgba(0,117,129,0.05));
+    }
+    .card .hd h2{
+      margin:0;
+      font-family:var(--display);
+      font-size:16px;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+      color:var(--dh-purple);
+      font-weight:700;
+    }
+    .card .hd .small{font-size:12px;color:var(--muted)}
+    .card .bd{padding:18px}
+
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{
+      font-size:11px;
+      color:var(--ink-light);
+      letter-spacing:1px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-family:var(--display);
+    }
+    input[type="text"], input[type="number"], textarea, select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:var(--r);
+      border:1px solid var(--border);
+      background:var(--parchment-light);
+      color:var(--ink);
+      outline:none;
+      font-family:var(--sans);
+      font-size:15px;
+      transition:all 0.2s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus{
+      border-color:var(--dh-teal);
+      background:white;
+      box-shadow:0 0 0 3px rgba(0,117,129,0.15);
+    }
+    input[type="number"]{font-family:var(--mono);font-weight:600}
+    textarea{min-height:80px;resize:vertical;line-height:1.5}
+    .small{font-size:13px;color:var(--muted);font-style:italic}
+
+    /* Vitals Grid */
+    .vitalsGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    @media (max-width:720px){ .vitalsGrid{grid-template-columns:repeat(2,1fr)} }
+
+    .vitalBox{
+      border:2px solid var(--dh-purple);
+      background:linear-gradient(135deg, rgba(105,70,166,0.06), white);
+      border-radius:var(--r);
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      text-align:center;
+    }
+    .vitalBox label{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:var(--dh-purple);
+      font-weight:700;
+      font-family:var(--display);
+    }
+    .vitalBox input{
+      font-size:28px;
+      font-weight:700;
+      text-align:center;
+      padding:8px;
+      background:white;
+      border:1px solid var(--border);
+      color:var(--dh-purple);
+    }
+    .vitalBox.hope{border-color:var(--hope);background:linear-gradient(135deg, rgba(45,134,89,0.08), white)}
+    .vitalBox.hope label, .vitalBox.hope input{color:var(--hope)}
+    .vitalBox.teal{border-color:var(--dh-teal);background:linear-gradient(135deg, rgba(0,117,129,0.08), white)}
+    .vitalBox.teal label, .vitalBox.teal input{color:var(--dh-teal)}
+
+    /* Stress Slots */
+    .stressTrack{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px;
+      border:2px solid var(--stress);
+      background:linear-gradient(135deg, rgba(196,120,60,0.08), white);
+      border-radius:var(--r);
+      margin-top:12px;
+    }
+    .stressTrack .label{
+      font-size:11px;
+      font-weight:700;
+      font-family:var(--display);
+      color:var(--stress);
+      letter-spacing:1px;
+      text-transform:uppercase;
+      min-width:60px;
+    }
+    .stressSlots{display:flex;gap:8px;flex-wrap:wrap}
+    .stressSlots input[type="checkbox"]{
+      width:28px;height:28px;
+      cursor:pointer;
+      accent-color:var(--stress);
+    }
+
+    /* Damage Box */
+    .damageBox{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:12px;
+      border:2px solid var(--fear);
+      background:linear-gradient(135deg, rgba(166,60,60,0.06), white);
+      border-radius:var(--r);
+      margin-top:12px;
+    }
+    .damageBox label{font-family:var(--display);font-size:11px;color:var(--fear);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+    .damageBox input{
+      width:70px;
+      text-align:center;
+      font-size:16px;
+      font-weight:700;
+      font-family:var(--mono);
+      color:var(--fear);
+      background:white;
+    }
+    .damageBox button{flex:1;justify-content:center;font-size:13px;padding:8px 12px}
+
+    /* Traits */
+    .traitGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    @media (max-width:720px){ .traitGrid{grid-template-columns:repeat(2,1fr)} }
+
+    .trait{
+      border:2px solid var(--dh-teal);
+      background:white;
+      border-radius:var(--r);
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      align-items:center;
+      position:relative;
+    }
+    .trait .name{
+      font-weight:700;
+      font-family:var(--display);
+      letter-spacing:1px;
+      font-size:11px;
+      text-transform:uppercase;
+      color:var(--dh-teal);
+    }
+    .trait .modDisplay{
+      font-family:var(--mono);
+      font-size:36px;
+      font-weight:700;
+      line-height:1;
+      color:var(--ink);
+    }
+    .trait .scoreInput{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:var(--ink-light);
+      font-family:var(--display);
+    }
+    .trait .scoreInput input{
+      width:50px;
+      padding:6px;
+      text-align:center;
+      font-size:14px;
+    }
+    .trait .expInput{width:100%;margin-top:4px}
+    .trait .expInput input{
+      width:100%;
+      padding:6px 8px;
+      font-size:11px;
+      background:var(--parchment-light);
+    }
+    .trait .expLabel{
+      font-size:9px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      font-family:var(--display);
+    }
+
+    .twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .threeCol{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    @media (max-width:720px){ .twoCol, .threeCol{grid-template-columns:1fr} }
+
+    /* Domain Cards */
+    .domainCards{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    @media (max-width:720px){ .domainCards{grid-template-columns:1fr} }
+    .domainCard{
+      border:1px solid var(--dh-purple);
+      border-left:4px solid var(--dh-purple);
+      background:linear-gradient(90deg, rgba(105,70,166,0.04), white);
+      border-radius:var(--r);
+      padding:10px 12px;
+    }
+    .domainCard input{
+      background:transparent;
+      border:none;
+      padding:4px 0;
+      font-size:14px;
+    }
+    .domainCard input:focus{
+      background:white;
+      border:1px solid var(--border);
+      padding:4px 8px;
+      margin:-1px -8px;
+      width:calc(100% + 16px);
+    }
+    .domainCard .cardLabel{
+      font-size:9px;
+      color:var(--dh-purple);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-family:var(--display);
+      font-weight:600;
+    }
+
+    /* Inventory */
+    .inventorySlots{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+    }
+    @media (max-width:500px){ .inventorySlots{grid-template-columns:1fr} }
+    .invSlot{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:4px 8px;
+      border:1px solid var(--border);
+      background:var(--parchment-light);
+      border-radius:var(--r);
+    }
+    .invSlot .num{
+      font-family:var(--mono);
+      font-size:10px;
+      color:var(--muted);
+      min-width:18px;
+      font-weight:600;
+    }
+    .invSlot input{
+      flex:1;
+      padding:6px;
+      font-size:12px;
+      min-width:0;
+      background:white;
+    }
+
+    /* Thresholds */
+    .thresholds{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .threshold{
+      text-align:center;
+      padding:10px;
+      border-radius:var(--r);
+      border:1px solid var(--border);
+      background:var(--parchment-light);
+    }
+    .threshold.minor{border-color:#7ab38a;background:rgba(122,179,138,0.1)}
+    .threshold.major{border-color:#c4a43c;background:rgba(196,164,60,0.1)}
+    .threshold.severe{border-color:#c46a5c;background:rgba(196,106,92,0.1)}
+    .threshold .thLabel{
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-family:var(--display);
+      font-weight:600;
+      color:var(--ink-light);
+      margin-bottom:4px;
+    }
+    .threshold input{
+      width:60px;
+      text-align:center;
+      font-size:18px;
+      font-weight:700;
+      font-family:var(--mono);
+      padding:6px;
+    }
+
+    .footerNote{
+      margin-top:20px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+      font-style:italic;
+      text-align:center;
+    }
+
+    @media print{
+      body{background:white}
+      .wrap{padding:12px}
+      header, .toolbar, .footerNote, .damageBox{display:none !important}
+      .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Daggerheart <span class="pill">unofficial</span></h1>
+        <p>Character sheet with autosave</p>
+      </div>
+      <div class="toolbar">
+        <a href="rules.html" style="text-decoration:none"><button type="button">Rules</button></a>
+        <button class="primary" id="btnPrint">Print</button>
+        <button id="btnExport">Export</button>
+        <button id="btnImport">Import</button>
+        <button class="danger" id="btnReset">Reset</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- IDENTITY -->
+      <section class="card">
+        <div class="hd">
+          <h2>Identity</h2>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="field" style="grid-column: span 8;">
+              <label for="name">Character Name</label>
+              <input id="name" type="text" placeholder="e.g., Brightwind" />
+            </div>
+            <div class="field" style="grid-column: span 4;">
+              <label for="pronouns">Pronouns</label>
+              <input id="pronouns" type="text" placeholder="they/them" />
+            </div>
+
+            <div class="field" style="grid-column: span 4;">
+              <label for="level">Level</label>
+              <input id="level" type="number" step="1" min="1" max="10" placeholder="1" />
+            </div>
+            <div class="field" style="grid-column: span 4;">
+              <label for="class">Class</label>
+              <input id="class" type="text" placeholder="Guardian, Bard..." />
+            </div>
+            <div class="field" style="grid-column: span 4;">
+              <label for="subclass">Subclass</label>
+              <input id="subclass" type="text" placeholder="Stalwart..." />
+            </div>
+
+            <div class="field" style="grid-column: span 6;">
+              <label for="ancestry">Ancestry</label>
+              <input id="ancestry" type="text" placeholder="What you are" />
+            </div>
+            <div class="field" style="grid-column: span 6;">
+              <label for="community">Community</label>
+              <input id="community" type="text" placeholder="Where you're from" />
+            </div>
+
+            <div class="field" style="grid-column: span 12;">
+              <label for="background">Background</label>
+              <textarea id="background" placeholder="Your character's history, motivations, and story..." rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VITALS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Vitals</h2>
+        </div>
+        <div class="bd">
+          <div class="vitalsGrid">
+            <div class="vitalBox">
+              <label for="hpCur">HP Current</label>
+              <input id="hpCur" type="number" step="1" />
+            </div>
+            <div class="vitalBox">
+              <label for="hpMax">HP Max</label>
+              <input id="hpMax" type="number" step="1" />
+            </div>
+            <div class="vitalBox hope">
+              <label for="hope">Hope</label>
+              <input id="hope" type="number" step="1" min="0" />
+            </div>
+            <div class="vitalBox teal">
+              <label for="armor">Armor</label>
+              <input id="armor" type="number" step="1" />
+            </div>
+            <div class="vitalBox teal">
+              <label for="evasion">Evasion</label>
+              <input id="evasion" type="number" step="1" />
+            </div>
+            <div class="vitalBox teal">
+              <label for="proficiency">Proficiency</label>
+              <input id="proficiency" type="number" step="1" />
+            </div>
+          </div>
+
+          <div class="thresholds">
+            <div class="threshold minor">
+              <div class="thLabel">Minor</div>
+              <input id="thresholdMinor" type="number" step="1" placeholder="HP/2" />
+            </div>
+            <div class="threshold major">
+              <div class="thLabel">Major</div>
+              <input id="thresholdMajor" type="number" step="1" placeholder="3/4" />
+            </div>
+            <div class="threshold severe">
+              <div class="thLabel">Severe</div>
+              <input id="thresholdSevere" type="number" step="1" placeholder="Max" />
+            </div>
+          </div>
+
+          <div class="stressTrack">
+            <div class="label">Stress</div>
+            <div class="stressSlots">
+              <input type="checkbox" id="stress1" />
+              <input type="checkbox" id="stress2" />
+              <input type="checkbox" id="stress3" />
+              <input type="checkbox" id="stress4" />
+              <input type="checkbox" id="stress5" />
+              <input type="checkbox" id="stress6" />
+            </div>
+          </div>
+
+          <div class="damageBox">
+            <label for="dmgInput">Damage</label>
+            <input id="dmgInput" type="number" step="1" min="0" placeholder="0" />
+            <button id="btnApplyDmg">Take</button>
+            <button id="btnHeal">Heal</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRAITS -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Traits & Experiences</h2>
+          <div class="small">Your six core traits</div>
+        </div>
+        <div class="bd">
+          <div class="traitGrid" id="traitGrid">
+            <!-- Traits injected by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- HERITAGE FEATURES -->
+      <section class="card">
+        <div class="hd">
+          <h2>Heritage Features</h2>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label for="ancestryFeature">Ancestry Feature</label>
+            <textarea id="ancestryFeature" placeholder="Your ancestry's special ability..." rows="2"></textarea>
+          </div>
+          <div style="height:10px"></div>
+          <div class="field">
+            <label for="communityFeature">Community Feature</label>
+            <textarea id="communityFeature" placeholder="Your community's special ability..." rows="2"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLASS FEATURES -->
+      <section class="card">
+        <div class="hd">
+          <h2>Class Features</h2>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label for="foundationFeature">Foundation Feature</label>
+            <textarea id="foundationFeature" placeholder="Your class foundation ability..." rows="2"></textarea>
+          </div>
+          <div style="height:10px"></div>
+          <div class="field">
+            <label for="classFeatures">Other Class Features</label>
+            <textarea id="classFeatures" placeholder="Additional class abilities..." rows="3"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOMAIN CARDS -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Domain Cards</h2>
+          <div class="small">Abilities and spells from your domains</div>
+        </div>
+        <div class="bd">
+          <div class="field" style="margin-bottom:12px">
+            <label for="domains">Domains</label>
+            <input id="domains" type="text" placeholder="e.g., Arcana, Blade, Grace, Midnight..." />
+          </div>
+          <div class="domainCards">
+            <div class="domainCard">
+              <div class="cardLabel">Card 1</div>
+              <input id="card1" type="text" placeholder="Domain card name & effect..." />
+            </div>
+            <div class="domainCard">
+              <div class="cardLabel">Card 2</div>
+              <input id="card2" type="text" placeholder="Domain card name & effect..." />
+            </div>
+            <div class="domainCard">
+              <div class="cardLabel">Card 3</div>
+              <input id="card3" type="text" placeholder="Domain card name & effect..." />
+            </div>
+            <div class="domainCard">
+              <div class="cardLabel">Card 4</div>
+              <input id="card4" type="text" placeholder="Domain card name & effect..." />
+            </div>
+            <div class="domainCard">
+              <div class="cardLabel">Card 5</div>
+              <input id="card5" type="text" placeholder="Domain card name & effect..." />
+            </div>
+            <div class="domainCard">
+              <div class="cardLabel">Card 6</div>
+              <input id="card6" type="text" placeholder="Domain card name & effect..." />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WEAPONS -->
+      <section class="card">
+        <div class="hd">
+          <h2>Weapons</h2>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label for="primaryWeapon">Primary Weapon</label>
+            <input id="primaryWeapon" type="text" placeholder="Name, damage, range, traits..." />
+          </div>
+          <div style="height:10px"></div>
+          <div class="field">
+            <label for="secondaryWeapon">Secondary Weapon</label>
+            <input id="secondaryWeapon" type="text" placeholder="Name, damage, range, traits..." />
+          </div>
+          <div style="height:10px"></div>
+          <div class="field">
+            <label for="armorWorn">Armor Worn</label>
+            <input id="armorWorn" type="text" placeholder="Armor type, features..." />
+          </div>
+        </div>
+      </section>
+
+      <!-- INVENTORY -->
+      <section class="card">
+        <div class="hd">
+          <h2>Inventory</h2>
+        </div>
+        <div class="bd">
+          <div class="twoCol" style="margin-bottom:12px">
+            <div class="field">
+              <label for="gold">Gold</label>
+              <input id="gold" type="number" step="1" min="0" placeholder="0" />
+            </div>
+            <div class="field">
+              <label for="handfuls">Handfuls</label>
+              <input id="handfuls" type="number" step="1" min="0" placeholder="0" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Items</label>
+            <div class="inventorySlots" id="inventorySlots">
+              <!-- Generated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONNECTIONS -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <div class="hd">
+          <h2>Connections & Notes</h2>
+        </div>
+        <div class="bd">
+          <div class="twoCol">
+            <div class="field">
+              <label for="connections">Party Connections</label>
+              <textarea id="connections" placeholder="Your bonds with other party members..." rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="notes">Session Notes</label>
+              <textarea id="notes" placeholder="Important events, goals, discoveries..." rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="footerNote">
+      Unofficial Daggerheart fan tool. Autosaves to your browser.
+    </p>
+  </div>
+
+  <input id="fileInput" type="file" accept="application/json" style="display:none" />
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const toInt = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? Math.trunc(n) : 0;
+    };
+    const fmtMod = (m) => (m >= 0 ? `+${m}` : `${m}`);
+
+    // Build Trait UI
+    const TRAITS = [
+      { key: "agility", label: "Agility" },
+      { key: "strength", label: "Strength" },
+      { key: "finesse", label: "Finesse" },
+      { key: "instinct", label: "Instinct" },
+      { key: "presence", label: "Presence" },
+      { key: "knowledge", label: "Knowledge" },
+    ];
+
+    const traitGrid = $("traitGrid");
+    for (const t of TRAITS) {
+      const wrap = document.createElement("div");
+      wrap.className = "trait";
+      wrap.innerHTML = `
+        <div class="name">${t.label}</div>
+        <div class="modDisplay" id="${t.key}Mod">+0</div>
+        <div class="scoreInput">
+          <span>Mod:</span>
+          <input id="${t.key}" type="number" step="1" min="-5" max="10" placeholder="0" />
+        </div>
+        <div class="expInput">
+          <div class="expLabel">Experience</div>
+          <input id="${t.key}Exp" type="text" placeholder="e.g., ${t.label === 'Agility' ? 'Acrobatics, Stealth' : t.label === 'Strength' ? 'Athletics, Lifting' : t.label === 'Finesse' ? 'Sleight of Hand' : t.label === 'Instinct' ? 'Perception, Survival' : t.label === 'Presence' ? 'Persuasion, Performance' : 'Lore, Arcana'}..." />
+        </div>
+      `;
+      traitGrid.appendChild(wrap);
+    }
+
+    // Build Inventory Slots
+    const invGrid = $("inventorySlots");
+    const INV_SLOTS = 12;
+    for (let i = 1; i <= INV_SLOTS; i++) {
+      const slot = document.createElement("div");
+      slot.className = "invSlot";
+      slot.innerHTML = `
+        <div class="num">${i}.</div>
+        <input id="inv${i}" type="text" placeholder="Item..." />
+      `;
+      invGrid.appendChild(slot);
+    }
+
+    // Autosave
+    const STORAGE_KEY = "daggerheart_sheet_v1";
+
+    const allFields = () => {
+      const nodes = document.querySelectorAll("input, textarea, select");
+      return Array.from(nodes).filter(n => n.id && n.type !== "file" && n.type !== "checkbox");
+    };
+
+    const allCheckboxes = () => {
+      return Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(n => n.id);
+    };
+
+    function serialize() {
+      const data = {};
+      for (const el of allFields()) {
+        if (el.type === "number") {
+          data[el.id] = el.value === "" ? "" : toInt(el.value);
+        } else {
+          data[el.id] = el.value ?? "";
+        }
+      }
+      for (const cb of allCheckboxes()) {
+        data[cb.id] = cb.checked;
+      }
+      return data;
+    }
+
+    function apply(data) {
+      for (const el of allFields()) {
+        if (!(el.id in data)) continue;
+        const v = data[el.id];
+        el.value = (v === null || v === undefined) ? "" : String(v);
+      }
+      for (const cb of allCheckboxes()) {
+        if (cb.id in data) {
+          cb.checked = !!data[cb.id];
+        }
+      }
+      recalcAll();
+    }
+
+    function save() {
+      const data = serialize();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function load() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        apply(JSON.parse(raw));
+      } catch { }
+    }
+
+    // Calculations
+    function recalcTraits() {
+      for (const t of TRAITS) {
+        const mod = toInt($(t.key).value || 0);
+        const modEl = $(t.key + "Mod");
+        modEl.textContent = fmtMod(mod);
+      }
+    }
+
+    function recalcAll() {
+      recalcTraits();
+      save();
+    }
+
+    // Damage / Heal
+    function applyDamage() {
+      const dmg = toInt($("dmgInput").value || 0);
+      if (dmg <= 0) return;
+      const armor = toInt($("armor").value || 0);
+      const actualDmg = Math.max(0, dmg - armor);
+      const cur = toInt($("hpCur").value || 0);
+      $("hpCur").value = String(Math.max(0, cur - actualDmg));
+      $("dmgInput").value = "";
+      recalcAll();
+    }
+
+    function healDamage() {
+      const heal = toInt($("dmgInput").value || 0);
+      if (heal <= 0) return;
+      const cur = toInt($("hpCur").value || 0);
+      const max = toInt($("hpMax").value || 0);
+      $("hpCur").value = String(Math.min(max, cur + heal));
+      $("dmgInput").value = "";
+      recalcAll();
+    }
+
+    // Export / Import
+    function exportJSON() {
+      const data = serialize();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = (data.name ? `${data.name}` : "daggerheart-character") + ".json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          apply(data);
+          save();
+        } catch {
+          alert("Invalid JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Wire Events
+    function wire() {
+      for (const el of allFields()) {
+        el.addEventListener("input", recalcAll);
+      }
+      for (const cb of allCheckboxes()) {
+        cb.addEventListener("change", save);
+      }
+
+      $("btnApplyDmg").addEventListener("click", applyDamage);
+      $("btnHeal").addEventListener("click", healDamage);
+      $("dmgInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") applyDamage();
+      });
+
+      $("btnPrint").addEventListener("click", () => window.print());
+      $("btnExport").addEventListener("click", exportJSON);
+      $("btnImport").addEventListener("click", () => $("fileInput").click());
+      $("fileInput").addEventListener("change", (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (f) importJSON(f);
+        e.target.value = "";
+      });
+
+      $("btnReset").addEventListener("click", () => {
+        if (!confirm("Reset this character sheet?")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        for (const el of allFields()) el.value = "";
+        for (const cb of allCheckboxes()) cb.checked = false;
+        recalcAll();
+      });
+    }
+
+    // Init
+    wire();
+    load();
+    recalcAll();
+  </script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daggerheart Comprehensive Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --dh-purple: #6946A6; --dh-teal: #007581; --parchment: #f0ebe3; --ink: #2d2a3e;
+      --hope: #2d8659; --fear: #a63c3c; --stress: #c4783c; --r:8px;
+      --sans: 'Crimson Text', serif; --display: 'Cinzel', serif; --mono: 'Courier New', monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:var(--sans); font-size:18px; background:linear-gradient(180deg, #faf8f5, #e0d8cc); color:var(--ink); line-height:1.6;}
+    .wrap{max-width:1400px; margin:0 auto; padding:24px}
+    .backLink{display:inline-block; margin-bottom:16px; color:var(--dh-teal); text-decoration:none; font-family:var(--display); font-size:15px}
+    .backLink:hover{text-decoration:underline}
+    header{text-align:center; border-bottom:4px solid var(--dh-purple); margin-bottom:24px; padding-bottom:16px; position:relative}
+    header::after{content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); width:180px; height:4px; background:var(--dh-teal)}
+    header h1{font-family:var(--display); margin:0; color:var(--dh-purple); font-size:42px}
+    header p{margin:10px 0 0; color:#7a7588; font-style:italic; font-size:18px}
+    .grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap:20px;}
+    .card{background:white; border:1px solid #c4bfb3; border-radius:var(--r); box-shadow:0 3px 12px rgba(0,0,0,0.1); overflow:hidden;}
+    .card.full{grid-column: 1 / -1}
+    .hd{padding:14px 20px; background:linear-gradient(90deg, rgba(105,70,166,0.12), transparent); border-bottom:1px solid #c4bfb3;}
+    .hd h2{margin:0; font-family:var(--display); font-size:18px; color:var(--dh-purple); text-transform:uppercase; letter-spacing:1.5px}
+    .bd{padding:20px}
+    h3{font-family:var(--display); font-size:16px; color:var(--dh-teal); margin:16px 0 8px; border-bottom:1px solid #eee; padding-bottom:4px}
+    h3:first-child{margin-top:0}
+    .tag{display:inline-block; padding:3px 10px; border-radius:4px; font-size:14px; font-weight:700; font-family:var(--display); margin-bottom:4px}
+    .tag.hope{background:rgba(45,134,89,0.15); color:var(--hope)}
+    .tag.fear{background:rgba(166,60,60,0.15); color:var(--fear)}
+    .tag.stress{background:rgba(196,120,60,0.15); color:var(--stress)}
+    .tag.purple{background:rgba(105,70,166,0.15); color:var(--dh-purple)}
+    .tag.teal{background:rgba(0,117,129,0.15); color:var(--dh-teal)}
+    .table{width:100%; border-collapse:collapse; font-size:16px; margin:12px 0}
+    .table th, .table td{padding:10px 12px; border:1px solid #ddd; text-align:left}
+    .table th{background:#f9f9f9; font-family:var(--display); font-size:12px; text-transform:uppercase; letter-spacing:0.5px}
+    .twoCol{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    @media(max-width:700px){.twoCol{grid-template-columns:1fr}}
+    ul{padding-left:24px; margin:0 0 12px}
+    li{margin-bottom:6px; font-size:17px}
+    p{margin:0 0 12px}
+    .highlight{background:linear-gradient(90deg, rgba(105,70,166,0.1), transparent); border-left:5px solid var(--dh-purple); padding:14px 18px; margin:14px 0; border-radius:0 var(--r) var(--r) 0; font-size:17px}
+    .highlight.hope{border-left-color:var(--hope); background:rgba(45,134,89,0.1)}
+    .highlight.fear{border-left-color:var(--fear); background:rgba(166,60,60,0.1)}
+    .highlight.teal{border-left-color:var(--dh-teal); background:rgba(0,117,129,0.1)}
+    .highlight.stress{border-left-color:var(--stress); background:rgba(196,120,60,0.1)}
+    .dice{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-weight:700; font-size:18px; flex-wrap:wrap}
+    .dice .d12{display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; border-radius:6px; color:white; font-size:16px}
+    .dice .d12.hope-die{background:var(--hope)}
+    .dice .d12.fear-die{background:var(--fear)}
+    .formula{font-family:var(--mono); background:var(--parchment); padding:10px 16px; border-radius:var(--r); display:inline-block; margin:8px 0; font-size:16px; border:1px solid #c4bfb3}
+    footer{text-align:center; margin-top:28px; padding-top:20px; border-top:1px solid #c4bfb3; color:#7a7588; font-size:14px; font-style:italic}
+    @media print{body{background:white; font-size:14px} .backLink{display:none} .card{box-shadow:none; page-break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="index.html" class="backLink">&larr; Back to Character Sheet</a>
+
+    <header>
+      <h1>Daggerheart Comprehensive Reference</h1>
+      <p>Quick reference for players - keep this open during your session!</p>
+    </header>
+
+    <div class="grid">
+
+      <!-- CORE MECHANIC -->
+      <div class="card full">
+        <div class="hd"><h2>The Core Mechanic: Duality Dice</h2></div>
+        <div class="bd">
+          <p>Daggerheart uses <strong>two d12s</strong> called the <strong>Duality Dice</strong> - one <span class="tag hope">Hope Die</span> and one <span class="tag fear">Fear Die</span>.</p>
+          <div class="highlight">
+            <div class="dice">
+              <span class="d12 hope-die">d12</span>
+              <span>+</span>
+              <span class="d12 fear-die">d12</span>
+              <span>+ Trait Modifier (+ Proficiency if experienced)</span>
+            </div>
+          </div>
+          <div class="twoCol">
+            <div>
+              <h3>Hope Die Wins (or Tie)</h3>
+              <p><span class="tag hope">Hope Die</span> shows the higher number:</p>
+              <ul>
+                <li>You gain <strong>1 Hope</strong></li>
+                <li>You describe the outcome</li>
+                <li>Action resolves in your favor</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Fear Die Wins</h3>
+              <p><span class="tag fear">Fear Die</span> shows the higher number:</p>
+              <ul>
+                <li>GM gains <strong>1 Fear</strong></li>
+                <li>GM describes complications</li>
+                <li>You may still succeed, but with a cost</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight hope">
+            <strong>Critical Success:</strong> Rolling <strong>doubles</strong> (both dice show the same number) is a Critical! You succeed dramatically with extra benefits.
+          </div>
+        </div>
+      </div>
+
+      <!-- HOPE -->
+      <div class="card">
+        <div class="hd"><h2>Hope</h2></div>
+        <div class="bd">
+          <p><span class="tag hope">Hope</span> is your heroic currency - spend it to do incredible things!</p>
+          <h3>Gaining Hope</h3>
+          <ul>
+            <li>Roll with Hope die winning (or tie)</li>
+            <li>Roleplay your character's bonds/values</li>
+            <li>GM awards for great moments</li>
+          </ul>
+          <h3>Spending Hope</h3>
+          <ul>
+            <li><strong>1 Hope:</strong> Add +1d6 to any roll</li>
+            <li><strong>1 Hope:</strong> Aid an ally (give them Advantage)</li>
+            <li><strong>2+ Hope:</strong> Activate certain abilities</li>
+            <li><strong>Variable:</strong> Power domain cards</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FEAR -->
+      <div class="card">
+        <div class="hd"><h2>Fear (GM Resource)</h2></div>
+        <div class="bd">
+          <p><span class="tag fear">Fear</span> is the GM's resource to create tension.</p>
+          <h3>GM Gains Fear When...</h3>
+          <ul>
+            <li>A player rolls with Fear die winning</li>
+            <li>Certain story events occur</li>
+            <li>Players take major risks</li>
+          </ul>
+          <h3>GM Spends Fear To...</h3>
+          <ul>
+            <li>Activate enemy abilities</li>
+            <li>Interrupt player actions</li>
+            <li>Introduce complications</li>
+            <li>Make GM moves</li>
+          </ul>
+          <div class="highlight fear">
+            <strong>Action Tracker:</strong> Every roll adds a token. GM spends these to act with enemies. No "rounds" - just story flow.
+          </div>
+        </div>
+      </div>
+
+      <!-- STRESS -->
+      <div class="card">
+        <div class="hd"><h2>Stress</h2></div>
+        <div class="bd">
+          <p><span class="tag stress">Stress</span> represents mental and emotional strain.</p>
+          <h3>Gaining Stress</h3>
+          <ul>
+            <li>Witnessing traumatic events</li>
+            <li>Using certain powerful abilities</li>
+            <li>Some enemy attacks target Stress</li>
+            <li>Spell burns (failing with Fear)</li>
+          </ul>
+          <h3>Stress Slots</h3>
+          <p>You have <strong>6 Stress slots</strong>. When all 6 are marked, you gain a <strong>Scar</strong> and clear all Stress.</p>
+          <h3>Clearing Stress</h3>
+          <ul>
+            <li>Taking a Rest</li>
+            <li>Connecting with party members</li>
+            <li>Certain abilities and items</li>
+          </ul>
+          <div class="highlight stress">
+            <strong>Scars:</strong> Permanent marks of experience. May provide both benefits and complications.
+          </div>
+        </div>
+      </div>
+
+      <!-- ADVANTAGE / DISADVANTAGE - FIXED -->
+      <div class="card">
+        <div class="hd"><h2>Advantage & Disadvantage</h2></div>
+        <div class="bd">
+          <h3>Advantage</h3>
+          <p>Roll <strong>2d12 + 1d6</strong>. <strong>Add the d6 to your total</strong> (can reach up to 30!).</p>
+          <div class="formula">2d12 + 1d6 + Trait + Proficiency</div>
+          <h3>Disadvantage</h3>
+          <p>Roll <strong>2d12 + 1d6</strong>. <strong>Subtract the d6</strong> from your total.</p>
+          <div class="highlight teal">
+            <strong>Stacking:</strong> Multiple sources don't stack. If you have both advantage and disadvantage, they cancel out.
+          </div>
+        </div>
+      </div>
+
+      <!-- DIFFICULTY -->
+      <div class="card">
+        <div class="hd"><h2>Difficulty Targets (DC)</h2></div>
+        <div class="bd">
+          <table class="table">
+            <tr><th>Task</th><th>Target</th><th>Description</th></tr>
+            <tr><td>Easy</td><td>10</td><td>Standard professional task</td></tr>
+            <tr><td>Moderate</td><td>13-15</td><td>Challenging for an adventurer</td></tr>
+            <tr><td>Hard</td><td>17-19</td><td>Requires expertise or luck</td></tr>
+            <tr><td>Extreme</td><td>22+</td><td>Heroic, almost impossible</td></tr>
+          </table>
+          <h3>Experiences</h3>
+          <p>If you have a relevant <strong>Experience</strong>, add your <strong>Proficiency</strong> bonus to the roll automatically.</p>
+        </div>
+      </div>
+
+      <!-- DAMAGE & HP - FIXED -->
+      <div class="card">
+        <div class="hd"><h2>Health & Damage</h2></div>
+        <div class="bd">
+          <h3>Taking Damage</h3>
+          <ol style="padding-left:24px; margin:0 0 12px">
+            <li><strong>Optionally use Armor</strong> - Mark an Armor Slot to reduce damage by your Armor Score</li>
+            <li>Compare remaining damage to your <strong>Thresholds</strong> (written on your sheet)</li>
+            <li>Mark HP based on threshold hit</li>
+          </ol>
+          <table class="table">
+            <tr><th>Threshold</th><th>Damage Range</th><th>HP Marked</th></tr>
+            <tr><td><span class="tag teal">Minor</span></td><td>Below your Minor threshold</td><td>1 HP</td></tr>
+            <tr><td><span class="tag stress">Major</span></td><td>Meets/exceeds Minor, below Severe</td><td>2 HP</td></tr>
+            <tr><td><span class="tag fear">Severe</span></td><td>Meets/exceeds your Severe threshold</td><td>3 HP</td></tr>
+          </table>
+          <div class="highlight">
+            <strong>Armor Slots:</strong> Armor is a <em>resource</em>. You must <strong>mark an Armor Slot</strong> to apply your Armor Score. Once all slots are marked, you can't reduce damage until you rest.
+          </div>
+          <h3>At 0 HP (Death Moves)</h3>
+          <ul>
+            <li><strong>Avoid Death:</strong> Roll vs DC, success = mark a Scar</li>
+            <li><strong>Blaze of Glory:</strong> One final heroic action, then death</li>
+            <li><strong>Accept Death:</strong> Give remaining Hope to allies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CLASSES -->
+      <div class="card">
+        <div class="hd"><h2>Classes & Primary Traits</h2></div>
+        <div class="bd">
+          <table class="table">
+            <tr><th>Class</th><th>Primary Traits</th><th>Domains</th></tr>
+            <tr><td><strong>Bard</strong></td><td>Presence</td><td>Grace / Codex</td></tr>
+            <tr><td><strong>Druid</strong></td><td>Instinct</td><td>Arcana / Sage</td></tr>
+            <tr><td><strong>Guardian</strong></td><td>Strength</td><td>Blade / Bone</td></tr>
+            <tr><td><strong>Ranger</strong></td><td>Agility / Instinct</td><td>Bone / Sage</td></tr>
+            <tr><td><strong>Rogue</strong></td><td>Agility / Finesse</td><td>Midnight / Grace</td></tr>
+            <tr><td><strong>Seraph</strong></td><td>Presence</td><td>Splendor / Valor</td></tr>
+            <tr><td><strong>Sorcerer</strong></td><td>Presence</td><td>Arcana / Midnight</td></tr>
+            <tr><td><strong>Warrior</strong></td><td>Strength / Agility</td><td>Blade / Valor</td></tr>
+            <tr><td><strong>Wizard</strong></td><td>Knowledge</td><td>Arcana / Codex</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORIGINS -->
+      <div class="card">
+        <div class="hd"><h2>Origins: Ancestry & Community</h2></div>
+        <div class="bd">
+          <h3>Common Ancestries</h3>
+          <p>Clank, Daemon, Drakona, Dwarf, Elf, Faerie, Faun, Firbolg, Fungril, Galapa, Giant, Goblin, Halfling, Human, Inferis, Katari, Orc, Ribbet, Simiah.</p>
+          <h3>Communities</h3>
+          <ul>
+            <li><strong>Highborne:</strong> Nobility and high society</li>
+            <li><strong>Loreborne:</strong> Scholars and knowledge-seekers</li>
+            <li><strong>Orderborne:</strong> Military or religious orders</li>
+            <li><strong>Ridgeborne:</strong> Mountain and hill folk</li>
+            <li><strong>Seaborne:</strong> Coastal and seafaring</li>
+            <li><strong>Slyborne:</strong> Underworld and shadows</li>
+            <li><strong>Wanderborne:</strong> Nomads and travelers</li>
+            <li><strong>Wildborne:</strong> Forest and nature dwellers</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MAGIC -->
+      <div class="card">
+        <div class="hd"><h2>Magic & Spellcasting</h2></div>
+        <div class="bd">
+          <p>Spells are <strong>Domain Cards</strong>. You have a "Loadout" of active cards and a "Vault" for storage.</p>
+          <ul>
+            <li><strong>Spell Rolls:</strong> 2d12 + Trait vs Difficulty or Evasion</li>
+            <li><strong>Passive:</strong> Always active while in Loadout</li>
+            <li><strong>Active:</strong> Cost Hope or Stress to trigger</li>
+            <li><strong>Continuous:</strong> Stay active until ended</li>
+          </ul>
+          <div class="highlight teal">
+            <strong>Burn:</strong> If you fail a spell with Fear winning, GM may force you to mark Stress to keep it from fizzling.
+          </div>
+        </div>
+      </div>
+
+      <!-- COMBAT -->
+      <div class="card full">
+        <div class="hd"><h2>Actions & Combat</h2></div>
+        <div class="bd">
+          <div class="twoCol">
+            <div>
+              <h3>Standard Actions</h3>
+              <ul>
+                <li><strong>Attack:</strong> Roll vs Evasion</li>
+                <li><strong>Cast:</strong> Use a domain card</li>
+                <li><strong>Move:</strong> Change distance range</li>
+                <li><strong>Sprint:</strong> Move extra far</li>
+                <li><strong>Aid:</strong> Give ally Advantage (1 Hope)</li>
+                <li><strong>Protect:</strong> Take damage for ally</li>
+                <li><strong>Hide:</strong> Become hidden</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Distances</h3>
+              <ul>
+                <li><strong>Melee:</strong> Engaged, arm's reach</li>
+                <li><strong>Close:</strong> Few steps away</li>
+                <li><strong>Near:</strong> Same room/area</li>
+                <li><strong>Far:</strong> Across a large room</li>
+                <li><strong>Very Far:</strong> Edge of sight</li>
+              </ul>
+              <p><em>Movement between ranges is usually free unless circumstances make it difficult.</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESTS -->
+      <div class="card">
+        <div class="hd"><h2>Rests</h2></div>
+        <div class="bd">
+          <h3>Short Rest</h3>
+          <p>A brief pause (~1 hour):</p>
+          <ul>
+            <li>Recover some HP (roll recovery)</li>
+            <li>Clear 1-2 Stress</li>
+            <li>Clear Armor Slots</li>
+            <li>Swap domain cards</li>
+          </ul>
+          <h3>Long Rest</h3>
+          <p>Full night's sleep in safety:</p>
+          <ul>
+            <li>Recover <strong>all</strong> HP</li>
+            <li>Clear <strong>all</strong> Stress</li>
+            <li>Clear <strong>all</strong> Armor Slots</li>
+            <li>Refresh all abilities</li>
+            <li>Swap domain cards freely</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- QUICK TIPS -->
+      <div class="card">
+        <div class="hd"><h2>Tips for New Players</h2></div>
+        <div class="bd">
+          <h3>Do...</h3>
+          <ul>
+            <li><strong>Describe your actions</strong> cinematically</li>
+            <li><strong>Spend Hope</strong> - it's meant to be used!</li>
+            <li><strong>Lean into failure</strong> - Fear creates drama</li>
+            <li><strong>Jump in</strong> - there's no turn order</li>
+            <li><strong>Connect with party</strong> - it clears Stress</li>
+          </ul>
+          <h3>Remember...</h3>
+          <ul>
+            <li>Hope vs Fear matters as much as success/failure</li>
+            <li>Experiences add Proficiency when relevant</li>
+            <li>Armor Slots must be marked to reduce damage</li>
+            <li>Stress is separate from HP</li>
+            <li>Domain cards can be swapped during rests</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Unofficial Daggerheart Reference &bullx`; Daggerheart is a product of Darrington Press
+    </footer>
+  </div>
+</body>
+</html>

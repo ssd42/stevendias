@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daggerheart – Full Sheet (Parchment Theme)</title>
+  <style>
+    :root{
+      /* Gemini-like palette */
+      --parchment: #fdf6e3;
+      --ink: #2c2421;
+      --accent: #8b0000;
+      --border: #4a3728;
+      --highlight: #d4af37;
+      --sub-text: #5e4b3c;
+
+      /* UI helpers */
+      --shadow: 0 0 30px rgba(0,0,0,0.65);
+      --softshadow: 0 10px 22px rgba(0,0,0,0.18);
+      --radius: 12px;
+
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background: #141414;
+      color: var(--ink);
+      font-family: var(--serif);
+      display:flex;
+      justify-content:center;
+      padding: 18px 14px 28px;
+    }
+
+    .wrap{width:min(1100px, 100%);}
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+      color: #eee;
+      font-family: var(--sans);
+    }
+    .topbar h1{
+      margin:0;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:.2px;
+      color:#f4efe5;
+    }
+    .btns{display:flex; gap:8px; flex-wrap:wrap;}
+    button{
+      border: none;
+      background: rgba(255,255,255,.08);
+      color:#f4efe5;
+      padding:9px 12px;
+      border-radius: 8px;
+      cursor:pointer;
+      font-size:13px;
+      letter-spacing:.2px;
+    }
+    button:hover{filter:brightness(1.08);}
+    button.primary{background: var(--accent);}
+    button.good{background: rgba(212,175,55,.18); border: 1px solid rgba(212,175,55,.55);}
+    button.bad{background: rgba(255,106,106,.12); border: 1px solid rgba(255,106,106,.55);}
+    .status{
+      font-family: var(--mono);
+      font-size:12px;
+      color: rgba(244,239,229,.75);
+    }
+
+    /* Sheet */
+    .sheet{
+      background: var(--parchment);
+      border: 6px double var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    /* subtle parchment texture */
+    .sheet:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 600px at 30% 10%, rgba(0,0,0,.03), transparent 55%),
+        radial-gradient(800px 500px at 80% 35%, rgba(0,0,0,.035), transparent 60%),
+        radial-gradient(600px 400px at 20% 80%, rgba(0,0,0,.025), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .sheet > *{position:relative;}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr 1.2fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    /* Panels */
+    .panel{
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.35);
+      box-shadow: var(--softshadow);
+      padding: 12px;
+    }
+
+    .panel-title{
+      background: var(--border);
+      color: var(--parchment);
+      margin: -12px -12px 12px -12px;
+      padding: 7px 12px;
+      border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
+      font-family: var(--sans);
+      font-variant: small-caps;
+      letter-spacing: 1px;
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .panel-title .hint{
+      font-variant: normal;
+      letter-spacing: .2px;
+      font-size: 11px;
+      color: rgba(253,246,227,.85);
+      opacity:.95;
+    }
+
+    label{
+      display:block;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      margin: 0 0 5px 2px;
+    }
+
+    input, textarea{
+      width:100%;
+      border: 2px solid var(--border);
+      background: rgba(255,255,255,.35);
+      border-radius: 10px;
+      padding: 10px 10px;
+      font-size: 14px;
+      color: var(--ink);
+      outline:none;
+      font-family: var(--serif);
+    }
+    input[type="number"]{font-family: var(--mono);}
+    input:focus, textarea:focus{
+      box-shadow: 0 0 0 3px rgba(212,175,55,.35);
+      border-color: var(--highlight);
+      background: rgba(255,255,255,.55);
+    }
+    textarea{min-height: 120px; resize: vertical;}
+
+    .fieldRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .fieldRow3{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+    }
+
+    /* Attribute tiles (Gemini-ish) */
+    .attrRow{
+      display:grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 980px){
+      .attrRow{grid-template-columns: repeat(3, 1fr);}
+    }
+    .trait-box{
+      border: 2px solid var(--border);
+      text-align:center;
+      background: rgba(0,0,0,0.02);
+      border-radius: 10px;
+      overflow:hidden;
+    }
+    .trait-label{
+      background: var(--border);
+      color: var(--parchment);
+      font-family: var(--sans);
+      font-size: 10px;
+      padding: 6px 6px;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .trait-value input{
+      width:100%;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      text-align:center;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 10px 6px 8px;
+      font-family: var(--mono);
+    }
+    .trait-value input:focus{
+      box-shadow:none;
+      outline: none;
+      background: rgba(255,255,255,.35);
+    }
+
+    /* Pips + editable max */
+    .trackRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 8px;
+      padding-top: 2px;
+    }
+    .maxCtl{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--sub-text);
+      font-weight: 700;
+    }
+    .maxCtl b{color: var(--ink); font-variant: small-caps; letter-spacing:.6px;}
+    .maxCtl input{
+      width:74px;
+      padding: 7px 8px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 13px;
+      background: rgba(255,255,255,.45);
+    }
+
+    .pips{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .pip{
+      width:16px;
+      height:16px;
+      appearance:none;
+      -webkit-appearance:none;
+      border: 2px solid var(--border);
+      border-radius: 3px;
+      background: rgba(255,255,255,.25);
+      cursor:pointer;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
+    }
+    .pip.circle{border-radius: 999px;}
+    .pip.on{
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.18);
+    }
+    .pip.gold.on{
+      background: var(--highlight);
+      border-color: var(--border);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.10);
+    }
+    .pip:focus{
+      outline: 3px solid rgba(212,175,55,.4);
+      outline-offset: 2px;
+    }
+
+    /* Experiences lined area */
+    .lines{
+      min-height: 170px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      background:
+        linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)) padding-box,
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 22px,
+          rgba(74,55,40,.22) 22px,
+          rgba(74,55,40,.22) 23px
+        );
+      font-family: var(--serif);
+      color: var(--ink);
+      outline:none;
+    }
+    .lines:focus{
+      box-shadow: 0 0 0 3px rgba(212,175,55,.28);
+      border-color: var(--highlight);
+    }
+
+    /* Weapons layout */
+    .weapGrid{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 0.7fr;
+      gap:10px;
+    }
+    @media (max-width: 980px){
+      .weapGrid{grid-template-columns:1fr;}
+    }
+
+    .smallText{
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--sub-text);
+      line-height: 1.35;
+    }
+
+    .divider{
+      height:2px;
+      background: rgba(74,55,40,.35);
+      margin: 12px 0;
+    }
+
+    .bottomGrid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 980px){
+      .bottomGrid{grid-template-columns:1fr;}
+    }
+
+    /* Dice tray floating */
+    .diceTray{
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: var(--ink);
+      color: var(--parchment);
+      padding: 16px;
+      border-radius: 10px;
+      border: 2px solid var(--highlight);
+      text-align:center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.55);
+      width: 260px;
+      font-family: var(--sans);
+    }
+    .diceTray button{
+      width:100%;
+      background: var(--accent);
+      color: var(--parchment);
+      border:none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor:pointer;
+      font-variant: small-caps;
+      letter-spacing:.8px;
+      font-weight: 800;
+    }
+    .diceTray button:hover{filter:brightness(1.05);}
+    .diceOut{
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 14px;
+      min-height: 40px;
+      border: 1px dashed rgba(212,175,55,.65);
+      border-radius: 8px;
+      padding: 8px;
+      color: #f7f1e6;
+    }
+    .diceRow{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:8px;
+      text-align:left;
+    }
+    .diceRow label{color: rgba(253,246,227,.85); font-size:10px;}
+    .diceRow input{
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #fff;
+      padding: 8px 8px;
+      border-radius: 8px;
+      font-family: var(--mono);
+    }
+    .diceRow input:focus{
+      box-shadow: 0 0 0 3px rgba(212,175,55,.25);
+      border-color: rgba(212,175,55,.55);
+    }
+
+    /* Utility */
+    .mt10{margin-top:10px;}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <h1>Daggerheart – Full Sheet (Parchment Theme)</h1>
+    <div class="btns">
+      <button class="primary" id="btnNew">New</button>
+      <button class="good" id="btnExport">Export JSON</button>
+      <button id="btnImport">Import JSON</button>
+      <button class="bad" id="btnReset">Reset Storage</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="sheet">
+    <!-- HEADER -->
+    <div class="panel">
+      <div class="panel-title">Header <span class="hint">name / ancestry / level / pronouns / community</span></div>
+      <div class="fieldRow3">
+        <div>
+          <label>Name</label>
+          <input data-bind="name" placeholder="Character name" />
+        </div>
+        <div>
+          <label>Ancestry</label>
+          <input data-bind="ancestry" placeholder="Ancestry" />
+        </div>
+        <div>
+          <label>Class & Subclass</label>
+          <input data-bind="class_subclass" placeholder="Class – Subclass" />
+        </div>
+      </div>
+      <div class="fieldRow3 mt10">
+        <div>
+          <label>Level</label>
+          <input type="number" data-bind="level" min="0" />
+        </div>
+        <div>
+          <label>Pronouns</label>
+          <input data-bind="pronouns" placeholder="Pronouns" />
+        </div>
+        <div>
+          <label>Community</label>
+          <input data-bind="community" placeholder="Community" />
+        </div>
+      </div>
+      <div class="fieldRow mt10">
+        <div>
+          <label>Domains</label>
+          <input data-bind="domains" placeholder="Domains" />
+        </div>
+        <div>
+          <label>Proficiency</label>
+          <input data-bind="proficiency" placeholder="Proficiency" />
+        </div>
+      </div>
+    </div>
+
+    <div class="grid mt10">
+      <!-- Defense + Slots -->
+      <div class="panel">
+        <div class="panel-title">Defense <span class="hint">numbers + armor slots track</span></div>
+        <div class="fieldRow">
+          <div>
+            <label>Evasion</label>
+            <input type="number" data-bind="evasion" />
+          </div>
+          <div>
+            <label>Armor (Score)</label>
+            <input type="number" data-bind="armor_score" />
+          </div>
+        </div>
+        <div class="trackRow">
+          <div class="maxCtl">
+            <b>Armor Slots</b>
+            <span>max</span>
+            <input type="number" data-bind="armor_slots_max" min="0" max="30" />
+          </div>
+          <div class="pips" id="armorSlotsPips"></div>
+        </div>
+        <div class="smallText mt10">Click boxes to set current. Clicking the current value lowers it by 1.</div>
+      </div>
+
+      <!-- Attributes -->
+      <div class="panel">
+        <div class="panel-title">Attributes <span class="hint">modifiers</span></div>
+        <div class="attrRow">
+          <div class="trait-box">
+            <div class="trait-label">Agility</div>
+            <div class="trait-value"><input type="number" data-bind="agility" /></div>
+          </div>
+          <div class="trait-box">
+            <div class="trait-label">Strength</div>
+            <div class="trait-value"><input type="number" data-bind="strength" /></div>
+          </div>
+          <div class="trait-box">
+            <div class="trait-label">Finesse</div>
+            <div class="trait-value"><input type="number" data-bind="finesse" /></div>
+          </div>
+          <div class="trait-box">
+            <div class="trait-label">Instinct</div>
+            <div class="trait-value"><input type="number" data-bind="instinct" /></div>
+          </div>
+          <div class="trait-box">
+            <div class="trait-label">Presence</div>
+            <div class="trait-value"><input type="number" data-bind="presence" /></div>
+          </div>
+          <div class="trait-box">
+            <div class="trait-label">Knowledge</div>
+            <div class="trait-value"><input type="number" data-bind="knowledge" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hope -->
+      <div class="panel">
+        <div class="panel-title">Hope <span class="hint">editable max track</span></div>
+        <div class="trackRow">
+          <div class="maxCtl">
+            <b>Hope</b>
+            <span>max</span>
+            <input type="number" data-bind="hope_max" min="0" max="30" />
+          </div>
+          <div class="pips" id="hopePips"></div>
+        </div>
+        <div class="divider"></div>
+        <label>Feature</label>
+        <textarea data-bind="feature" placeholder="Class feature / signature ability..."></textarea>
+      </div>
+    </div>
+
+    <!-- Health & Stress + Experiences + Weapons -->
+    <div class="grid mt10">
+      <div class="panel" style="grid-column: 1 / span 2;">
+        <div class="panel-title">Health & Stress <span class="hint">editable max tracks</span></div>
+
+        <div class="fieldRow3">
+          <div>
+            <label>Minor Threshold</label>
+            <input type="number" data-bind="minor_threshold" />
+          </div>
+          <div>
+            <label>Major Threshold</label>
+            <input type="number" data-bind="major_threshold" />
+          </div>
+          <div>
+            <label>Severe Threshold</label>
+            <input type="number" data-bind="severe_threshold" />
+          </div>
+        </div>
+
+        <div class="trackRow mt10">
+          <div class="maxCtl">
+            <b>Hit Points</b>
+            <span>max</span>
+            <input type="number" data-bind="hp_max" min="0" max="40" />
+          </div>
+          <div class="pips" id="hpPips"></div>
+        </div>
+
+        <div class="trackRow">
+          <div class="maxCtl">
+            <b>Stress</b>
+            <span>max</span>
+            <input type="number" data-bind="stress_max" min="0" max="40" />
+          </div>
+          <div class="pips" id="stressPips"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="fieldRow">
+          <div>
+            <div class="panel-title" style="margin: 0 0 10px 0; border-radius:10px; padding:6px 10px;">
+              Experiences <span class="hint">lined</span>
+            </div>
+            <div class="lines" id="experiencesBox" contenteditable="true"></div>
+          </div>
+          <div>
+            <div class="panel-title" style="margin: 0 0 10px 0; border-radius:10px; padding:6px 10px;">
+              Weapons & Armor <span class="hint">primary / secondary</span>
+            </div>
+
+            <label>Notes</label>
+            <input data-bind="weapons_notes" placeholder="Weapon/armor notes..." />
+
+            <div class="divider"></div>
+
+            <label>Primary Weapon</label>
+            <div class="weapGrid">
+              <input data-bind="primary_trait_range" placeholder="Trait & Range" />
+              <input data-bind="primary_damage" placeholder="Damage Dice & Type" />
+              <input data-bind="primary_burden" placeholder="Burden" />
+            </div>
+            <div class="mt10">
+              <input data-bind="primary_feature" placeholder="Primary feature..." />
+            </div>
+
+            <div class="divider"></div>
+
+            <label>Secondary Weapon</label>
+            <div class="weapGrid">
+              <input data-bind="secondary_trait_range" placeholder="Trait & Range" />
+              <input data-bind="secondary_damage" placeholder="Damage Dice & Type" />
+              <input data-bind="secondary_burden" placeholder="Burden" />
+            </div>
+            <div class="mt10">
+              <input data-bind="secondary_feature" placeholder="Secondary feature..." />
+            </div>
+
+            <div class="divider"></div>
+
+            <label>Active Armor</label>
+            <div class="fieldRow">
+              <input data-bind="armor_thresholds" placeholder="Base thresholds" />
+              <input type="number" data-bind="armor_base_score" placeholder="Base score" />
+            </div>
+            <div class="mt10">
+              <input data-bind="armor_feature" placeholder="Armor feature..." />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Extras <span class="hint">heritage / background</span></div>
+        <div class="smallText">
+          If you want more trackers (gold, inventory, etc.), tell me what you want and I’ll add them as editable tracks too.
+        </div>
+      </div>
+    </div>
+
+    <div class="bottomGrid mt10">
+      <div class="panel">
+        <div class="panel-title">Heritage & Community Features <span class="hint">freeform</span></div>
+        <textarea data-bind="heritage_community_features" placeholder="Heritage/community features..."></textarea>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Background & Connections <span class="hint">freeform</span></div>
+        <textarea data-bind="background_connections" placeholder="Background/connections..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept="application/json" style="display:none" />
+</div>
+
+<!-- Floating dice tray -->
+<div class="diceTray">
+  <button id="btnRoll">ROLL DUALITY (2d12)</button>
+
+  <div class="diceRow">
+    <div>
+      <label>Label</label>
+      <input id="rollLabel" placeholder="Attack / Sneak" />
+    </div>
+    <div>
+      <label>Bonus</label>
+      <input id="rollBonus" type="number" placeholder="0" />
+    </div>
+  </div>
+
+  <div class="diceOut" id="rollOut">READY</div>
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "dh_full_sheet_parchment_v1";
+
+  const defaults = {
+    // header
+    name: "",
+    ancestry: "",
+    level: 1,
+    pronouns: "",
+    community: "",
+    class_subclass: "",
+    domains: "",
+    proficiency: "",
+
+    // defense + armor
+    evasion: 10,
+    armor_score: 0,
+    armor_slots_max: 3,
+    armor_slots: 0,
+
+    // attributes
+    agility: 0,
+    strength: 0,
+    finesse: 0,
+    instinct: 0,
+    presence: 0,
+    knowledge: 0,
+
+    // thresholds
+    minor_threshold: 4,
+    major_threshold: 8,
+    severe_threshold: 12,
+
+    // tracks
+    hp_max: 12,
+    hp: 0,
+    stress_max: 12,
+    stress: 0,
+    hope_max: 6,
+    hope: 0,
+
+    // text blocks
+    experiences: "",
+    feature: "",
+    weapons_notes: "",
+
+    primary_trait_range: "",
+    primary_damage: "",
+    primary_burden: "",
+    primary_feature: "",
+
+    secondary_trait_range: "",
+    secondary_damage: "",
+    secondary_burden: "",
+    secondary_feature: "",
+
+    armor_thresholds: "",
+    armor_base_score: 0,
+    armor_feature: "",
+
+    heritage_community_features: "",
+    background_connections: "",
+
+    updatedAt: new Date().toISOString()
+  };
+
+  let state = load();
+
+  const statusEl = document.getElementById("status");
+  const importFile = document.getElementById("importFile");
+  const experiencesBox = document.getElementById("experiencesBox");
+
+  // Bind inputs
+  const boundInputs = Array.from(document.querySelectorAll("[data-bind]"));
+  boundInputs.forEach(el => {
+    const key = el.getAttribute("data-bind");
+    if (!(key in state)) state[key] = defaults[key];
+    el.value = state[key] ?? "";
+
+    el.addEventListener("input", () => {
+      state[key] = (el.type === "number") ? toInt(el.value) : el.value;
+
+      // if a max changes, clamp current
+      if (key.endsWith("_max")) {
+        const track = key.replace("_max", "");
+        state[track] = clamp(toInt(state[track]), 0, clamp(toInt(state[key]), 0, 40));
+      }
+
+      touchSave();
+      renderAll();
+    });
+  });
+
+  // Experiences (lined, contenteditable)
+  experiencesBox.textContent = state.experiences || "";
+  experiencesBox.addEventListener("input", () => {
+    state.experiences = experiencesBox.textContent;
+    touchSave();
+  });
+
+  // Pip containers
+  const elArmorSlots = document.getElementById("armorSlotsPips");
+  const elHP = document.getElementById("hpPips");
+  const elStress = document.getElementById("stressPips");
+  const elHope = document.getElementById("hopePips");
+
+  function renderTrack(container, valueKey, maxKey, opts){
+    container.innerHTML = "";
+    const max = clamp(toInt(state[maxKey]), 0, 40);
+    const val = clamp(toInt(state[valueKey]), 0, max);
+
+    for (let i=1; i<=max; i++){
+      const pip = document.createElement("button");
+      pip.type = "button";
+      pip.className = "pip" +
+        (opts.circle ? " circle" : "") +
+        (opts.gold ? " gold" : "") +
+        (i <= val ? " on" : "");
+      pip.title = `${valueKey}: set to ${i}`;
+      pip.tabIndex = 0;
+
+      pip.addEventListener("click", () => {
+        const current = clamp(toInt(state[valueKey]), 0, max);
+        state[valueKey] = (i === current) ? Math.max(0, current - 1) : i;
+        touchSave();
+        renderAll();
+      });
+
+      pip.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); pip.click(); }
+      });
+
+      container.appendChild(pip);
+    }
+  }
+
+  function renderAll(){
+    // keep experiences in sync
+    if ((experiencesBox.textContent || "") !== (state.experiences || "")) {
+      experiencesBox.textContent = state.experiences || "";
+    }
+
+    renderTrack(elArmorSlots, "armor_slots", "armor_slots_max", {circle:false, gold:false});
+    renderTrack(elHP, "hp", "hp_max", {circle:true, gold:false});
+    renderTrack(elStress, "stress", "stress_max", {circle:true, gold:false});
+    renderTrack(elHope, "hope", "hope_max", {circle:false, gold:true}); // gold hope pips
+  }
+
+  // Save/load
+  let saveTimer = null;
+  function touchSave(immediate){
+    state.updatedAt = new Date().toISOString();
+    if (saveTimer) clearTimeout(saveTimer);
+    if (immediate){ persist(); return; }
+    saveTimer = setTimeout(persist, 200);
+  }
+  function persist(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    log("Saved " + new Date().toLocaleTimeString());
+  }
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(defaults);
+      return merge(defaults, JSON.parse(raw));
+    }catch{
+      return structuredClone(defaults);
+    }
+  }
+  function merge(base, incoming){
+    const out = structuredClone(base);
+    if (incoming && typeof incoming === "object"){
+      Object.keys(incoming).forEach(k => out[k] = incoming[k]);
+    }
+    [
+      "level","evasion","armor_score",
+      "armor_slots_max","armor_slots",
+      "agility","strength","finesse","instinct","presence","knowledge",
+      "minor_threshold","major_threshold","severe_threshold",
+      "hp_max","hp","stress_max","stress","hope_max","hope",
+      "armor_base_score"
+    ].forEach(k => out[k] = toInt(out[k]));
+
+    // clamp current to max
+    out.armor_slots = clamp(out.armor_slots, 0, clamp(out.armor_slots_max, 0, 40));
+    out.hp = clamp(out.hp, 0, clamp(out.hp_max, 0, 40));
+    out.stress = clamp(out.stress, 0, clamp(out.stress_max, 0, 40));
+    out.hope = clamp(out.hope, 0, clamp(out.hope_max, 0, 40));
+
+    return out;
+  }
+
+  function log(msg){ statusEl.textContent = msg; }
+
+  // Buttons: new/reset/export/import
+  document.getElementById("btnNew").addEventListener("click", () => {
+    state = structuredClone(defaults);
+    syncInputs();
+    experiencesBox.textContent = state.experiences || "";
+    renderAll();
+    touchSave(true);
+    log("New sheet ✔");
+  });
+
+  document.getElementById("btnReset").addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    state = structuredClone(defaults);
+    syncInputs();
+    experiencesBox.textContent = state.experiences || "";
+    renderAll();
+    log("Storage reset ✔");
+  });
+
+  document.getElementById("btnExport").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = safeFile(state.name || "daggerheart-character") + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("btnImport").addEventListener("click", () => importFile.click());
+  importFile.addEventListener("change", async () => {
+    const file = importFile.files && importFile.files[0];
+    if (!file) return;
+    try{
+      const obj = JSON.parse(await file.text());
+      state = merge(defaults, obj);
+      syncInputs();
+      experiencesBox.textContent = state.experiences || "";
+      renderAll();
+      touchSave(true);
+      log("Imported ✔");
+    }catch(e){
+      alert("Could not import JSON: " + e.message);
+    }finally{
+      importFile.value = "";
+    }
+  });
+
+  function syncInputs(){
+    boundInputs.forEach(el => {
+      const key = el.getAttribute("data-bind");
+      el.value = state[key] ?? "";
+    });
+  }
+
+  // Dice tray
+  const rollOut = document.getElementById("rollOut");
+  document.getElementById("btnRoll").addEventListener("click", () => {
+    const label = (document.getElementById("rollLabel").value || "Duality").trim();
+    const bonus = toInt(document.getElementById("rollBonus").value);
+    const h = d12(), f = d12();
+    const total = h + f + bonus;
+    const type = (h === f) ? "CRITICAL!" : (h > f ? "with HOPE" : "with FEAR");
+    const bonusStr = bonus ? (bonus > 0 ? ` +${bonus}` : ` ${bonus}`) : "";
+    rollOut.innerHTML = `${label}: <b>${total}</b> ${type}<br><small>(H:${h} F:${f}${bonusStr})</small>`;
+  });
+
+  // Helpers
+  function toInt(v){
+    const n = parseInt(String(v ?? "0"), 10);
+    return Number.isFinite(n) ? n : 0;
+  }
+  function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+  function safeFile(name){
+    return String(name).toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"") || "sheet";
+  }
+  function d12(){ return Math.floor(Math.random()*12)+1; }
+
+  // init
+  syncInputs();
+  renderAll();
+  log("Loaded " + new Date(state.updatedAt || Date.now()).toLocaleString());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daggerheart – Full Sheet (Pips + Editable Max)</title>
+  <style>
+    :root{
+      --paper:#ffffff;
+      --ink:#111;
+      --muted:#333;
+      --line:#111;
+      --panel:#fff;
+      --shadow: 0 10px 20px rgba(0,0,0,.08);
+      --radius: 10px;
+
+      --focus:#2c6fff;
+      --fill:#111;
+      --pipOff:#fff;
+      --pipOn:#111;
+
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: #f2f2f2;
+      color:var(--ink);
+      font-family: var(--serif);
+      padding: 18px 14px 28px;
+    }
+    .wrap{max-width:1100px; margin:0 auto;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; flex-wrap:wrap;
+      margin-bottom: 12px;
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      font-family: var(--sans);
+      letter-spacing:.2px;
+    }
+    .btns{display:flex; gap:8px; flex-wrap:wrap; font-family:var(--sans);}
+    button{
+      border:2px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      border-radius: 10px;
+      padding:9px 11px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    button:hover{transform: translateY(-1px);}
+    button.primary{background:#111; color:#fff;}
+    button.bad{border-color:#9a1b1b; color:#9a1b1b;}
+    .status{font-family:var(--mono); font-size:12px; color:#444;}
+
+    /* “Sheet” container */
+    .sheet{
+      background: var(--panel);
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    /* Grid similar to the printed sheet */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr 1.2fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    .box{
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background:#fff;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .fieldRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin-bottom: 10px;
+      font-family: var(--sans);
+    }
+    label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      margin: 0 0 5px 2px;
+      font-family: var(--sans);
+    }
+    input, textarea{
+      width:100%;
+      padding:10px 10px;
+      border:2px solid var(--line);
+      border-radius: 10px;
+      background:#fff;
+      font-size:14px;
+      outline:none;
+      font-family: var(--serif);
+    }
+    input[type="number"]{font-family: var(--mono);}
+    input:focus, textarea:focus{outline: 3px solid rgba(44,111,255,.25); border-color: var(--focus);}
+    textarea{min-height: 120px; resize: vertical;}
+
+    .miniRow{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+    }
+    .miniRow6{
+      display:grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap:10px;
+    }
+    .stat{
+      border:2px solid var(--line);
+      border-radius: 12px;
+      padding:10px;
+      text-align:center;
+      background:#fff;
+    }
+    .stat .n{font-size:12px; color:#222; font-family:var(--sans); text-transform:uppercase; letter-spacing:.2px;}
+    .stat input{
+      margin-top:8px;
+      border:0;
+      border-bottom: 3px solid var(--line);
+      border-radius: 0;
+      padding:8px 6px;
+      text-align:center;
+      font-size:18px;
+      background:transparent;
+    }
+
+    .sectionTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 10px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size:13px;
+      font-family: var(--sans);
+      text-transform:uppercase;
+      letter-spacing:.35px;
+    }
+    .hint{
+      font-family:var(--sans);
+      font-size:11px;
+      color:#444;
+    }
+
+    /* Pips */
+    .pipBar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 6px;
+    }
+    .pips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .pip{
+      width:18px; height:18px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: var(--pipOff);
+      cursor:pointer;
+    }
+    .pip.on{background: var(--pipOn);}
+    .pip.square{border-radius:5px;}
+    .pip:focus{outline:3px solid rgba(44,111,255,.35); outline-offset:2px;}
+
+    .maxCtl{
+      display:flex; align-items:center; gap:6px;
+      font-family: var(--sans);
+      font-size:12px;
+    }
+    .maxCtl input{
+      width:70px;
+      padding:8px 8px;
+      border-radius: 10px;
+      font-family: var(--mono);
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .split{grid-template-columns:1fr;}
+    }
+
+    .lines{
+      min-height: 160px;
+      background:
+        linear-gradient(#fff, #fff) padding-box,
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 22px,
+          rgba(0,0,0,.18) 22px,
+          rgba(0,0,0,.18) 23px
+        );
+      border:2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      font-family: var(--serif);
+    }
+
+    .weapGrid{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr 0.6fr;
+      gap:10px;
+    }
+    .weapGrid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+
+    .footerBoxes{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .footerBoxes{grid-template-columns:1fr;}
+    }
+
+    .smallText{font-family:var(--sans); font-size:11px; color:#444; line-height:1.35}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <h1>Daggerheart – Full Character Sheet (Editable Max Tracks + Click Pips)</h1>
+    <div class="btns">
+      <button class="primary" id="btnNew">New</button>
+      <button id="btnExport">Export JSON</button>
+      <button id="btnImport">Import JSON</button>
+      <button class="bad" id="btnReset">Reset Storage</button>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <!-- HEADER -->
+    <div class="headerRow">
+      <div class="fieldRow" style="grid-template-columns: 1.5fr 1fr;">
+        <div>
+          <label>Name</label>
+          <input data-bind="name" placeholder="Name" />
+        </div>
+        <div>
+          <label>Ancestry</label>
+          <input data-bind="ancestry" placeholder="Ancestry" />
+        </div>
+      </div>
+      <div class="fieldRow" style="grid-template-columns: 0.7fr 1fr 1fr;">
+        <div>
+          <label>Level</label>
+          <input type="number" data-bind="level" />
+        </div>
+        <div>
+          <label>Pronouns</label>
+          <input data-bind="pronouns" placeholder="Pronouns" />
+        </div>
+        <div>
+          <label>Community</label>
+          <input data-bind="community" placeholder="Community" />
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP STRIP -->
+    <div class="grid">
+      <!-- Left: evasion/armor + slots -->
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Defense</h2>
+          <div class="hint">Numbers + slots</div>
+        </div>
+        <div class="fieldRow" style="grid-template-columns: 1fr 1fr;">
+          <div>
+            <label>Evasion</label>
+            <input type="number" data-bind="evasion" />
+          </div>
+          <div>
+            <label>Armor (Score)</label>
+            <input type="number" data-bind="armor_score" />
+          </div>
+        </div>
+
+        <div class="pipBar">
+          <div class="maxCtl">
+            <strong style="font-family:var(--sans); font-size:12px;">Armor Slots</strong>
+            <span>max</span>
+            <input type="number" data-bind="armor_slots_max" min="0" max="20" />
+          </div>
+          <div class="pips" id="armorSlotsPips"></div>
+        </div>
+      </div>
+
+      <!-- Middle: attributes -->
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Attributes</h2>
+          <div class="hint">Editable modifiers</div>
+        </div>
+        <div class="miniRow6">
+          <div class="stat"><div class="n">Agility</div><input type="number" data-bind="agility" /></div>
+          <div class="stat"><div class="n">Strength</div><input type="number" data-bind="strength" /></div>
+          <div class="stat"><div class="n">Finesse</div><input type="number" data-bind="finesse" /></div>
+          <div class="stat"><div class="n">Instinct</div><input type="number" data-bind="instinct" /></div>
+          <div class="stat"><div class="n">Presence</div><input type="number" data-bind="presence" /></div>
+          <div class="stat"><div class="n">Knowledge</div><input type="number" data-bind="knowledge" /></div>
+        </div>
+      </div>
+
+      <!-- Right: class/subclass + domains -->
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Class</h2>
+          <div class="hint">Build info</div>
+        </div>
+        <div class="fieldRow" style="grid-template-columns: 1fr;">
+          <div>
+            <label>Class & Subclass</label>
+            <input data-bind="class_subclass" placeholder="e.g., Rogue – Shadow" />
+          </div>
+          <div>
+            <label>Domains</label>
+            <input data-bind="domains" placeholder="e.g., Cunning, Night" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MID GRID -->
+    <div class="grid" style="margin-top:12px;">
+      <!-- Health & Stress + Experiences -->
+      <div class="box" style="grid-column: 1 / span 2;">
+        <div class="sectionTitle">
+          <h2>Health & Stress</h2>
+          <div class="hint">Max is editable • Click pips to set current</div>
+        </div>
+
+        <div class="smallText">
+          If your table adds level to thresholds: set Minor/Major/Severe here (or compute it however you like).
+        </div>
+
+        <div class="miniRow" style="margin-top:10px;">
+          <div>
+            <label>Minor Threshold</label>
+            <input type="number" data-bind="minor_threshold" />
+          </div>
+          <div>
+            <label>Major Threshold</label>
+            <input type="number" data-bind="major_threshold" />
+          </div>
+          <div>
+            <label>Severe Threshold</label>
+            <input type="number" data-bind="severe_threshold" />
+          </div>
+          <div>
+            <label>Current Level (optional)</label>
+            <input type="number" data-bind="level" />
+          </div>
+        </div>
+
+        <div class="split" style="margin-top:12px;">
+          <div>
+            <div class="pipBar">
+              <div class="maxCtl">
+                <strong style="font-family:var(--sans); font-size:12px;">Hit Points</strong>
+                <span>max</span>
+                <input type="number" data-bind="hp_max" min="0" max="40" />
+              </div>
+              <div class="pips" id="hpPips"></div>
+            </div>
+
+            <div class="pipBar">
+              <div class="maxCtl">
+                <strong style="font-family:var(--sans); font-size:12px;">Stress</strong>
+                <span>max</span>
+                <input type="number" data-bind="stress_max" min="0" max="40" />
+              </div>
+              <div class="pips" id="stressPips"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sectionTitle" style="margin-bottom:6px;">
+              <h2 style="font-size:12px;">Experiences</h2>
+              <div class="hint">freeform lines</div>
+            </div>
+            <div class="lines" contenteditable="true" id="experiencesBox"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hope + Feature -->
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Hope</h2>
+          <div class="hint">Editable max</div>
+        </div>
+        <div class="pipBar">
+          <div class="maxCtl">
+            <span>max</span>
+            <input type="number" data-bind="hope_max" min="0" max="30" />
+          </div>
+          <div class="pips" id="hopePips"></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Feature</label>
+          <textarea data-bind="feature" placeholder="Core feature text..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEAPONS & ARMOR -->
+    <div class="grid" style="margin-top:12px;">
+      <div class="box" style="grid-column: 1 / span 2;">
+        <div class="sectionTitle">
+          <h2>Weapons & Armor</h2>
+          <div class="hint">Primary / Secondary / Active Armor</div>
+        </div>
+
+        <div class="fieldRow" style="grid-template-columns: 1fr 1fr;">
+          <div>
+            <label>Proficiency</label>
+            <input data-bind="proficiency" placeholder="e.g., Martial / Arcane" />
+          </div>
+          <div>
+            <label>Notes</label>
+            <input data-bind="weapons_notes" placeholder="Anything important..." />
+          </div>
+        </div>
+
+        <div class="thinLine"></div>
+
+        <div class="sectionTitle" style="margin-bottom:6px;">
+          <h2 style="font-size:12px;">Primary Weapon</h2>
+        </div>
+        <div class="weapGrid">
+          <div>
+            <label>Trait & Range</label>
+            <input data-bind="primary_trait_range" />
+          </div>
+          <div>
+            <label>Damage Dice & Type</label>
+            <input data-bind="primary_damage" placeholder="e.g., d8 piercing" />
+          </div>
+          <div>
+            <label>Burden</label>
+            <input data-bind="primary_burden" />
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label>Feature</label>
+          <input data-bind="primary_feature" />
+        </div>
+
+        <div class="thinLine"></div>
+
+        <div class="sectionTitle" style="margin-bottom:6px;">
+          <h2 style="font-size:12px;">Secondary Weapon</h2>
+        </div>
+        <div class="weapGrid">
+          <div>
+            <label>Trait & Range</label>
+            <input data-bind="secondary_trait_range" />
+          </div>
+          <div>
+            <label>Damage Dice & Type</label>
+            <input data-bind="secondary_damage" placeholder="e.g., d6 slashing" />
+          </div>
+          <div>
+            <label>Burden</label>
+            <input data-bind="secondary_burden" />
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label>Feature</label>
+          <input data-bind="secondary_feature" />
+        </div>
+
+        <div class="thinLine"></div>
+
+        <div class="sectionTitle" style="margin-bottom:6px;">
+          <h2 style="font-size:12px;">Active Armor</h2>
+        </div>
+        <div class="weapGrid2">
+          <div>
+            <label>Base Thresholds</label>
+            <input data-bind="armor_thresholds" placeholder="e.g., minor/major/severe mods" />
+          </div>
+          <div>
+            <label>Base Score</label>
+            <input type="number" data-bind="armor_base_score" />
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label>Feature</label>
+          <input data-bind="armor_feature" />
+        </div>
+      </div>
+
+      <!-- (Optional) a little roller box -->
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Dice Tray</h2>
+          <div class="hint">2d12</div>
+        </div>
+
+        <div class="fieldRow" style="grid-template-columns: 1fr 1fr;">
+          <div>
+            <label>Label</label>
+            <input id="rollLabel" placeholder="Attack / Sneak" />
+          </div>
+          <div>
+            <label>Bonus</label>
+            <input id="rollBonus" type="number" placeholder="0" />
+          </div>
+        </div>
+
+        <button id="btnRoll" class="primary" style="width:100%; padding:12px; border-radius:12px; margin-top:6px;">
+          Roll Duality (2d12)
+        </button>
+
+        <div id="rollOut" style="margin-top:10px; font-family:var(--mono); font-size:16px; min-height:40px; border:2px dashed #111; border-radius:12px; padding:10px;">
+          --
+        </div>
+
+        <div class="smallText" style="margin-top:10px;">
+          (This just rolls dice. Your table decides how Hope/Fear interpretation works.)
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: Heritage + Background -->
+    <div class="footerBoxes">
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Heritage & Community Features</h2>
+          <div class="hint">freeform</div>
+        </div>
+        <textarea data-bind="heritage_community_features" placeholder="Heritage + community features..."></textarea>
+      </div>
+      <div class="box">
+        <div class="sectionTitle">
+          <h2>Background & Connections</h2>
+          <div class="hint">freeform</div>
+        </div>
+        <textarea data-bind="background_connections" placeholder="Background + connections..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+    <div class="smallText">Autosaves to <span style="font-family:var(--mono);">localStorage</span>. Use Export JSON for backups.</div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <input type="file" id="importFile" accept="application/json" style="display:none" />
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "daggerheart_full_sheet_v1";
+
+  const defaults = {
+    // header
+    name: "",
+    ancestry: "",
+    level: 1,
+    pronouns: "",
+    community: "",
+
+    // defense
+    evasion: 10,
+    armor_score: 0,
+
+    // attributes
+    agility: 0,
+    strength: 0,
+    finesse: 0,
+    instinct: 0,
+    presence: 0,
+    knowledge: 0,
+
+    // class
+    class_subclass: "",
+    domains: "",
+
+    // thresholds
+    minor_threshold: 4,
+    major_threshold: 8,
+    severe_threshold: 12,
+
+    // Tracks (editable max + current via pips)
+    armor_slots_max: 3,
+    armor_slots: 0,
+
+    hp_max: 12,
+    hp: 0,
+
+    stress_max: 12,
+    stress: 0,
+
+    hope_max: 6,
+    hope: 0,
+
+    // text blocks
+    experiences: "",
+    feature: "",
+    proficiency: "",
+    weapons_notes: "",
+
+    primary_trait_range: "",
+    primary_damage: "",
+    primary_burden: "",
+    primary_feature: "",
+
+    secondary_trait_range: "",
+    secondary_damage: "",
+    secondary_burden: "",
+    secondary_feature: "",
+
+    armor_thresholds: "",
+    armor_base_score: 0,
+    armor_feature: "",
+
+    heritage_community_features: "",
+    background_connections: "",
+
+    updatedAt: new Date().toISOString()
+  };
+
+  let state = load();
+
+  const statusEl = document.getElementById("status");
+  const importFile = document.getElementById("importFile");
+
+  // Bind normal inputs
+  const boundInputs = Array.from(document.querySelectorAll("[data-bind]"));
+  boundInputs.forEach(el => {
+    const key = el.getAttribute("data-bind");
+    if (!(key in state)) state[key] = defaults[key];
+    el.value = state[key] ?? "";
+    el.addEventListener("input", () => {
+      state[key] = (el.type === "number") ? toInt(el.value) : el.value;
+      // when max changes, clamp current
+      if (key.endsWith("_max")) {
+        const track = key.replace("_max","");
+        state[track] = clamp(toInt(state[track]), 0, clamp(toInt(state[key]), 0, 40));
+      }
+      touchSave();
+      renderAll();
+    });
+  });
+
+  // Experiences box (contenteditable for lined look)
+  const experiencesBox = document.getElementById("experiencesBox");
+  experiencesBox.textContent = state.experiences || "";
+  experiencesBox.addEventListener("input", () => {
+    state.experiences = experiencesBox.textContent;
+    touchSave();
+  });
+
+  // Track containers
+  const elArmorSlots = document.getElementById("armorSlotsPips");
+  const elHP = document.getElementById("hpPips");
+  const elStress = document.getElementById("stressPips");
+  const elHope = document.getElementById("hopePips");
+
+  function renderTrack(container, valueKey, maxKey, shape){
+    container.innerHTML = "";
+    const max = clamp(toInt(state[maxKey]), 0, 40);
+    const val = clamp(toInt(state[valueKey]), 0, max);
+
+    for (let i=1; i<=max; i++){
+      const pip = document.createElement("button");
+      pip.type = "button";
+      pip.className = "pip" + (shape === "square" ? " square" : "") + (i <= val ? " on" : "");
+      pip.title = `${valueKey}: set to ${i}`;
+      pip.tabIndex = 0;
+
+      pip.addEventListener("click", () => {
+        const current = clamp(toInt(state[valueKey]), 0, max);
+        state[valueKey] = (i === current) ? Math.max(0, current - 1) : i;
+        touchSave();
+        renderAll();
+      });
+
+      pip.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); pip.click(); }
+      });
+
+      container.appendChild(pip);
+    }
+  }
+
+  function renderAll(){
+    // keep experiences lined box synced (but don’t fight user selection too hard)
+    // only update if it diverges a lot
+    if ((experiencesBox.textContent || "") !== (state.experiences || "")) {
+      experiencesBox.textContent = state.experiences || "";
+    }
+
+    renderTrack(elArmorSlots, "armor_slots", "armor_slots_max", "square");
+    renderTrack(elHP, "hp", "hp_max", "circle");
+    renderTrack(elStress, "stress", "stress_max", "circle");
+    renderTrack(elHope, "hope", "hope_max", "circle");
+  }
+
+  // Dice tray
+  const rollOut = document.getElementById("rollOut");
+  document.getElementById("btnRoll").addEventListener("click", () => {
+    const label = (document.getElementById("rollLabel").value || "Duality").trim();
+    const bonus = toInt(document.getElementById("rollBonus").value);
+    const a = d12(), b = d12();
+    const total = a + b + bonus;
+    const bonusStr = bonus ? (bonus > 0 ? ` +${bonus}` : ` ${bonus}`) : "";
+    rollOut.textContent = `${label}: ${a} + ${b}${bonusStr} = ${total}`;
+  });
+
+  // Buttons
+  document.getElementById("btnNew").addEventListener("click", () => {
+    state = structuredClone(defaults);
+    syncInputs();
+    renderAll();
+    touchSave(true);
+    log("New sheet ✔");
+  });
+
+  document.getElementById("btnReset").addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    state = structuredClone(defaults);
+    syncInputs();
+    renderAll();
+    log("Storage reset ✔");
+  });
+
+  document.getElementById("btnExport").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = safeFile(state.name || "daggerheart-character") + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("btnImport").addEventListener("click", () => importFile.click());
+  importFile.addEventListener("change", async () => {
+    const file = importFile.files && importFile.files[0];
+    if (!file) return;
+    try{
+      const obj = JSON.parse(await file.text());
+      state = merge(defaults, obj);
+
+      syncInputs();
+      experiencesBox.textContent = state.experiences || "";
+      renderAll();
+
+      touchSave(true);
+      log("Imported ✔");
+    }catch(e){
+      alert("Could not import JSON: " + e.message);
+    }finally{
+      importFile.value = "";
+    }
+  });
+
+  // Save/load
+  let saveTimer = null;
+  function touchSave(immediate){
+    state.updatedAt = new Date().toISOString();
+    if (saveTimer) clearTimeout(saveTimer);
+    if (immediate){ persist(); return; }
+    saveTimer = setTimeout(persist, 200);
+  }
+  function persist(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    log("Saved " + new Date().toLocaleTimeString());
+  }
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(defaults);
+      return merge(defaults, JSON.parse(raw));
+    }catch{
+      return structuredClone(defaults);
+    }
+  }
+  function merge(base, incoming){
+    const out = structuredClone(base);
+    if (incoming && typeof incoming === "object"){
+      Object.keys(incoming).forEach(k => out[k] = incoming[k]);
+    }
+    // coerce ints
+    [
+      "level","evasion","armor_score",
+      "agility","strength","finesse","instinct","presence","knowledge",
+      "minor_threshold","major_threshold","severe_threshold",
+      "armor_slots_max","armor_slots",
+      "hp_max","hp",
+      "stress_max","stress",
+      "hope_max","hope",
+      "armor_base_score"
+    ].forEach(k => out[k] = toInt(out[k]));
+    // clamp current to max
+    out.armor_slots = clamp(out.armor_slots, 0, clamp(out.armor_slots_max, 0, 40));
+    out.hp = clamp(out.hp, 0, clamp(out.hp_max, 0, 40));
+    out.stress = clamp(out.stress, 0, clamp(out.stress_max, 0, 40));
+    out.hope = clamp(out.hope, 0, clamp(out.hope_max, 0, 40));
+    return out;
+  }
+
+  function syncInputs(){
+    boundInputs.forEach(el => {
+      const key = el.getAttribute("data-bind");
+      el.value = state[key] ?? "";
+    });
+  }
+
+  function log(msg){ statusEl.textContent = msg; }
+
+  // helpers
+  function toInt(v){
+    const n = parseInt(String(v ?? "0"), 10);
+    return Number.isFinite(n) ? n : 0;
+  }
+  function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+  function safeFile(name){
+    return String(name).toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"") || "sheet";
+  }
+  function d12(){ return Math.floor(Math.random()*12)+1; }
+
+  // init
+  syncInputs();
+  renderAll();
+  log("Loaded " + new Date(state.updatedAt || Date.now()).toLocaleString());
+})();
+</script>
+</body>
+</html>

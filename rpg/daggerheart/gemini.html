@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daggerheart Character Sheet</title>
+    <style>
+        :root {
+            --parchment: #fdf6e3;
+            --ink: #2c2421;
+            --accent: #8b0000; 
+            --border: #4a3728;
+            --highlight: #d4af37;
+            --sub-text: #5e4b3c;
+        }
+
+        body { background-color: #1a1a1a; color: var(--ink); font-family: 'Georgia', serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+
+        .class-tester { margin-bottom: 20px; display: flex; gap: 10px; }
+        .test-btn { background: var(--border); color: var(--parchment); border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-variant: small-caps; }
+        .test-btn:hover { background: var(--accent); }
+
+        .sheet { background-color: var(--parchment); width: 950px; padding: 30px; border: 6px double var(--border); box-shadow: 0 0 30px rgba(0,0,0,0.7); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .full-span { grid-column: 1 / -1; }
+
+        .top-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 80px; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .header-box label { display: block; font-size: 0.65rem; font-weight: bold; color: var(--accent); text-transform: uppercase; }
+        .header-box input { width: 100%; border: none; background: transparent; font-size: 1.1rem; }
+
+        .circle-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
+        .status-circle { border: 3px solid var(--border); border-radius: 50%; aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; }
+        .status-circle h4 { margin: 2px 0; font-size: 0.8rem; }
+        .token-row { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; margin-top: 5px; }
+        .token { width: 14px; height: 14px; appearance: none; border: 2px solid var(--border); border-radius: 2px; cursor: pointer; background: white; }
+        .token:checked { background-color: var(--accent); }
+
+        .traits-row { display: grid; grid-template-columns: 90px repeat(6, 1fr); gap: 8px; margin-bottom: 25px; }
+        .trait-box { border: 2px solid var(--border); text-align: center; background: rgba(0,0,0,0.02); }
+        .trait-label { background: var(--border); color: var(--parchment); font-size: 0.65rem; padding: 4px; }
+        .trait-value input { width: 100%; border: none; background: transparent; text-align: center; font-size: 1.4rem; font-weight: bold; }
+        .trait-suggestions { font-size: 0.5rem; font-style: italic; color: var(--sub-text); padding: 0 2px 5px 2px; line-height: 1.1; }
+
+        .panel { border: 2px solid var(--border); padding: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.3); }
+        .panel-title { background: var(--border); color: white; font-size: 0.75rem; padding: 3px 10px; margin: -10px -10px 10px -10px; font-variant: small-caps; letter-spacing: 1px; }
+
+        .input-line { border-bottom: 1px solid var(--border); margin-bottom: 8px; display: flex; gap: 10px; }
+        .input-line input { flex-grow: 1; border: none; background: transparent; font-family: serif; font-size: 0.9rem; }
+        
+        .wpn-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 5px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+
+        .gold-tracker { display: flex; align-items: center; gap: 15px; padding-top: 10px; border-top: 2px solid var(--border); }
+        .gold-sub { display: flex; align-items: center; gap: 5px; }
+
+        .dice-tray { position: fixed; bottom: 20px; right: 20px; background: var(--ink); color: var(--parchment); padding: 20px; border-radius: 8px; border: 2px solid var(--highlight); text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        
+        /* New Styles for Automation */
+        .apply-btn { background: var(--highlight); color: var(--ink); border: none; font-size: 0.6rem; padding: 2px 5px; cursor: pointer; font-weight: bold; border-radius: 2px; margin-left: 10px; }
+        .apply-btn:hover { background: white; }
+        .save-status { position: fixed; top: 10px; right: 10px; font-size: 0.7rem; color: var(--highlight); opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+<div class="save-status" id="save-status">Auto-saving enabled</div>
+
+<div class="class-tester">
+    <button class="test-btn" onclick="loadClass('Rogue')">Load Rogue</button>
+    <button class="test-btn" onclick="loadClass('Warrior')">Load Warrior</button>
+    <button class="test-btn" onclick="loadClass('Wizard')">Load Wizard</button>
+    <button class="test-btn" style="background:var(--sub-text)" onclick="clearSheet()">Clear All</button>
+</div>
+
+<div class="sheet" id="sheet-element">
+    <div class="full-span">
+        <div class="top-row">
+            <div class="header-box"><label>Character Name</label><input type="text" id="char-name" onchange="saveSheet()"></div>
+            <div class="header-box"><label>Heritage</label><input type="text" id="char-heritage" onchange="saveSheet()"></div>
+            <div class="header-box"><label>Subclass</label><input type="text" id="char-subclass" onchange="saveSheet()"></div>
+            <div class="header-box"><label>Class Level</label><input type="number" id="char-level" value="1" onchange="saveSheet()"></div>
+            <div class="header-box"><label>Proficiency</label><div class="token-row" id="prof-row"></div></div>
+        </div>
+        
+        <div class="circle-container">
+            <div class="status-circle"><span>ALL HOPE IS LOST</span><h4>HOPE</h4><div class="token-row" id="hope-marks"></div></div>
+            <div class="status-circle"><span>FATIGUED</span><h4>STRESS</h4><div class="token-row" id="stress-marks"></div></div>
+            <div class="status-circle"><span>DEATH'S DOOR</span><h4>HP</h4><div class="token-row" id="hp-marks"></div></div>
+            <div class="status-circle"><span>ARMOR BROKEN</span><h4>ARMOR</h4><div class="token-row" id="armor-marks"></div></div>
+        </div>
+
+        <div class="traits-row" id="traits-container">
+            <div class="trait-box" style="border-radius: 40% 40% 0 0;">
+                <div class="trait-label">EVASION</div>
+                <div class="trait-value"><input type="number" id="stat-evasion" onchange="saveSheet()"></div>
+                <div class="trait-suggestions">Base Defense</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-col">
+        <div class="panel">
+            <div class="panel-title">Damage Thresholds & Health</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center; margin-bottom: 10px;">
+                <div><label style="font-size:0.6rem">MINOR</label><br><input type="number" id="th-mi" style="width:40px" onchange="saveSheet()"></div>
+                <div><label style="font-size:0.6rem">MAJOR</label><br><input type="number" id="th-ma" style="width:40px" onchange="saveSheet()"></div>
+                <div><label style="font-size:0.6rem">SEVERE</label><br><input type="number" id="th-se" style="width:40px" onchange="saveSheet()"></div>
+            </div>
+            <div class="input-line" style="background: var(--ink); color: white; padding: 5px; border-radius: 4px; align-items: center;">
+                <label style="font-size: 0.7rem; flex-shrink: 0;">CALC DAMAGE:</label>
+                <input type="number" id="dmg-in" oninput="calcWound()" style="color: white; font-weight: bold;">
+                <span id="wound-alert" style="color: var(--highlight); font-size: 0.7rem; font-weight: bold;">--</span>
+                <button class="apply-btn" id="apply-dmg-btn" onclick="applyDamage()">APPLY</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Experiences</div>
+            <div class="input-line"><input type="text" class="persist" placeholder="+2 Background Experience"></div>
+            <div class="input-line"><input type="text" class="persist" placeholder="+1 Specialty Experience"></div>
+            <div class="input-line"><input type="text" class="persist"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Spells and Abilities</div>
+            <textarea id="spells-area" style="width:100%; height: 180px; background: transparent; border: none; resize: none; font-family: serif;" onchange="saveSheet()"></textarea>
+        </div>
+    </div>
+
+    <div class="right-col">
+        <div class="panel">
+            <div class="panel-title">Active Weapons</div>
+            <div class="wpn-grid"><span>Name</span><span>Trait/Range</span><span>Damage</span></div>
+            <div class="input-line">
+                <input type="text" id="wpn-1" placeholder="Primary" class="persist">
+                <input type="text" style="width: 50px;" placeholder="Finesse" class="persist">
+                <input type="text" style="width: 50px;" placeholder="d10+2" class="persist">
+            </div>
+            <div class="input-line">
+                <input type="text" id="wpn-2" placeholder="Secondary" class="persist">
+                <input type="text" style="width: 50px;" class="persist">
+                <input type="text" style="width: 50px;" class="persist">
+            </div>
+            <div class="input-line"><input type="text" placeholder="Weapon Feature..." class="persist"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Active Armor</div>
+            <div class="wpn-grid"><span>Armor Name</span><span>Thresholds</span><span>Base Score</span></div>
+            <div class="input-line">
+                <input type="text" placeholder="Leather / Plate" class="persist">
+                <input type="text" style="width: 50px;" placeholder="+1/+1/+1" class="persist">
+                <input type="number" style="width: 50px;" value="0" class="persist">
+            </div>
+        </div>
+
+        <div class="panel" style="background: rgba(0,0,0,0.05);">
+            <div class="panel-title">Gold & Inventory</div>
+            <div class="gold-tracker">
+                <div class="gold-sub"><label>HANDFULS</label><div class="token-row" id="gold-h"></div></div>
+                <div class="gold-sub"><label>BAGS</label><div class="token-row" id="gold-b"></div></div>
+                <div class="gold-sub"><label>CHEST</label><input type="checkbox" class="token" id="chest-gold" onchange="saveSheet()"></div>
+            </div>
+            <textarea id="inv-area" style="width:100%; height: 100px; background: transparent; border: none; margin-top: 10px;" placeholder="Inventory list..." onchange="saveSheet()"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="dice-tray">
+    <button class="test-btn" style="background: var(--accent);" onclick="roll()">ROLL DUALITY (2d12)</button>
+    <div id="roll-res" style="margin-top: 10px; font-weight: bold; font-size: 1.2rem;">READY</div>
+</div>
+
+<script>
+    const classData = {
+        'Rogue': { sub: 'Nightwalker', ev: 12, th: [4, 9, 14], stats: [2, 0, 1, 0, -1, 0], wpn: 'Twin Daggers' },
+        'Warrior': { sub: 'Guardian', ev: 8, th: [6, 12, 18], stats: [0, 2, 0, 1, 0, -1], wpn: 'Greatsword' },
+        'Wizard': { sub: 'Spellblade', ev: 10, th: [3, 7, 12], stats: [-1, -1, 0, 1, 0, 2], wpn: 'Arcane Staff' }
+    };
+
+    const traits = [
+        {n: 'AGILITY', s: 'Sprint, Leap, Maneuver'}, {n: 'STRENGTH', s: 'Lift, Smash, Grapple'},
+        {n: 'FINESSE', s: 'Control, Hide, Tinker'}, {n: 'INSTINCT', s: 'Perceive, Sense, Navigate'},
+        {n: 'PRESENCE', s: 'Charm, Perform, Deceive'}, {n: 'KNOWLEDGE', s: 'Recall, Analyze, Comprehend'}
+    ];
+
+    function init() {
+        const tc = document.getElementById('traits-container');
+        traits.forEach((t, i) => {
+            tc.innerHTML += `<div class="trait-box"><div class="trait-label">${t.n}</div><div class="trait-value"><input type="number" id="stat-${i}" onchange="saveSheet()"></div><div class="trait-suggestions">${t.s}</div></div>`;
+        });
+        makeTokens('hope-marks', 6); makeTokens('stress-marks', 6); makeTokens('hp-marks', 6); makeTokens('armor-marks', 3);
+        makeTokens('prof-row', 5); makeTokens('gold-h', 10); makeTokens('gold-b', 5);
+        
+        loadSheet(); // Try to load saved data first
+    }
+
+    function makeTokens(id, n) {
+        const d = document.getElementById(id);
+        for(let i=0; i<n; i++) {
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'token';
+            cb.id = `${id}-${i}`;
+            cb.onchange = saveSheet;
+            d.appendChild(cb);
+        }
+    }
+
+    function loadClass(cls) {
+        const d = classData[cls];
+        document.getElementById('char-name').value = cls + " Tester";
+        document.getElementById('char-subclass').value = d.sub;
+        document.getElementById('stat-evasion').value = d.ev;
+        document.getElementById('th-mi').value = d.th[0];
+        document.getElementById('th-ma').value = d.th[1];
+        document.getElementById('th-se').value = d.th[2];
+        document.getElementById('wpn-1').value = d.wpn;
+        d.stats.forEach((v, i) => document.getElementById(`stat-${i}`).value = v);
+        calcWound();
+        saveSheet();
+    }
+
+    function calcWound() {
+        const val = parseInt(document.getElementById('dmg-in').value) || 0;
+        const mi = parseInt(document.getElementById('th-mi').value);
+        const ma = parseInt(document.getElementById('th-ma').value);
+        const se = parseInt(document.getElementById('th-se').value);
+        const out = document.getElementById('wound-alert');
+
+        if (val === 0) out.innerText = "--";
+        else if (val < mi) out.innerText = "0 MARKS";
+        else if (val < ma) out.innerText = "1 MARK";
+        else if (val < se) out.innerText = "2 MARKS";
+        else out.innerText = "3 MARKS";
+    }
+
+    // NEW: Automated HP Marking
+    function applyDamage() {
+        const txt = document.getElementById('wound-alert').innerText;
+        let marks = 0;
+        if (txt.includes("1 MARK")) marks = 1;
+        if (txt.includes("2 MARKS")) marks = 2;
+        if (txt.includes("3 MARKS")) marks = 3;
+
+        if (marks === 0) return;
+
+        const hpTokens = document.querySelectorAll('#hp-marks .token');
+        let marked = 0;
+        for (let t of hpTokens) {
+            if (!t.checked && marked < marks) {
+                t.checked = true;
+                marked++;
+            }
+        }
+        document.getElementById('dmg-in').value = '';
+        calcWound();
+        saveSheet();
+    }
+
+    function roll() {
+        const h = Math.floor(Math.random() * 12) + 1;
+        const f = Math.floor(Math.random() * 12) + 1;
+        const res = h + f;
+        const type = h === f ? "CRITICAL!" : (h > f ? "with HOPE" : "with FEAR");
+        document.getElementById('roll-res').innerHTML = `${res} ${type}<br><small>(H:${h} f:${f})</small>`;
+    }
+
+    // NEW: Save functionality
+    function saveSheet() {
+        const data = {};
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                data[input.id] = input.checked;
+            } else {
+                data[input.id] = input.value;
+            }
+        });
+        // Also save generic classes
+        const persist = document.querySelectorAll('.persist');
+        persist.forEach((p, i) => data['persist-'+i] = p.value);
+
+        localStorage.setItem('daggerheart_char', JSON.stringify(data));
+        document.getElementById('save-status').innerText = "Saved at " + new Date().toLocaleTimeString();
+    }
+
+    function loadSheet() {
+        const raw = localStorage.getItem('daggerheart_char');
+        if (!raw) {
+            loadClass('Rogue');
+            return;
+        }
+        const data = JSON.parse(raw);
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            if (data[input.id] !== undefined) {
+                if (input.type === 'checkbox') input.checked = data[input.id];
+                else input.value = data[input.id];
+            }
+        });
+        const persist = document.querySelectorAll('.persist');
+        persist.forEach((p, i) => { if(data['persist-'+i]) p.value = data['persist-'+i] });
+        calcWound();
+    }
+
+    function clearSheet() {
+        if(confirm("Wipe character sheet?")) {
+            localStorage.removeItem('daggerheart_char');
+            location.reload();
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>
