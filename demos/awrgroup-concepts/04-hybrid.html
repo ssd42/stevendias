@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWR Group Inc. — Concept 04 · The Mix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link rel="icon" href="../awrgroup-assets/web/mark.webp">
+<style>
+:root{
+  --forest:#163D1D;--forest-2:#1F5427;--brand:#4A7C2C;--lime:#9BD46E;
+  --ink:#14170F;--body:#5c665b;--stone:#f4f5f1;--line:#e2e6dd;
+  --paper:#fff;--night:#101310;
+  --r:26px;--r-sm:16px;
+  --f:'DM Sans',system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);color:var(--ink);background:var(--paper);font-size:17px;
+     line-height:1.62;-webkit-font-smoothing:antialiased;letter-spacing:-.005em;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:92%;max-width:1320px;margin:0 auto}
+h1,h2,h3{line-height:1.08;letter-spacing:-.03em;font-weight:500}
+
+/* eyebrow — Central's kicker, Skyline's letterspacing */
+.eyebrow{display:flex;align-items:center;gap:.85rem;font-size:.72rem;font-weight:600;
+         letter-spacing:.28em;text-transform:uppercase;color:var(--brand);margin-bottom:1.1rem}
+.eyebrow::before{content:"";width:34px;height:1px;background:currentColor;flex-shrink:0}
+.eyebrow.c{justify-content:center}
+
+/* pill button — Greene */
+.pill{display:inline-flex;align-items:center;gap:.85rem;padding:.5rem .6rem .5rem 1.5rem;
+      border-radius:999px;font-weight:500;font-size:.98rem;line-height:1.25;
+      transition:.32s var(--ease);border:1.5px solid transparent}
+.pill .b{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;
+         flex-shrink:0;transition:.32s var(--ease)}
+.pill .b svg{width:16px;height:16px;stroke-width:2.3;fill:none;transition:transform .32s var(--ease)}
+.pill:hover .b svg{transform:translate(2px,-2px)}
+.p-solid{background:var(--forest);color:#fff}
+.p-solid .b{background:#fff}.p-solid .b svg{stroke:var(--forest)}
+.p-solid:hover{background:var(--brand)}
+.p-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.p-ghost .b{background:#fff}.p-ghost .b svg{stroke:var(--forest)}
+.p-ghost:hover{background:rgba(255,255,255,.13);border-color:#fff}
+.p-white{background:#fff;color:var(--forest)}
+.p-white .b{background:var(--forest)}.p-white .b svg{stroke:#fff}
+.p-sm{font-size:.88rem;padding:.35rem .45rem .35rem 1.2rem}
+.p-sm .b{width:32px;height:32px}
+
+/* ---------- header ---------- */
+header{position:absolute;top:0;left:0;right:0;z-index:80;padding:1.3rem 0;transition:.35s var(--ease)}
+header.stuck{position:fixed;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+             box-shadow:0 2px 26px rgba(0,0,0,.08);padding:.7rem 0}
+.hrow{display:flex;align-items:center;gap:1.4rem}
+.brand{position:relative;display:block;height:64px;transition:height .35s var(--ease);flex-shrink:0}
+header.stuck .brand{height:50px}
+.brand img{height:100%;width:auto;transition:opacity .3s}
+.brand .dark{position:absolute;inset:0}
+header.stuck .brand .dark{opacity:0}
+header:not(.stuck) .brand .light{opacity:0}
+.hnav{margin-left:auto;display:flex;align-items:center;gap:2.1rem}
+.hnav>a{font-size:.94rem;font-weight:500;color:#fff;transition:.25s;position:relative}
+.hnav>a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;
+               background:var(--lime);transform:scaleX(0);transition:transform .3s var(--ease)}
+.hnav>a:hover::after{transform:scaleX(1)}
+header.stuck .hnav>a{color:var(--ink)}
+header.stuck .hnav>a::after{background:var(--brand)}
+header.stuck .p-ghost{color:var(--forest);border-color:var(--line)}
+header.stuck .p-ghost .b{background:var(--forest)}
+header.stuck .p-ghost .b svg{stroke:#fff}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:.65rem;margin-left:auto}
+.burger span{display:block;width:26px;height:2px;background:#fff;margin:5px 0;border-radius:2px;transition:.3s}
+header.stuck .burger span{background:var(--ink)}
+
+/* ---------- hero: Skyline's cinema + Greene's copy ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;background:#000}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+          filter:grayscale(1) contrast(1.1) brightness(.62);
+          animation:bloom 2.4s var(--ease) .35s forwards, float 32s ease-in-out 3s infinite alternate}
+@keyframes bloom{to{filter:grayscale(.12) contrast(1.05) brightness(.68)}}
+@keyframes float{from{transform:scale(1.03)}to{transform:scale(1.12)}}
+.hero::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(16,19,16,.66) 0%,rgba(16,19,16,.18) 40%,rgba(16,19,16,.86) 100%)}
+.hero-in{position:relative;z-index:3;padding:0 0 6.5vh;max-width:900px}
+.hero h1{color:#fff;font-size:clamp(2.6rem,6.6vw,5.6rem);font-weight:500}
+.hero h1 span{display:block;font-weight:300;color:rgba(255,255,255,.82)}
+.hero .lede{color:rgba(255,255,255,.8);font-size:clamp(1rem,1.5vw,1.18rem);margin:1.5rem 0 2.3rem;
+            max-width:560px;font-weight:300}
+.hero .btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.hero .eyebrow{color:var(--lime)}
+.chip{display:inline-flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:.4rem 1rem;
+      font-size:.8rem;color:#fff;font-weight:500;backdrop-filter:blur(8px);margin-bottom:1.4rem}
+.chip i{width:6px;height:6px;border-radius:999px;background:var(--lime);font-style:normal}
+
+/* ---------- quick bar: Skyline, in AWR green ---------- */
+.qbar{background:var(--forest);position:relative;overflow:hidden}
+.qbar::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:64px 64px}
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:1}
+.q{display:flex;align-items:center;gap:1.05rem;padding:2.2rem 1.5rem;
+   border-right:1px solid rgba(255,255,255,.13);transition:background .35s var(--ease)}
+.q:last-child{border-right:0}
+.q:hover{background:rgba(255,255,255,.06)}
+.q .ico{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.09);
+        display:grid;place-items:center;flex-shrink:0;transition:.35s var(--ease)}
+.q:hover .ico{background:var(--lime)}
+.q .ico svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.5;transition:.35s var(--ease)}
+.q:hover .ico svg{stroke:var(--forest)}
+.q h4{color:#fff;font-size:1.06rem;font-weight:500;margin-bottom:.1rem}
+.q p{font-size:.86rem;color:rgba(255,255,255,.6);line-height:1.35;font-weight:300}
+
+/* ---------- marquee of landmarks ---------- */
+.marq{background:var(--night);color:#fff;padding:1.5rem 0;overflow:hidden;
+      border-bottom:1px solid rgba(255,255,255,.08)}
+.marq-track{display:flex;gap:3.5rem;width:max-content;animation:slide 46s linear infinite}
+.marq:hover .marq-track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.marq span{font-size:1rem;color:rgba(255,255,255,.5);white-space:nowrap;display:flex;
+           align-items:center;gap:3.5rem;font-weight:300}
+.marq span::after{content:"";width:5px;height:5px;border-radius:999px;background:var(--brand);flex-shrink:0}
+
+/* ---------- sections ---------- */
+section{padding:6.5rem 0}
+.sh{max-width:760px;margin-bottom:3.2rem}
+.sh.c{margin-left:auto;margin-right:auto;text-align:center}
+.sh h2{font-size:clamp(2.05rem,4.6vw,3.5rem)}
+.sh h2 em{font-style:normal;color:var(--brand)}
+.sh p{color:var(--body);margin-top:1.05rem;font-size:1.05rem;font-weight:300}
+
+/* blueprint wash — Central */
+.bp{position:relative;background:var(--stone)}
+.bp::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='680' height='680' viewBox='0 0 680 680'><g fill='none' stroke='%23163D1D' stroke-opacity='0.12' stroke-width='1'><circle cx='340' cy='360' r='262'/><circle cx='340' cy='360' r='198'/><path d='M78 360h524M340 98v524'/><rect x='138' y='190' width='404' height='340'/><rect x='190' y='244' width='128' height='234'/><rect x='362' y='244' width='128' height='234'/><path d='M138 190l202-96 202 96'/><path d='M212 300h84M384 300h84M212 366h84M384 366h84'/><path d='M46 66h172M46 66v42M218 66v42' stroke-dasharray='4 5'/></g></svg>"),
+    linear-gradient(rgba(22,61,29,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(22,61,29,.04) 1px,transparent 1px);
+  background-size:680px 680px,68px 68px,68px 68px}
+.bp>*{position:relative;z-index:1}
+
+/* ---------- services: Central's swap, Greene's shapes ---------- */
+.svc{display:grid;grid-template-columns:.9fr 1.45fr;gap:3rem;align-items:start}
+.slist{display:flex;flex-direction:column;gap:.15rem}
+.slist button{background:none;border:0;text-align:left;cursor:pointer;font-family:inherit;
+  font-size:1.05rem;color:var(--body);padding:.95rem 1.1rem;border-radius:12px;
+  transition:.28s var(--ease);display:flex;align-items:center;gap:.9rem;font-weight:400}
+.slist button .n{font-size:.76rem;color:#a6b0a4;font-weight:600;letter-spacing:.06em;transition:.28s}
+.slist button:hover{background:rgba(22,61,29,.05);color:var(--ink)}
+.slist button.on{background:var(--forest);color:#fff;font-weight:500}
+.slist button.on .n{color:var(--lime)}
+.panel{position:relative;aspect-ratio:16/11.5;overflow:hidden;background:var(--forest);
+       border-radius:var(--r);box-shadow:0 24px 60px rgba(22,61,29,.2)}
+.panel figure{position:absolute;inset:0;opacity:0;transition:opacity .55s var(--ease)}
+.panel figure.on{opacity:1}
+.panel img{width:100%;height:100%;object-fit:cover}
+.panel figure::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(22,61,29,0) 18%,rgba(16,19,16,.55) 42%,rgba(16,19,16,.95))}
+.panel figcaption{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:2rem 2.1rem;color:#fff}
+.panel figcaption h3{font-size:1.5rem;margin-bottom:.4rem}
+.panel figcaption p{font-weight:300;font-size:.95rem;color:rgba(255,255,255,.8);max-width:48ch}
+.panel figcaption ul{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem;list-style:none}
+.panel figcaption li{font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.26rem .75rem;
+  color:rgba(255,255,255,.9);backdrop-filter:blur(4px)}
+
+/* ---------- numbers band — Greene ---------- */
+.band{background:var(--forest);color:#fff;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:70px 70px}
+.band>*{position:relative;z-index:1}
+.band .sh h2{color:#fff}.band .sh p{color:rgba(255,255,255,.72)}
+.band .eyebrow{color:var(--lime)}
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.15rem}
+.num{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+     border-radius:var(--r-sm);padding:2rem 1.5rem;transition:.35s var(--ease)}
+.num:hover{background:rgba(255,255,255,.12);transform:translateY(-4px)}
+.num b{display:block;font-size:clamp(2.3rem,4.4vw,3.3rem);font-weight:500;line-height:1;
+       letter-spacing:-.045em}
+.num span{display:block;margin-top:.55rem;color:rgba(255,255,255,.7);font-size:.92rem;font-weight:300}
+
+/* ---------- projects: Skyline mono→colour, Greene shapes ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.proj{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/4.2;
+      display:block;background:#000}
+.proj img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.62);
+          transition:filter .6s var(--ease),transform .9s var(--ease)}
+.proj:hover img{filter:grayscale(0) brightness(.85);transform:scale(1.07)}
+.proj::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 40%,rgba(16,19,16,.9))}
+.proj .pm{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:1.6rem;color:#fff;
+          display:flex;align-items:flex-end;justify-content:space-between;gap:1rem}
+.proj h3{font-size:1.22rem}
+.proj p{font-size:.83rem;color:rgba(255,255,255,.72);margin-top:.25rem;font-weight:300}
+.proj .go{width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.18);
+  display:grid;place-items:center;flex-shrink:0;transition:.35s var(--ease);backdrop-filter:blur(6px)}
+.proj:hover .go{background:var(--lime)}
+.proj .go svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.4;transition:.35s}
+.proj:hover .go svg{stroke:var(--forest)}
+.tagrow{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2.2rem}
+.tagrow span{background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:.5rem 1.1rem;font-size:.88rem;color:var(--body);transition:.28s var(--ease);font-weight:300}
+.tagrow span:hover{background:var(--forest);color:#fff;border-color:var(--forest)}
+
+/* ---------- about ---------- */
+.split{display:grid;grid-template-columns:1fr 1.05fr;gap:4rem;align-items:center}
+.about-img{position:relative}
+.about-img img{border-radius:var(--r);aspect-ratio:4/4.7;object-fit:cover;width:100%;
+               filter:grayscale(.85) contrast(1.05);transition:filter .8s var(--ease)}
+.about-img:hover img{filter:grayscale(0)}
+.about-img .badge{position:absolute;left:-22px;bottom:36px;background:var(--forest);color:#fff;
+  border-radius:var(--r-sm);padding:1.3rem 1.6rem;box-shadow:0 20px 44px rgba(22,61,29,.28)}
+.about-img .badge b{display:block;font-size:2.1rem;font-weight:500;line-height:1;letter-spacing:-.04em}
+.about-img .badge span{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;
+                       color:rgba(255,255,255,.72)}
+.split p{color:var(--body);margin-bottom:1.1rem;font-weight:300}
+.split .pull{color:var(--ink);font-size:1.16rem;font-weight:400;padding:1.4rem 1.7rem;
+  background:var(--stone);border-radius:var(--r-sm);border-left:3px solid var(--brand);margin:1.5rem 0}
+
+/* ---------- cta ---------- */
+.cta{background:var(--night);color:#fff;border-radius:var(--r);padding:4.6rem 3rem;
+     text-align:center;position:relative;overflow:hidden}
+.cta>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+         filter:grayscale(1) brightness(.3)}
+.cta::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(22,61,29,.82),rgba(16,19,16,.9))}
+.cta-in{position:relative;z-index:2}
+.cta h2{font-size:clamp(2rem,4.4vw,3.3rem);margin-bottom:.9rem}
+.cta p{color:rgba(255,255,255,.78);max-width:540px;margin:0 auto 2.2rem;font-weight:300}
+.cta .btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+footer{background:var(--stone);padding:3.6rem 0 2rem;margin-top:5rem}
+.frow{display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;align-items:flex-start}
+.frow>div:first-child img{height:60px}
+.fcol h4{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--body);
+         margin-bottom:.75rem;font-weight:600}
+.fcol a,.fcol p{display:block;color:var(--ink);font-size:.97rem;font-weight:300;padding:.55rem 0}
+.fcol a:hover{color:var(--brand)}
+.fbot{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid var(--line);
+      display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;
+      font-size:.85rem;color:var(--body);font-weight:300}
+
+/* ---------- project lightbox ---------- */
+button.proj{border:0;padding:0;font:inherit;color:inherit;cursor:pointer;width:100%;
+            text-align:left;display:block}
+button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.proj.nolink{cursor:default}
+.proj .count{position:absolute;top:1rem;left:1rem;z-index:3;background:rgba(16,19,16,.6);
+  backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);color:#fff;
+  border-radius:999px;padding:.28rem .8rem;font-size:.76rem;font-weight:500;
+  opacity:0;transform:translateY(-6px);transition:.35s var(--ease)}
+.proj:hover .count,.proj:focus-visible .count{opacity:1;transform:none}
+
+.lb{position:fixed;inset:0;z-index:200;background:rgba(9,12,9,.94);
+    backdrop-filter:blur(10px);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:clamp(.75rem,3vw,2.5rem)}
+.lb[hidden]{display:none}
+.lb-stage{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;
+              box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb-bar{display:flex;align-items:baseline;gap:1rem;color:#fff;padding-top:1.1rem;
+        flex-wrap:wrap;justify-content:center}
+.lb-bar b{font-weight:500;font-size:1.05rem}
+.lb-bar span{color:rgba(255,255,255,.6);font-size:.9rem;font-weight:300}
+.lb button{position:absolute;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  color:#fff;border-radius:999px;cursor:pointer;display:grid;place-items:center;
+  backdrop-filter:blur(8px);transition:.28s var(--ease);font-family:inherit}
+.lb button:hover{background:var(--lime);border-color:var(--lime);color:var(--forest)}
+.lb button:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.lb-close{top:clamp(.75rem,3vw,1.6rem);right:clamp(.75rem,3vw,1.6rem);width:48px;height:48px}
+.lb-nav{top:50%;transform:translateY(-50%);width:52px;height:52px}
+.lb-prev{left:clamp(.5rem,2vw,1.6rem)}
+.lb-next{right:clamp(.5rem,2vw,1.6rem)}
+.lb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2}
+.lb-hint{position:absolute;bottom:clamp(.6rem,2vw,1.2rem);left:0;right:0;text-align:center;
+         color:rgba(255,255,255,.35);font-size:.76rem;font-weight:300}
+/* no physical keyboard on touch devices — don't advertise shortcuts */
+@media (pointer:coarse){ .lb-hint{display:none} }
+@media(max-width:620px){
+  .lb-nav{width:44px;height:44px}
+  .lb-hint{display:none}
+  .proj .count{opacity:1;transform:none}
+}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:1080px){
+  .qgrid{grid-template-columns:repeat(2,1fr)}
+  .q:nth-child(2){border-right:0}
+  .q:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.13)}
+  .numbers{grid-template-columns:repeat(2,1fr)}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+  .svc{grid-template-columns:1fr;gap:2rem}
+  .split{grid-template-columns:1fr;gap:2.4rem}
+  .about-img .badge{left:16px}
+}
+/* ---------- mobile: services become an accordion ---------- */
+.slist figure{display:none}
+@media(max-width:860px){
+  .panel{display:none}
+  .slist{gap:.5rem}
+  .slist button{background:#fff;border:1px solid var(--line);border-radius:14px;min-height:54px}
+  .slist button.on{background:var(--forest);border-color:var(--forest)}
+  .slist figure{position:relative;margin:.15rem 0 .75rem;border-radius:16px;overflow:hidden;
+                background:var(--forest);box-shadow:0 12px 30px rgba(22,61,29,.16)}
+  .slist figure.on{display:block}
+  .slist figure img{width:100%;height:200px;object-fit:cover;display:block}
+  .slist figcaption{padding:1.15rem 1.25rem 1.35rem;color:#fff}
+  .slist figcaption h3{font-size:1.16rem;margin-bottom:.35rem}
+  .slist figcaption p{font-size:.93rem;color:rgba(255,255,255,.82);font-weight:300}
+  .slist figcaption ul{margin-top:.85rem;display:flex;flex-wrap:wrap;gap:.4rem;list-style:none}
+  .slist figcaption li{font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;
+    border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:.26rem .7rem;
+    color:rgba(255,255,255,.9)}
+}
+@media(max-width:860px){
+  .hnav{display:none}.burger{display:block}
+  .hnav.open{display:flex;position:absolute;top:100%;left:4%;right:4%;background:#fff;
+    flex-direction:column;align-items:stretch;gap:.1rem;padding:1.1rem;border-radius:var(--r-sm);
+    box-shadow:0 20px 50px rgba(0,0,0,.16);margin-top:.7rem}
+  .hnav.open>a{color:var(--ink);padding:.8rem .4rem}
+  .hnav.open .pill{margin-top:.5rem;justify-content:space-between}
+}
+@media(max-width:620px){
+  section{padding:4rem 0}
+  .qgrid{grid-template-columns:1fr}
+  .q{border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}
+  .numbers,.pgrid{grid-template-columns:1fr}
+  .hero{min-height:92vh}
+  .hero .btns{flex-direction:column;align-items:stretch}
+  .hero .pill{justify-content:space-between}
+  .cta{padding:3rem 1.4rem;border-radius:var(--r-sm)}
+  .panel figcaption{padding:1.3rem}
+  .about-img .badge{left:12px;bottom:12px;padding:1rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap hrow">
+    <a href="#top" class="brand">
+      <img src="../awrgroup-assets/web/logo-trans.png" alt="AWR Group Inc." class="light">
+      <img src="../awrgroup-assets/web/logo-knockout.png" alt="" aria-hidden="true" class="dark">
+    </a>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav class="hnav" id="nav">
+      <a href="#services">Services</a><a href="#work">Projects</a><a href="#about">About</a>
+      <a href="#contact" class="pill p-ghost p-sm">Contact
+        <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top" style="padding:0">
+  <img fetchpriority="high" src="../awrgroup-assets/web/projects/centre-dome-skyline.webp" alt="Copper dome restoration at 240 Centre Street, Manhattan">
+  <div class="wrap"><div class="hero-in">
+    <span class="chip"><i></i> Building excellence since 1947</span>
+    <h1>Bringing buildings<span>back to life.</span></h1>
+    <p class="lede">Specialized structural repair, historic restoration, roofing and exterior
+    cleaning for landmark and commercial buildings across the New York metropolitan area.</p>
+    <div class="btns">
+      <a href="#contact" class="pill p-solid">Tell us about your building
+        <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      <a href="#work" class="pill p-ghost">See our work
+        <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </div>
+  </div></div>
+</section>
+
+<div class="qbar">
+  <div class="wrap qgrid">
+    <a href="#services" class="q">
+      <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="1"/><path d="M3 11h18M9 11v10M15 11v10M6 7l6-4 6 4"/></svg></span>
+      <div><h4>Services</h4><p>Nine service areas</p></div></a>
+    <a href="#work" class="q">
+      <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="9" height="18" rx="1"/><rect x="13" y="9" width="7" height="12" rx="1"/><path d="M7 7h1M7 11h1M7 15h1M16 13h1M16 17h1"/></svg></span>
+      <div><h4>Projects</h4><p>Chrysler · Radio City · Flatiron</p></div></a>
+    <a href="#about" class="q">
+      <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></span>
+      <div><h4>About</h4><p>Founded 1947</p></div></a>
+    <a href="#contact" class="q">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-6.7 8-12a8 8 0 1 0-16 0c0 5.3 8 12 8 12z"/><circle cx="12" cy="10" r="2.8"/></svg></span>
+      <div><h4>Contact</h4><p>718.729.0412</p></div></a>
+  </div>
+</div>
+
+<div class="marq">
+  <div class="marq-track" id="marq">
+    <span>240 Centre Street</span><span>200 Rector Street</span><span>250 Cabrini Boulevard</span>
+    <span>195 Bowery</span><span>684 Broadway</span><span>246 West End Avenue</span>
+    <span>The Chrysler Building</span><span>Radio City Music Hall</span><span>Flatiron Building</span>
+    <span>Woolworth Building</span><span>NY State Capitol</span><span>The Eldorado</span>
+  </div>
+</div>
+
+<section class="bp" id="services">
+  <div class="wrap">
+    <div class="sh rv">
+      <p class="eyebrow">What we do</p>
+      <h2>Every facet of exterior <em>restoration</em>.</h2>
+      <p>From parapet demolition to standing seam metal roofing.</p>
+    </div>
+    <div class="svc rv">
+      <div class="slist" id="slist">
+        <button class="on" data-i="0"><span class="n">01</span>Masonry &amp; Facade Restoration</button>
+        <button data-i="1"><span class="n">02</span>Roofing</button>
+        <button data-i="2"><span class="n">03</span>Windows &amp; Restoration</button>
+        <button data-i="3"><span class="n">04</span>Exterior Cleaning</button>
+        <button data-i="4"><span class="n">05</span>Inspections &amp; Repairs</button>
+        <button data-i="5"><span class="n">06</span>Steel &amp; Structural</button>
+        <button data-i="6"><span class="n">07</span>Specialty Services</button>
+        <button data-i="7"><span class="n">08</span>Awnings</button>
+        <button data-i="8"><span class="n">09</span>Scaffolding</button>
+      </div>
+      <div class="panel" id="panel">
+        <figure class="on"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="Facade restoration">
+          <figcaption><h3>Masonry &amp; Facade Restoration</h3>
+          <p>Complete parapet and facade work for historic and commercial buildings.</p>
+          <ul><li>Parapet demolition</li><li>Wall stabilization</li><li>Coping repair</li><li>Curtain wall</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-roof-bridge.webp" alt="Roof replacement">
+          <figcaption><h3>Roofing</h3>
+          <p>Full roofing services including IRMA, cold-applied, hot applied and standing seam metal.</p>
+          <ul><li>IRMA</li><li>Cold-applied</li><li>Single-ply</li><li>Standing seam</li><li>Asbestos removal</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Window and facade restoration">
+          <figcaption><h3>Windows &amp; Restoration</h3>
+          <p>Window refurbishment and historic wood restoration.</p>
+          <ul><li>Refurbishment</li><li>Painting</li><li>Caulking</li><li>Wood restoration</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="Exterior cleaning">
+          <figcaption><h3>Exterior Cleaning</h3>
+          <p>Professional power washing and facade cleaning.</p>
+          <ul><li>Power washing</li><li>Facade cleaning</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-aerial-top.webp" alt="Building inspection">
+          <figcaption><h3>Inspections &amp; Repairs</h3>
+          <p>Comprehensive building investigations, inspections and repairs.</p>
+          <ul><li>Investigations</li><li>Inspections</li><li>Probes</li><li>Repairs</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-rig.webp" alt="Structural steel work">
+          <figcaption><h3>Steel &amp; Structural</h3>
+          <p>Steel beam work and structural steel services.</p>
+          <ul><li>Block repairs</li><li>Lintel replacement</li><li>I-beam repair</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="Specialty restoration">
+          <figcaption><h3>Specialty Services</h3>
+          <p>Plaza work, loading docks, copper dormers and more.</p>
+          <ul><li>Copper dormers</li><li>Snow guards</li><li>Plaza replacement</li><li>Loading docks</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-entrance.webp" alt="Awning installation">
+          <figcaption><h3>Awnings</h3>
+          <p>Awning installation and maintenance.</p>
+          <ul><li>Installation</li><li>Repairs</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="Suspended scaffolding">
+          <figcaption><h3>Scaffolding</h3>
+          <p>Complete scaffolding services for all project types.</p>
+          <ul><li>Suspended</li><li>Supported</li><li>Installation</li></ul></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sh c rv"><p class="eyebrow c">Since 1947</p>
+      <h2>Seventy-five years on<br>the New York skyline.</h2>
+      <p>Landmark work is unforgiving. That's the work we do.</p></div>
+    <div class="numbers rv">
+      <div class="num"><b>1947</b><span>The year AWR Group was founded</span></div>
+      <div class="num"><b>75+</b><span>Years restoring NYC buildings</span></div>
+      <div class="num"><b>9</b><span>Service areas</span></div>
+      <div class="num"><b>30</b><span>Projects listed in our portfolio</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sh rv"><p class="eyebrow">Selected work</p>
+      <h2>Buildings you already <em>know</em>.</h2>
+      <p>A portfolio you can walk past.</p></div>
+    <div class="pgrid rv">
+      <button class="proj" data-g="centre" data-n="14" aria-label="240 Centre Street — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street dome restoration">
+        <span class="count">14 photos</span><div class="pm"><div><h3>240 Centre Street</h3><p>2026</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="rector" data-n="14" aria-label="200 Rector Street — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt="200 Rector Street">
+        <span class="count">14 photos</span><div class="pm"><div><h3>200 Rector Street</h3><p>2025</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="cabrini" data-n="14" aria-label="250 Cabrini Boulevard — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard">
+        <span class="count">14 photos</span><div class="pm"><div><h3>250 Cabrini Boulevard</h3><p>2025–2026</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="bowery" data-n="6" aria-label="195 Bowery — open photo gallery, 6 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery">
+        <span class="count">6 photos</span><div class="pm"><div><h3>195 Bowery</h3><p>2026</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="broadway" data-n="3" aria-label="684 Broadway — open photo gallery, 3 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway">
+        <span class="count">3 photos</span><div class="pm"><div><h3>684 Broadway</h3><p>2025</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
+        <span class="count">11 photos</span><div class="pm"><div><h3>246 West End Avenue</h3><p>2026</p></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/crysler-building.webp" alt="Chrysler Building">
+        <div class="pm"><div><h3>The Chrysler Building</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
+      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/radio-city.webp" alt="Radio City Music Hall">
+        <div class="pm"><div><h3>Radio City Music Hall</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
+      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/flatiron.webp" alt="Flatiron Building">
+        <div class="pm"><div><h3>Flatiron Building</h3><p>Historic Restoration</p></div></div></div>
+    </div>
+    <div class="tagrow rv">
+      <span>Woolworth Building</span><span>NY State Capitol</span><span>The Eldorado</span><span>The Carlyle Hotel</span><span>Warwick Hotel</span><span>666 Broadway</span><span>Hotel Pierre</span><span>685 3rd Avenue</span><span>105 Hudson Street</span><span>International Toy Center</span><span>50 East 42nd Street</span><span>140 Riverside Drive</span><span>1290 6th Avenue</span><span>1285 6th Avenue</span><span>3 Hanover Square</span><span>255 East 49th Street</span><span>International Design Center</span><span>491 Broadway</span><span>335 Madison Avenue</span><span>750 Seventh Avenue</span><span>540 Fifth Avenue</span>
+    </div>
+  </div>
+</section>
+
+<section class="bp" id="about">
+  <div class="wrap split rv">
+    <div class="about-img">
+      <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-detail.webp" alt="Restored brick and stonework detail">
+      <div class="badge"><b>1947</b><span>Established</span></div>
+    </div>
+    <div>
+      <p class="eyebrow">Who we are</p>
+      <div class="sh" style="margin-bottom:1.6rem"><h2>Building excellence<br>since <em>1947</em>.</h2></div>
+      <p>Founded in 1947, AWR Group has a performance record reflecting the leadership and commitment
+      to long-term relationships of the principals at its heart. Every principal is active in the
+      day-to-day running of the company, meeting with potential and established clients.</p>
+      <p class="pull">"Precisely and efficiently, with advanced technological know-how, AWR specializes
+      in structural repair, roofing, historic restoration, and exterior cleaning on private and
+      commercial buildings of all types."</p>
+      <p>Our project managers are introduced at the beginning of each project and remain in charge
+      until its completion. Their attention to detail and pride in craftsmanship provide for
+      effective and thorough project management.</p>
+      <a href="#contact" class="pill p-solid" style="margin-top:1rem">Work with us
+        <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-bottom:0">
+  <div class="wrap"><div class="cta rv">
+    <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-harbor.webp" alt="">
+    <div class="cta-in">
+      <h2>Tell us about your building.</h2>
+      <p>Send us the address and what you're seeing, and we'll be in touch
+      about next steps.</p>
+      <div class="btns">
+        <a href="tel:7187290412" class="pill p-white">718.729.0412
+          <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        <a href="mailto:info@awrgroup.com" class="pill p-ghost">info@awrgroup.com
+          <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<footer><div class="wrap">
+  <div class="frow">
+    <div><img src="../awrgroup-assets/web/logo-trans.png" alt="AWR Group Inc.">
+      <p style="color:var(--body);font-size:.92rem;margin-top:.9rem;max-width:260px;font-weight:300">
+      Exterior building restoration &amp; historic preservation across the New York metro area.</p></div>
+    <div class="fcol"><h4>Company</h4><a href="#about">About</a><a href="#services">Services</a>
+      <a href="#work">Projects</a></div>
+    <div class="fcol"><h4>Contact</h4><a href="tel:7187290412">718.729.0412</a>
+      <a href="mailto:info@awrgroup.com">info@awrgroup.com</a></div>
+    <div class="fcol"><h4>Since</h4><p>1947</p><p>75+ years</p></div>
+  </div>
+  <div class="fbot"><p>© 2026 AWR Group Inc.</p><p>Concept 04 — the mix</p></div>
+</div></footer>
+
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Project photos" hidden>
+  <figure class="lb-stage"><img id="lbImg" alt=""></figure>
+  <div class="lb-bar"><b id="lbTitle"></b><span id="lbCount"></span></div>
+  <button class="lb-close" id="lbClose" aria-label="Close gallery">
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">
+    <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <p class="lb-hint">Arrow keys to browse · Esc to close</p>
+</div>
+
+<script>
+// services swap
+const list=document.getElementById('slist'),panel=document.getElementById('panel');
+const figs=[...panel.querySelectorAll('figure')];
+const btns=()=>[...list.querySelectorAll('button')];
+const show=b=>{btns().forEach(x=>x.classList.toggle('on',x===b));
+  const i=+b.dataset.i;figs.forEach((f,n)=>f.classList.toggle('on',n===i));};
+list.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b)});
+
+// On phones the shared panel can't work (it sits below all nine items and there is no
+// hover), so each image moves inline under its own button as an accordion instead.
+const mq=matchMedia('(max-width:860px)');
+function relayout(){
+  if(mq.matches){ btns().forEach(b=>{ const f=figs[+b.dataset.i];
+      if(b.nextElementSibling!==f) b.after(f); }); }
+  else { figs.forEach(f=>panel.appendChild(f)); }
+}
+relayout();
+mq.addEventListener('change',relayout);
+// bind once, guard inside — otherwise hover breaks after a mobile→desktop resize
+list.addEventListener('mouseover',e=>{
+  if(mq.matches)return; const b=e.target.closest('button'); if(b)show(b);});
+
+// marquee: duplicate for a seamless loop
+const m=document.getElementById('marq');m.innerHTML+=m.innerHTML;
+
+// sticky header
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('stuck',scrollY>90),{passive:true});
+document.querySelector('.burger').onclick=()=>document.getElementById('nav').classList.toggle('open');
+
+
+/* ---------- project lightbox ---------- */
+(()=>{
+  const lb=document.getElementById('lb'), img=document.getElementById('lbImg'),
+        tEl=document.getElementById('lbTitle'), cEl=document.getElementById('lbCount');
+  let slug=null,total=0,i=0,opener=null,title='';
+  const src=n=>`../awrgroup-assets/web/projects/gallery/${slug}/${String(n).padStart(2,'0')}.webp`;
+  const preload=n=>{ if(n>=0&&n<total){const p=new Image();p.src=src(n);} };
+  function render(){
+    img.src=src(i); img.alt=`${title}, photo ${i+1} of ${total}`;
+    tEl.textContent=title; cEl.textContent=`${i+1} / ${total}`;
+    preload(i+1); preload(i-1);
+  }
+  function go(d){ if(!total)return; i=(i+d+total)%total; render(); }
+  function open(btn){
+    slug=btn.dataset.g; total=+btn.dataset.n; i=0; opener=btn;
+    title=btn.querySelector('h3').textContent;
+    lb.hidden=false; document.body.style.overflow='hidden';
+    render(); document.getElementById('lbClose').focus();
+  }
+  function close(){
+    lb.hidden=true; document.body.style.overflow='';
+    img.removeAttribute('src'); if(opener) opener.focus();
+  }
+  document.querySelectorAll('button.proj[data-g]').forEach(b=>b.addEventListener('click',()=>open(b)));
+  document.getElementById('lbClose').onclick=close;
+  document.getElementById('lbPrev').onclick=()=>go(-1);
+  document.getElementById('lbNext').onclick=()=>go(1);
+  lb.addEventListener('click',e=>{ if(e.target===lb||e.target.classList.contains('lb-stage')) close(); });
+  addEventListener('keydown',e=>{
+    if(lb.hidden)return;
+    if(e.key==='Escape')close();
+    else if(e.key==='ArrowRight')go(1);
+    else if(e.key==='ArrowLeft')go(-1);
+    else if(e.key==='Tab'){ // keep focus inside the dialog
+      const f=[...lb.querySelectorAll('button')];
+      const first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  });
+  let x0=null,y0=null;
+  lb.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  lb.addEventListener('touchend',e=>{
+    if(x0===null)return;
+    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);
+    x0=y0=null;
+  },{passive:true});
+})();
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
