@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWR Group — Website Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link rel="icon" href="../awrgroup-assets/web/mark.webp">
+<style>
+:root{--forest:#163D1D;--brand:#4A7C2C;--lime:#9BD46E;--ink:#14170F;--body:#5c665b;
+      --stone:#f4f5f1;--line:#e2e6dd;--r:22px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--stone);color:var(--ink);
+     font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:92%;max-width:1180px;margin:0 auto}
+h1,h2,h3{line-height:1.08;letter-spacing:-.03em;font-weight:500}
+
+.top{background:var(--forest);color:#fff;padding:3rem 0 5.5rem;position:relative;overflow:hidden}
+.top::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:66px 66px}
+.top>*{position:relative;z-index:1}
+.top img{height:62px;width:auto;margin-bottom:2.6rem}
+.top h1{font-size:clamp(2rem,4.6vw,3.2rem);max-width:16ch}
+.top p{color:rgba(255,255,255,.75);margin-top:1.1rem;max-width:62ch;font-weight:300}
+.eyebrow{display:flex;align-items:center;gap:.8rem;font-size:.72rem;font-weight:600;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:1rem}
+.eyebrow::before{content:"";width:32px;height:1px;background:currentColor}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;margin-top:-3.5rem;
+      padding-bottom:4rem}
+.c{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+   display:flex;flex-direction:column;transition:.35s cubic-bezier(.4,0,.2,1)}
+.c:hover{transform:translateY(-6px);box-shadow:0 26px 56px rgba(22,61,29,.16);border-color:transparent}
+.c .shot{aspect-ratio:16/10;overflow:hidden;background:var(--forest);position:relative}
+.c .shot img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.4,0,.2,1)}
+.c:hover .shot img{transform:scale(1.05)}
+.c .shot .n{position:absolute;top:1rem;left:1rem;z-index:2;background:rgba(255,255,255,.94);
+  color:var(--forest);border-radius:999px;padding:.3rem .95rem;font-size:.76rem;
+  font-weight:600;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(6px)}
+.c .body{padding:1.7rem 1.8rem 2rem;flex:1;display:flex;flex-direction:column}
+.c h3{font-size:1.45rem;margin-bottom:.15rem}
+.c .after{font-size:.86rem;color:var(--brand);font-weight:500;margin-bottom:.9rem}
+.c p{color:var(--body);font-size:.97rem;font-weight:300;margin-bottom:1.3rem}
+.c ul{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.6rem}
+.c li{font-size:.78rem;background:var(--stone);border:1px solid var(--line);border-radius:999px;
+      padding:.3rem .8rem;color:var(--body)}
+.c .go{margin-top:auto;display:inline-flex;align-items:center;gap:.75rem;align-self:flex-start;
+  background:var(--forest);color:#fff;border-radius:999px;padding:.45rem .5rem .45rem 1.35rem;
+  font-size:.93rem;font-weight:500;transition:.3s}
+.c .go:hover{background:var(--brand)}
+.c .go i{width:34px;height:34px;border-radius:999px;background:#fff;display:grid;place-items:center}
+.c .go svg{width:14px;height:14px;stroke:var(--forest);fill:none;stroke-width:2.4}
+
+.mix{grid-column:1/-1;background:var(--forest);color:#fff;border:0}
+.mix .body{padding:2.2rem 2.2rem 2.4rem}
+.mix h3{font-size:1.75rem}
+.mix p{color:rgba(255,255,255,.76)}
+.mix li{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);color:rgba(255,255,255,.85)}
+.mix .after{color:var(--lime)}
+.mix .go{background:#fff;color:var(--forest)}
+.mix .go:hover{background:var(--lime)}
+.mix .go i{background:var(--forest)}
+.mix .go svg{stroke:#fff}
+
+.note{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:2rem 2.2rem;
+      margin-bottom:4rem}
+.note h2{font-size:1.3rem;margin-bottom:.9rem}
+.note p{color:var(--body);font-size:.97rem;font-weight:300;margin-bottom:.7rem}
+.note b{font-weight:500;color:var(--ink)}
+footer{padding:0 0 3rem;color:var(--body);font-size:.86rem;font-weight:300}
+
+@media(max-width:820px){
+  .grid{grid-template-columns:1fr}
+  .top{padding-bottom:5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <img src="../awrgroup-assets/web/logo-knockout.png" alt="AWR Group Inc.">
+  <p class="eyebrow">Website concepts</p>
+  <h1>Four directions for awrgroupinc.com</h1>
+  <p>Each concept takes the layout, typography and mood of one site you liked and rebuilds it
+  around AWR's real content — the same nine services, the same landmark portfolio, the same
+  photography. Only the design changes, so you're comparing design and nothing else.</p>
+</div></div>
+
+<div class="wrap">
+  <div class="grid">
+
+    <a class="c" href="01-skyline.html">
+      <div class="shot"><span class="n">Concept 01</span>
+        <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="" style="filter:grayscale(1) brightness(.72)"></div>
+      <div class="body">
+        <h3>The Portal</h3>
+        <p class="after">after skylinerestoration.com</p>
+        <p>Sparse and editorial. A cinematic black-and-white hero, a hairline header, and a charcoal
+        bar of icon links. Confident restraint — it says "we don't need to sell you."</p>
+        <ul><li>Raleway</li><li>Monochrome</li><li>Zero radius</li><li>Colour on hover</li></ul>
+        <span class="go">View concept <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></span>
+      </div>
+    </a>
+
+    <a class="c" href="02-central.html">
+      <div class="shot"><span class="n">Concept 02</span>
+        <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt=""></div>
+      <div class="body">
+        <h3>The Blueprint</h3>
+        <p class="after">after centralconstructionnyc.com</p>
+        <p>Corporate and thorough. The whole page sits on a faint architectural drawing, and the
+        services section is a list on the left driving a big image panel on the right.</p>
+        <ul><li>Montserrat</li><li>Blueprint wash</li><li>Swap panel</li><li>Contact form</li></ul>
+        <span class="go">View concept <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></span>
+      </div>
+    </a>
+
+    <a class="c" href="03-greene.html">
+      <div class="shot"><span class="n">Concept 03</span>
+        <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt=""></div>
+      <div class="body">
+        <h3>The Modern</h3>
+        <p class="after">after the-greenegroup.com</p>
+        <p>Warm and current. Pill buttons with arrow badges, rounded cards, a deep-green brand band,
+        and a conversational headline. Note: that reference is a recruiting firm, so this is the
+        one that's purely a style borrow.</p>
+        <ul><li>DM Sans</li><li>Deep green</li><li>Pill buttons</li><li>Rounded cards</li></ul>
+        <span class="go">View concept <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></span>
+      </div>
+    </a>
+
+    <a class="c mix" href="04-hybrid.html">
+      <div class="shot"><span class="n">Concept 04 · recommended</span>
+        <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-skyline.webp" alt="" style="filter:grayscale(.6) brightness(.8)"></div>
+      <div class="body">
+        <h3>The Mix</h3>
+        <p class="after">the best move from each</p>
+        <p>Skyline's cinematic monochrome hero and colour-on-hover project grid, Central's
+        services swap panel and blueprint wash, Greene's typography, pill buttons and green
+        brand band. Plus a scrolling ticker of the landmark roster — the portfolio is AWR's
+        strongest asset and this puts it in front of you twice.</p>
+        <ul><li>DM Sans</li><li>Mono → colour hero</li><li>Swap panel</li><li>Landmark ticker</li><li>Blueprint wash</li></ul>
+        <span class="go">View concept <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="note">
+    <h2>Notes</h2>
+    <p><b>Same content and the same photography in all four.</b> Only the design changes, so you're
+    comparing design and nothing else. All nine services with their real bullet lists, the full
+    portfolio, the real About copy, and the real contact details (718.729.0412 / info@awrgroup.com).</p>
+    <p><b>The photography is AWR's own.</b> Drone and site photos from 240 Centre Street, 200 Rector
+    Street, 250 Cabrini Boulevard, 195 Bowery, 684 Broadway and 246 West End Avenue — re-cut for
+    the web (1.1&nbsp;GB of originals down to about 3&nbsp;MB a page). Only three stock landmark
+    photos remain, kept as the historic portfolio.</p>
+    <p><b>New projects are labelled by year, not by trade.</b> We have addresses and dates for them
+    but not confirmed scopes, so they read &ldquo;2026&rdquo; rather than listing services. The
+    landmark entries keep the trade tags from AWR's current site.</p>
+    <p><b>Three claims are awaiting AWR's confirmation</b> &mdash; &ldquo;Family-run since 1947&rdquo;,
+    &ldquo;Founded, and family-run ever since&rdquo; and &ldquo;Three generations, one standard.&rdquo;
+    Their current site says only &ldquo;principals&rdquo;. Public records confirm two Schindermans own
+    the business and trace it back to Arrow Restoration in 1990, but nothing independent reaches 1947.
+    Each line is flagged with a TO&nbsp;CONFIRM comment in the source.</p>
+    <p><b>Concept 04 is the one to look at first</b>, and it is the only one with the per-project
+    photo galleries.</p>
+  </div>
+</div>
+
+<footer><div class="wrap">© 2026 AWR Group Inc. — concepts prepared for review</div></footer>
+
+</body>
+</html>

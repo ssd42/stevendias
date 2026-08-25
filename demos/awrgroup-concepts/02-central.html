@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWR Group Inc. — Concept 02 · The Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../awrgroup-assets/web/mark.webp">
+<style>
+:root{
+  --deep:#1E3A1A;        /* AWR green, taken to Central's "navy" depth */
+  --deep-2:#2C5225;
+  --green:#4A7C2C;
+  --green-lt:#6FA347;
+  --ink:#14261A;
+  --body:#4a5a4d;
+  --line:rgba(30,58,26,.16);
+  --paper:#fff;
+  --wash:#f7f9f6;
+  --f:'Montserrat',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);color:var(--ink);background:var(--paper);font-size:16.5px;
+     line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:92%;max-width:1280px;margin:0 auto}
+
+/* blueprint watermark */
+.blueprint{position:relative;background:var(--wash)}
+.blueprint::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='620' height='620' viewBox='0 0 620 620'><g fill='none' stroke='%231E3A1A' stroke-opacity='0.13' stroke-width='1'><circle cx='310' cy='330' r='250'/><circle cx='310' cy='330' r='190'/><path d='M60 330h500M310 80v500'/><rect x='120' y='170' width='380' height='320'/><rect x='170' y='220' width='120' height='220'/><rect x='330' y='220' width='120' height='220'/><path d='M120 170l190-90 190 90'/><path d='M170 440h120M330 440h120M190 260h80M350 260h80M190 320h80M350 320h80'/><path d='M40 60h160M40 60v40M200 60v40' stroke-dasharray='4 4'/><path d='M420 560h160M420 560v-40M580 560v-40' stroke-dasharray='4 4'/></g></svg>"),
+    linear-gradient(rgba(30,58,26,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,58,26,.045) 1px,transparent 1px);
+  background-size:620px 620px,62px 62px,62px 62px;
+}
+.blueprint>*{position:relative;z-index:1}
+
+/* ---------- header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:80;background:#fff;
+       box-shadow:0 1px 0 var(--line)}
+.hrow{display:flex;align-items:center;height:90px;gap:2rem}
+.logo{height:64px}
+.brandline{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--body);
+           border-left:1px solid var(--line);padding-left:1.5rem;line-height:1.5;font-weight:500}
+.hnav{margin-left:auto;display:flex;gap:2.2rem}
+.hnav a{font-size:.82rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+        color:var(--deep);transition:color .25s;padding:.6rem 0}
+.hnav a:hover{color:var(--green)}
+.burger{display:none;margin-left:auto;background:none;border:0;cursor:pointer;padding:.65rem}
+.burger span{display:block;width:26px;height:2px;background:var(--deep);margin:5px 0}
+
+/* ---------- hero ---------- */
+.hero{margin-top:90px;height:76vh;min-height:520px;position:relative;overflow:hidden;
+      display:grid;place-items:center;text-align:center;background:#0d1a0b}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+          transform:scale(1.05);animation:zoom 30s ease-in-out infinite alternate}
+@keyframes zoom{to{transform:scale(1.16)}}
+.hero::after{content:"";position:absolute;inset:0;
+             background:linear-gradient(180deg,rgba(30,58,26,.72),rgba(20,38,26,.62))}
+.hero-in{position:relative;z-index:3;padding:0 1.5rem}
+.hero h1{font-weight:300;color:#fff;font-size:clamp(1.9rem,5.2vw,4.15rem);
+         letter-spacing:.05em;text-transform:uppercase;line-height:1.12}
+.hero p{color:rgba(255,255,255,.9);margin-top:1.5rem;font-size:clamp(.98rem,1.6vw,1.2rem);font-weight:300}
+.hero .est{display:inline-block;margin-bottom:1.7rem;font-size:.7rem;letter-spacing:.34em;
+           text-transform:uppercase;color:rgba(255,255,255,.85);
+           border:1px solid rgba(255,255,255,.35);padding:.6rem 1.4rem}
+
+/* ---------- section heads (Central's eyebrow + big thin caps) ---------- */
+section{padding:6.5rem 0}
+.ch{text-align:center;margin-bottom:3.4rem}
+.ch .kick{font-size:1.02rem;color:var(--deep);font-weight:500;margin-bottom:.4rem}
+.ch h2{font-weight:300;font-size:clamp(1.9rem,4.4vw,3.1rem);letter-spacing:.06em;
+       text-transform:uppercase;color:var(--deep)}
+.ch .sub{max-width:660px;margin:1.1rem auto 0;color:var(--body);font-size:1.02rem;font-weight:300}
+
+/* ---------- services: list left / swapping panel right ---------- */
+.svc{display:grid;grid-template-columns:.85fr 1.5fr;gap:3.5rem;align-items:start}
+.slist{display:flex;flex-direction:column}
+.slist button{background:none;border:0;text-align:left;cursor:pointer;font-family:inherit;
+              font-size:1.06rem;color:var(--body);padding:.85rem 0 .85rem 0;
+              border-bottom:1px solid rgba(30,58,26,.1);transition:.28s;position:relative;
+              display:flex;align-items:center;gap:.9rem}
+.slist button::before{content:"";width:0;height:1px;background:var(--green);transition:width .3s}
+.slist button:hover{color:var(--deep)}
+.slist button.on{color:var(--deep);font-weight:600}
+.slist button.on::before{width:20px}
+.panel{position:relative;aspect-ratio:16/11;overflow:hidden;background:var(--deep);
+       box-shadow:0 18px 50px rgba(30,58,26,.2)}
+.panel figure{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
+.panel figure.on{opacity:1}
+.panel img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+.panel figure::after{content:"";position:absolute;inset:0;
+                     background:linear-gradient(180deg,rgba(30,58,26,.05) 40%,rgba(30,58,26,.86))}
+.panel figcaption{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:2rem 2.2rem;color:#fff}
+.panel figcaption h3{font-weight:500;font-size:1.35rem;letter-spacing:.03em;margin-bottom:.35rem}
+.panel figcaption p{font-weight:300;font-size:.94rem;color:rgba(255,255,255,.82);max-width:46ch}
+.panel figcaption ul{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.35rem .5rem;list-style:none}
+.panel figcaption li{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;
+                     border:1px solid rgba(255,255,255,.32);padding:.24rem .6rem;color:rgba(255,255,255,.9)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-copy p{color:var(--body);font-weight:300;margin-bottom:1.15rem}
+.about-copy .pull{color:var(--deep);font-size:1.16rem;font-weight:400;font-style:italic;
+                  border-left:3px solid var(--green);padding-left:1.4rem;margin:1.6rem 0}
+.factgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+          border:1px solid var(--line);margin-top:2.2rem}
+.fact{background:#fff;padding:1.6rem 1.2rem;text-align:center}
+.fact b{display:block;font-size:2.3rem;font-weight:300;color:var(--green);line-height:1}
+.fact span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--body)}
+.about-img{position:relative}
+.about-img img{aspect-ratio:4/5;object-fit:cover;width:100%;box-shadow:0 20px 50px rgba(30,58,26,.18)}
+.about-img::before{content:"";position:absolute;inset:-18px -18px auto auto;width:60%;height:60%;
+                   border:1px solid var(--green);z-index:-1}
+
+/* ---------- project grid ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.pcard{background:#fff;border:1px solid var(--line);overflow:hidden;transition:.35s}
+.pcard:hover{box-shadow:0 18px 40px rgba(30,58,26,.15);transform:translateY(-4px)}
+.pcard .ph{aspect-ratio:16/11;overflow:hidden}
+.pcard img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.pcard:hover img{transform:scale(1.07)}
+.pcard .pb{padding:1.3rem 1.4rem 1.5rem}
+.pcard h3{font-size:1.12rem;font-weight:600;color:var(--deep);margin-bottom:.3rem}
+.pcard p{font-size:.85rem;color:var(--body);font-weight:300}
+
+/* roster / "clients" wall */
+.wall{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line)}
+.wall div{background:#fff;padding:1.5rem .9rem;text-align:center;font-size:.9rem;
+          color:var(--body);font-weight:400;display:grid;place-items:center;min-height:88px;transition:.3s}
+.wall div:hover{background:var(--deep);color:#fff}
+
+/* ---------- contact ---------- */
+.contact{background:var(--deep);color:#fff}
+.contact .ch h2,.contact .ch .kick{color:#fff}
+.contact .ch .sub{color:rgba(255,255,255,.72)}
+.cgrid{display:grid;grid-template-columns:1fr 1.15fr;gap:3.5rem;align-items:start}
+.cinfo{display:flex;flex-direction:column;gap:1.6rem}
+.ci{display:flex;gap:1.1rem;align-items:flex-start}
+.ci svg{width:22px;height:22px;stroke:var(--green-lt);fill:none;stroke-width:1.6;flex-shrink:0;margin-top:.3rem}
+.ci span{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+         color:rgba(255,255,255,.5);margin-bottom:.2rem}
+.ci a,.ci p{font-size:1.08rem;font-weight:300}
+.ci a:hover{color:var(--green-lt)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+form input,form textarea{width:100%;background:transparent;border:1px solid rgba(255,255,255,.3);
+   padding:1rem 1.1rem;color:#fff;font-family:inherit;font-size:.95rem;font-weight:300}
+form input::placeholder,form textarea::placeholder{color:rgba(255,255,255,.55)}
+form input:focus,form textarea:focus{outline:0;border-color:var(--green-lt)}
+form textarea{grid-column:1/-1;min-height:150px;resize:vertical}
+form button{grid-column:1/-1;justify-self:start;background:var(--green);color:#fff;border:0;
+   padding:1.05rem 3rem;font-family:inherit;font-size:.82rem;letter-spacing:.2em;
+   text-transform:uppercase;cursor:pointer;transition:.3s;font-weight:600}
+form button:hover{background:var(--green-lt)}
+
+footer{background:#122210;color:rgba(255,255,255,.45);padding:2rem 0;font-size:.82rem}
+.frow{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+      letter-spacing:.08em;text-transform:uppercase}
+
+/* hero zoom is infinite; park it when off screen */
+.anim-off{animation-play-state:paused !important}
+@media (prefers-reduced-motion:reduce){
+  .hero img{animation:none !important}
+  .rv{transition:none !important;opacity:1;transform:none}
+}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s,transform .75s}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:980px){
+  .svc,.about,.cgrid{grid-template-columns:1fr;gap:2.2rem}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+  .wall{grid-template-columns:repeat(3,1fr)}
+  .brandline{display:none}
+  .hnav{display:none}.burger{display:block}
+  .hnav.open{display:flex;position:absolute;top:90px;left:0;right:0;background:#fff;
+             flex-direction:column;gap:0;padding:.5rem 4%;box-shadow:0 12px 30px rgba(0,0,0,.1)}
+  .hnav.open a{padding:1rem 0;border-bottom:1px solid var(--line)}
+  .about-img::before{display:none}
+}
+@media(max-width:620px){
+  section{padding:4.2rem 0}
+  .pgrid{grid-template-columns:1fr}
+  .wall{grid-template-columns:repeat(2,1fr)}
+  .factgrid{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  .hero{height:70vh}
+  .panel figcaption{padding:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <a href="#top"><img src="../awrgroup-assets/web/logo-trans.png" alt="AWR Group Inc." class="logo"></a>
+    <p class="brandline">Building Restoration<br>&amp; Historic Preservation</p>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav class="hnav">
+      <a href="#services">Services</a><a href="#projects">Projects</a>
+      <a href="#about">About Us</a><a href="#roster">Portfolio</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top" style="padding:0">
+  <img fetchpriority="high" src="../awrgroup-assets/web/projects/centre-dome-skyline.webp" alt="Copper dome restoration at 240 Centre Street">
+  <div class="hero-in">
+    <!-- TO CONFIRM WITH AWR: ownership/generations not stated on their current site -->
+    <span class="est">Family-run since 1947</span>
+    <h1>From Inspection<br>to Restoration</h1>
+    <p>Structural repair, historic restoration, roofing and exterior cleaning for landmark buildings.</p>
+  </div>
+</section>
+
+<section class="blueprint" id="services">
+  <div class="wrap">
+    <div class="ch rv">
+      <p class="kick">What We Do</p>
+      <h2>Services</h2>
+      <p class="sub">Every facet of exterior building restoration, from parapet demolition to
+      standing seam metal roofing.</p>
+    </div>
+
+    <div class="svc rv">
+      <div class="slist" id="slist">
+        <button class="on" data-i="0">Masonry &amp; Facade Restoration</button>
+        <button data-i="1">Roofing</button>
+        <button data-i="2">Windows &amp; Restoration</button>
+        <button data-i="3">Exterior Cleaning</button>
+        <button data-i="4">Inspections &amp; Repairs</button>
+        <button data-i="5">Steel &amp; Structural</button>
+        <button data-i="6">Specialty Services</button>
+        <button data-i="7">Awnings</button>
+        <button data-i="8">Scaffolding</button>
+      </div>
+
+      <div class="panel" id="panel">
+        <figure class="on"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="Facade restoration">
+          <figcaption><h3>Masonry &amp; Facade Restoration</h3>
+          <p>Complete parapet and facade work for historic and commercial buildings.</p>
+          <ul><li>Parapet demolition</li><li>Wall stabilization</li><li>Coping repair</li><li>Curtain wall</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-roof-bridge.webp" alt="Roof replacement">
+          <figcaption><h3>Roofing</h3>
+          <p>Full roofing services including IRMA, cold-applied, hot applied, and standing seam metal.</p>
+          <ul><li>IRMA</li><li>Cold-applied</li><li>Single-ply</li><li>Standing seam</li><li>Asbestos removal</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Window and facade restoration">
+          <figcaption><h3>Windows &amp; Restoration</h3>
+          <p>Window refurbishment and historic wood restoration services.</p>
+          <ul><li>Refurbishment</li><li>Painting</li><li>Caulking</li><li>Wood restoration</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="Exterior cleaning">
+          <figcaption><h3>Exterior Cleaning</h3>
+          <p>Professional power washing and exterior cleaning services.</p>
+          <ul><li>Power washing</li><li>Facade cleaning</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-aerial-top.webp" alt="Building inspection">
+          <figcaption><h3>Inspections &amp; Repairs</h3>
+          <p>Comprehensive building investigations, inspections, and repair services.</p>
+          <ul><li>Investigations</li><li>Inspections</li><li>Probes</li><li>Repairs</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-rig.webp" alt="Structural steel work">
+          <figcaption><h3>Steel &amp; Structural</h3>
+          <p>Steel beam work and structural steel services.</p>
+          <ul><li>Block repairs</li><li>Lintel replacement</li><li>I-beam repair</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="Specialty restoration">
+          <figcaption><h3>Specialty Services</h3>
+          <p>Plaza work, loading docks, copper dormers and more.</p>
+          <ul><li>Copper dormers</li><li>Snow guards</li><li>Plaza replacement</li><li>Loading docks</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-entrance.webp" alt="Awning installation">
+          <figcaption><h3>Awnings</h3>
+          <p>Professional awning installation and maintenance services.</p>
+          <ul><li>Installation</li><li>Repairs</li></ul></figcaption></figure>
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="Suspended scaffolding">
+          <figcaption><h3>Scaffolding</h3>
+          <p>Complete scaffolding services for all project types.</p>
+          <ul><li>Suspended</li><li>Supported</li><li>Installation</li></ul></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="ch rv"><p class="kick">Who We Are</p><h2>About Us</h2></div>
+    <div class="about rv">
+      <div class="about-img"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-detail.webp" alt="Restored brick and stonework detail"></div>
+      <div class="about-copy">
+        <p>Family-run since 1947, AWR Group has built a performance record reflecting the leadership and
+        commitment to long-term relationships of the principals at its heart. Every principal is active in
+        the day-to-day running of the company, meeting with potential and established clients.</p>
+        <p class="pull">Precisely and efficiently, with advanced technological know-how, AWR specializes in
+        structural repair, roofing, historic restoration, and exterior cleaning on private and commercial
+        buildings of all types.</p>
+        <p>Our flexible interaction inspires a dedicated staff able to communicate and negotiate among the
+        varied requirements of owners, tenants, architects, and engineers — demonstrating the teamwork
+        necessary to ensure that quality control can be exactingly maintained.</p>
+        <div class="factgrid">
+          <div class="fact"><b>1947</b><span>Family-run since</span></div>
+          <div class="fact"><b>75+</b><span>Years</span></div>
+          <div class="fact"><b>9</b><span>Disciplines</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blueprint" id="projects">
+  <div class="wrap">
+    <div class="ch rv"><p class="kick">Selected Work</p><h2>Landmark Projects</h2>
+      <p class="sub">A portfolio measured in skyline.</p></div>
+    <div class="pgrid rv">
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street"></div>
+        <div class="pb"><h3>240 Centre Street</h3><p>2026</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/rector-skyline-sm.webp 800w, ../awrgroup-assets/web/projects/rector-skyline.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt="200 Rector Street"></div>
+        <div class="pb"><h3>200 Rector Street</h3><p>2025</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard"></div>
+        <div class="pb"><h3>250 Cabrini Boulevard</h3><p>2025–2026</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery"></div>
+        <div class="pb"><h3>195 Bowery</h3><p>2026</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway"></div>
+        <div class="pb"><h3>684 Broadway</h3><p>2025</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 800w, ../awrgroup-assets/web/projects/westend-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue"></div>
+        <div class="pb"><h3>246 West End Avenue</h3><p>2026</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/crysler-building-sm.webp 800w, ../awrgroup-assets/web/crysler-building.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/crysler-building.webp" alt="Chrysler Building"></div>
+        <div class="pb"><h3>The Chrysler Building</h3><p>Masonry · Roofing · Specialty</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/radio-city-sm.webp 800w, ../awrgroup-assets/web/radio-city.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/radio-city.webp" alt="Radio City Music Hall"></div>
+        <div class="pb"><h3>Radio City Music Hall</h3><p>Masonry · Roofing · Specialty</p></div></article>
+      <article class="pcard"><div class="ph"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/flatiron-sm.webp 800w, ../awrgroup-assets/web/flatiron.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:980px) 46vw, 31vw" src="../awrgroup-assets/web/flatiron.webp" alt="Flatiron Building"></div>
+        <div class="pb"><h3>Flatiron Building</h3><p>Historic Restoration</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="roster">
+  <div class="wrap">
+    <div class="ch rv"><p class="kick">Also On Our Books</p><h2>Portfolio</h2></div>
+    <div class="wall rv">
+      <div>Woolworth Building</div><div>NY State Capitol</div><div>The Eldorado</div><div>The Carlyle Hotel</div><div>Warwick Hotel</div><div>666 Broadway</div><div>Hotel Pierre</div><div>685 3rd Avenue</div><div>105 Hudson Street</div><div>International Toy Center</div><div>50 East 42nd Street</div><div>140 Riverside Drive</div><div>1290 6th Avenue</div><div>1285 6th Avenue</div><div>3 Hanover Square</div><div>255 East 49th Street</div><div>International Design Center</div><div>491 Broadway</div><div>335 Madison Avenue</div><div>750 Seventh Avenue</div><div>540 Fifth Avenue</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="ch rv"><p class="kick">Get In Touch</p><h2>Contact Us</h2></div>
+    <div class="cgrid rv">
+      <div class="cinfo">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2.1z"/></svg>
+          <div><span>Telephone</span><a href="tel:7187290412">718.729.0412</a></div></div>
+        <div class="ci"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16"/><path d="m2 6 10 7 10-7"/></svg>
+          <div><span>Email</span><a href="mailto:info@awrgroup.com">info@awrgroup.com</a></div></div>
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M12 22s8-6.7 8-12a8 8 0 1 0-16 0c0 5.3 8 12 8 12z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><span>Service Area</span><p>New York Metropolitan Area</p></div></div>
+        <div class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div><span>Established</span><p>1947 · 75+ years</p></div></div>
+      </div>
+      <form onsubmit="event.preventDefault();this.querySelector('button').textContent='Thank you — we\'ll be in touch'">
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="text" placeholder="Building / Address" style="grid-column:1/-1">
+        <textarea placeholder="Tell us about the project"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap frow">
+  <p>© 2026 AWR Group Inc.</p><p>Concept 02 — after centralconstructionnyc.com</p>
+</div></footer>
+
+<script>
+const list=document.getElementById('slist'),figs=[...document.querySelectorAll('#panel figure')];
+list.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;show(b)});
+list.addEventListener('mouseover',e=>{const b=e.target.closest('button');if(b)show(b)});
+function show(b){
+  [...list.children].forEach(x=>x.classList.toggle('on',x===b));
+  const i=+b.dataset.i; figs.forEach((f,n)=>f.classList.toggle('on',n===i));
+}
+document.querySelector('.burger').onclick=()=>document.querySelector('.hnav').classList.toggle('open');
+new IntersectionObserver(es=>es.forEach(e=>{
+  e.target.classList.toggle('anim-off', !e.isIntersecting);
+}),{threshold:0}).observe(document.querySelector('.hero img'));
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
