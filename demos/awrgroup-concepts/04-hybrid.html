@@ -53,7 +53,10 @@ h1,h2,h3{line-height:1.08;letter-spacing:-.03em;font-weight:500}
 
 /* ---------- header ---------- */
 header{position:absolute;top:0;left:0;right:0;z-index:80;padding:1.3rem 0;transition:.35s var(--ease)}
-header.stuck{position:fixed;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+/* Solid, not blurred: a fixed backdrop-filter re-blurs the whole strip every
+   frame while scrolling, which cost ~16ms/frame on its own. .97 alpha reads
+   near-identically. */
+header.stuck{position:fixed;background:rgba(255,255,255,.97);
              box-shadow:0 2px 26px rgba(0,0,0,.08);padding:.7rem 0}
 .hrow{display:flex;align-items:center;gap:1.4rem}
 .brand{position:relative;display:block;height:64px;transition:height .35s var(--ease);flex-shrink:0}
@@ -94,7 +97,7 @@ header.stuck .burger span{background:var(--ink)}
 .hero .eyebrow{color:var(--lime)}
 .chip{display:inline-flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:.4rem 1rem;
-      font-size:.8rem;color:#fff;font-weight:500;backdrop-filter:blur(8px);margin-bottom:1.4rem}
+      font-size:.8rem;color:#fff;font-weight:500;margin-bottom:1.4rem}
 .chip i{width:6px;height:6px;border-radius:999px;background:var(--lime);font-style:normal}
 
 /* ---------- quick bar: Skyline, in AWR green ---------- */
@@ -167,7 +170,7 @@ section{padding:6.5rem 0}
 .panel figcaption ul{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem;list-style:none}
 .panel figcaption li{font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;
   border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.26rem .75rem;
-  color:rgba(255,255,255,.9);backdrop-filter:blur(4px)}
+  color:rgba(255,255,255,.9)}
 
 /* ---------- numbers band — Greene ---------- */
 .band{background:var(--forest);color:#fff;position:relative;overflow:hidden}
@@ -200,7 +203,7 @@ section{padding:6.5rem 0}
 .proj h3{font-size:1.22rem}
 .proj p{font-size:.83rem;color:rgba(255,255,255,.72);margin-top:.25rem;font-weight:300}
 .proj .go{width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.18);
-  display:grid;place-items:center;flex-shrink:0;transition:.35s var(--ease);backdrop-filter:blur(6px)}
+  display:grid;place-items:center;flex-shrink:0;transition:.35s var(--ease)}
 .proj:hover .go{background:var(--lime)}
 .proj .go svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.4;transition:.35s}
 .proj:hover .go svg{stroke:var(--forest)}
@@ -253,7 +256,7 @@ button.proj{border:0;padding:0;font:inherit;color:inherit;cursor:pointer;width:1
 button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 .proj.nolink{cursor:default}
 .proj .count{position:absolute;top:1rem;left:1rem;z-index:3;background:rgba(16,19,16,.6);
-  backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);color:#fff;
+  border:1px solid rgba(255,255,255,.25);color:#fff;
   border-radius:999px;padding:.28rem .8rem;font-size:.76rem;font-weight:500;
   opacity:0;transform:translateY(-6px);transition:.35s var(--ease)}
 .proj:hover .count,.proj:focus-visible .count{opacity:1;transform:none}
@@ -289,6 +292,13 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   .proj .count{opacity:1;transform:none}
 }
 
+/* Both marquee and hero run infinite animations; keep them off the compositor
+   whenever they're not on screen. */
+.anim-off{animation-play-state:paused !important}
+@media (prefers-reduced-motion:reduce){
+  .hero>img,#marq,.rv{animation:none !important;transition:none !important}
+  .rv{opacity:1;transform:none}
+}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
 .rv.in{opacity:1;transform:none}
 
@@ -485,29 +495,29 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <h2>Buildings you already <em>know</em>.</h2>
       <p>A portfolio you can walk past.</p></div>
     <div class="pgrid rv">
-      <button class="proj" data-g="centre" data-n="14" aria-label="240 Centre Street — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street dome restoration">
+      <button class="proj" data-g="centre" data-n="14" aria-label="240 Centre Street — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street dome restoration">
         <span class="count">14 photos</span><div class="pm"><div><h3>240 Centre Street</h3><p>2026</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="rector" data-n="14" aria-label="200 Rector Street — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt="200 Rector Street">
+      <button class="proj" data-g="rector" data-n="14" aria-label="200 Rector Street — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/rector-skyline-sm.webp 800w, ../awrgroup-assets/web/projects/rector-skyline.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt="200 Rector Street">
         <span class="count">14 photos</span><div class="pm"><div><h3>200 Rector Street</h3><p>2025</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="cabrini" data-n="14" aria-label="250 Cabrini Boulevard — open photo gallery, 14 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard">
+      <button class="proj" data-g="cabrini" data-n="14" aria-label="250 Cabrini Boulevard — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard">
         <span class="count">14 photos</span><div class="pm"><div><h3>250 Cabrini Boulevard</h3><p>2025–2026</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="bowery" data-n="6" aria-label="195 Bowery — open photo gallery, 6 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery">
+      <button class="proj" data-g="bowery" data-n="6" aria-label="195 Bowery — open photo gallery, 6 photos"><img srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery">
         <span class="count">6 photos</span><div class="pm"><div><h3>195 Bowery</h3><p>2026</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="broadway" data-n="3" aria-label="684 Broadway — open photo gallery, 3 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway">
+      <button class="proj" data-g="broadway" data-n="3" aria-label="684 Broadway — open photo gallery, 3 photos"><img srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway">
         <span class="count">3 photos</span><div class="pm"><div><h3>684 Broadway</h3><p>2025</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
+      <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 800w, ../awrgroup-assets/web/projects/westend-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
         <span class="count">11 photos</span><div class="pm"><div><h3>246 West End Avenue</h3><p>2026</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/crysler-building.webp" alt="Chrysler Building">
+      <div class="proj nolink"><img srcset="../awrgroup-assets/web/crysler-building-sm.webp 800w, ../awrgroup-assets/web/crysler-building.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/crysler-building.webp" alt="Chrysler Building">
         <div class="pm"><div><h3>The Chrysler Building</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
-      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/radio-city.webp" alt="Radio City Music Hall">
+      <div class="proj nolink"><img srcset="../awrgroup-assets/web/radio-city-sm.webp 800w, ../awrgroup-assets/web/radio-city.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/radio-city.webp" alt="Radio City Music Hall">
         <div class="pm"><div><h3>Radio City Music Hall</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
-      <div class="proj nolink"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/flatiron.webp" alt="Flatiron Building">
+      <div class="proj nolink"><img srcset="../awrgroup-assets/web/flatiron-sm.webp 800w, ../awrgroup-assets/web/flatiron.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/flatiron.webp" alt="Flatiron Building">
         <div class="pm"><div><h3>Flatiron Building</h3><p>Historic Restoration</p></div></div></div>
     </div>
     <div class="tagrow rv">
@@ -666,6 +676,14 @@ document.querySelector('.burger').onclick=()=>document.getElementById('nav').cla
     x0=y0=null;
   },{passive:true});
 })();
+
+// pause the infinite animations while they're off screen
+new IntersectionObserver(es=>es.forEach(e=>{
+  e.target.classList.toggle('anim-off', !e.isIntersecting);
+}),{threshold:0}).observe(document.querySelector('.hero>img'));
+new IntersectionObserver(es=>es.forEach(e=>{
+  document.getElementById('marq').classList.toggle('anim-off', !e.isIntersecting);
+}),{threshold:0}).observe(document.querySelector('.marq'));
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
