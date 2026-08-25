@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Fantasy Map Sketcher</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Fantasy Map Sketcher</h1>
+      <div class="sub">
+        Hand-draw landmasses, borders, roads, cities, and region colors in a parchment + teal-ocean style (like your example).
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="align-items:center; justify-content:space-between;">
+        <div class="pill"><strong>Mode</strong> <span id="modeLabel">Land</span></div>
+        <div class="pill"><strong>Layer</strong> <span id="layerLabel">All</span></div>
+      </div>
+
+      <div class="hr"></div>
+
+      <label>Mode</label>
+      <div class="toggle" id="modeButtons">
+        <div class="btn active" data-mode="land">Land</div>
+        <div class="btn" data-mode="brush">Brush</div>
+        <div class="btn" data-mode="region">Region Fill</div>
+        <div class="btn" data-mode="border">Borders</div>
+        <div class="btn" data-mode="road">Roads</div>
+        <div class="btn" data-mode="place">Cities</div>
+        <div class="btn" data-mode="geo">Geography</div>
+        <div class="btn" data-mode="select">Select</div>
+      </div>
+
+      <label>Layer</label>
+      <div class="toggle" id="layerButtons">
+        <div class="btn active" data-layer="all">All</div>
+        <div class="btn" data-layer="land">Land</div>
+        <div class="btn" data-layer="regions">Regions</div>
+        <div class="btn" data-layer="borders">Borders</div>
+        <div class="btn" data-layer="roads">Roads</div>
+        <div class="btn" data-layer="places">Places</div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="row">
+        <div class="btn small" id="undoBtn">Undo</div>
+        <div class="btn small" id="redoBtn">Redo</div>
+        <div class="btn small danger" id="clearBtn">Clear</div>
+      </div>
+
+      <div class="hint">
+        <div><span class="kbd">Space</span> drag to pan · <span class="kbd">Wheel</span> zoom</div>
+        <div><span class="kbd">Enter</span> finish border/road · <span class="kbd">Esc</span> cancel line</div>
+        <div><span class="kbd">Del</span> delete selection · <span class="kbd">Ctrl/Cmd</span>+<span class="kbd">Z</span> undo</div>
+      </div>
+    </div>
+
+    <div class="card" id="optionsCard">
+      <h1>Options</h1>
+
+      <div id="landOpts">
+        <label>Land smoothing (1–6)</label>
+        <input id="landSmooth" type="text" value="3"/>
+        <div class="hint">
+          Draw a continent outline by dragging. On release it auto-closes and smooths into a clean coastline.
+        </div>
+      </div>
+
+      <div id="brushOpts" style="display:none;">
+        <label>Brush Action</label>
+        <div class="toggle" style="margin-bottom:10px;">
+          <div class="btn active" id="brushAddBtn">Add Land</div>
+          <div class="btn" id="brushDeleteBtn">Delete Land</div>
+        </div>
+        <label>Brush Size: <span id="brushSizeLabel">30</span></label>
+        <input id="brushSize" type="range" min="10" max="100" value="30" step="5"/>
+        <div class="hint">
+          Click and drag to paint or erase land with a circular brush. Size is adjustable.
+        </div>
+      </div>
+
+      <div id="regionOpts" style="display:none;">
+        <label>Region color</label>
+        <div class="swatches" id="swatches"></div>
+        <div class="row" style="margin-top:8px;">
+          <div class="btn small" id="randColorBtn">Random</div>
+          <div class="btn small" id="rebuildMaskBtn">Rebuild Fill Mask</div>
+        </div>
+        <div class="hint">
+          Click inside land to flood-fill until it hits a border/coast barrier. (Borders matter!)
+        </div>
+      </div>
+
+      <div id="lineOpts" style="display:none;">
+        <label>Line width</label>
+        <input id="lineWidth" type="text" value="2.5"/>
+        <label>Dash (comma, 0 = solid)</label>
+        <input id="lineDash" type="text" value="6,5"/>
+        <div class="hint">
+          Click points, <span class="kbd">Enter</span> to finish. Borders default to dashed ink like your example.
+        </div>
+      </div>
+
+      <div id="placeOpts" style="display:none;">
+        <label>Type</label>
+        <select id="placeType">
+          <option value="city">City</option>
+          <option value="capital">Capital</option>
+          <option value="town">Town</option>
+          <option value="fort">Fort</option>
+          <option value="port">Port</option>
+        </select>
+        <label>Name</label>
+        <input id="placeName" type="text" placeholder="e.g., Luxborough"/>
+        <div class="hint">Click on map to place. Rename in Select mode.</div>
+      </div>
+
+      <div id="geoOpts" style="display:none;">
+        <label>Marker</label>
+        <select id="geoType">
+          <option value="mountain">Mountain</option>
+          <option value="forest">Forest</option>
+          <option value="swamp">Swamp</option>
+          <option value="ruin">Ruin</option>
+          <option value="sigil">Arcane Sigil</option>
+          <option value="bridge">Bridge</option>
+        </select>
+        <label>Label (optional)</label>
+        <input id="geoLabel" type="text" placeholder="e.g., The Glass Scar"/>
+        <div class="hint">Click to place. Edit label in Select mode.</div>
+      </div>
+
+      <div id="selectOpts" style="display:none;">
+        <div class="pill"><strong>Selected</strong> <span id="selLabel">None</span></div>
+        <label>Edit name/label</label>
+        <input id="selName" type="text" placeholder="Select a city/marker to edit"/>
+        <div class="row" style="margin-top:8px;">
+          <div class="btn small" id="applySelBtn">Apply</div>
+          <div class="btn small danger" id="deleteSelBtn">Delete</div>
+        </div>
+        <div class="hint">
+          Selection priority: Places → Lines → Land polygons.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>Save / Load</h1>
+      <div class="row">
+        <div class="btn primary" id="exportBtn">Export JSON</div>
+        <div class="btn" id="importBtn">Import JSON</div>
+      </div>
+      <label>JSON</label>
+      <textarea id="jsonBox" spellcheck="false" placeholder="Export fills this. Paste JSON and Import to load."></textarea>
+      <div class="err" id="jsonErr"></div>
+      <div class="hint">
+        This stores everything: land polygons, borders, roads, places, and region paint.
+      </div>
+    </div>
+  </aside>
+
+  <main class="canvas-wrap">
+    <canvas id="c"></canvas>
+    <div class="statusbar">
+      <div class="pill"><strong>Pan</strong> <span class="kbd">Space</span></div>
+      <div class="pill"><strong>Zoom</strong> <span class="kbd">Wheel</span></div>
+      <div class="pill"><strong>Finish</strong> <span class="kbd">Enter</span></div>
+      <div class="pill"><strong>Cancel</strong> <span class="kbd">Esc</span></div>
+    </div>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
