@@ -24,3 +24,13 @@ demos/awrgroup-concepts/Images_from_sites/
 .env
 .env.*
 !.env.example
+
+# AWR site build output (regenerate with demos/awrgroup-concepts/build.py)
+demos/awrgroup-site-upload/
+demos/awrgroup-site-upload.zip
+demos/awrgroup-patch.zip
+
+# Home purchase tracker: plaintext data and source notes stay local.
+# Only the encrypted home/data.enc.json is committed (see home/encrypt.mjs).
+home/data.json
+home/notes.md
