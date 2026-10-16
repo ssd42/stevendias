@@ -189,6 +189,8 @@ section{padding:6.5rem 0}
 .num b{display:block;font-size:clamp(2.3rem,4.4vw,3.3rem);font-weight:500;line-height:1;
        letter-spacing:-.045em}
 .num span{display:block;margin-top:.55rem;color:rgba(255,255,255,.7);font-size:.92rem;font-weight:300}
+/* word-valued stat: the numeric clamp above overflows a quarter-width card */
+.num.word b{font-size:clamp(1.75rem,2.7vw,2.4rem);letter-spacing:-.03em}
 
 /* ---------- projects: Skyline mono→colour, Greene shapes ---------- */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
@@ -392,10 +394,10 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   <div class="wrap qgrid">
     <a href="#services" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="1"/><path d="M3 11h18M9 11v10M15 11v10M6 7l6-4 6 4"/></svg></span>
-      <div><h4>Services</h4><p>Nine service areas</p></div></a>
+      <div><h4>Services</h4><p>Eight service areas</p></div></a>
     <a href="#work" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="9" height="18" rx="1"/><rect x="13" y="9" width="7" height="12" rx="1"/><path d="M7 7h1M7 11h1M7 15h1M16 13h1M16 17h1"/></svg></span>
-      <div><h4>Projects</h4><p>Chrysler · Radio City · Flatiron</p></div></a>
+      <div><h4>Projects</h4><p>Woolworth · Flatiron · Eldorado</p></div></a>
     <a href="#about" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></span>
       <div><h4>About</h4><p>Founded 1947</p></div></a>
@@ -409,8 +411,8 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   <div class="marq-track" id="marq">
     <span>240 Centre Street</span><span>200 Rector Street</span><span>250 Cabrini Boulevard</span>
     <span>195 Bowery</span><span>684 Broadway</span><span>246 West End Avenue</span>
-    <span>The Chrysler Building</span><span>Radio City Music Hall</span><span>Flatiron Building</span>
-    <span>Woolworth Building</span><span>NY State Capitol</span><span>The Eldorado</span>
+    <span>Flatiron Building</span><span>Woolworth Building</span>
+    <span>NY State Capitol</span><span>The Eldorado</span>
   </div>
 </div>
 
@@ -425,13 +427,12 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <div class="slist" id="slist">
         <button class="on" data-i="0"><span class="n">01</span>Masonry &amp; Facade Restoration</button>
         <button data-i="1"><span class="n">02</span>Roofing</button>
-        <button data-i="2"><span class="n">03</span>Windows &amp; Restoration</button>
+        <button data-i="2"><span class="n">03</span>Garage Repairs</button>
         <button data-i="3"><span class="n">04</span>Exterior Cleaning</button>
         <button data-i="4"><span class="n">05</span>Inspections &amp; Repairs</button>
         <button data-i="5"><span class="n">06</span>Steel &amp; Structural</button>
         <button data-i="6"><span class="n">07</span>Specialty Services</button>
-        <button data-i="7"><span class="n">08</span>Awnings</button>
-        <button data-i="8"><span class="n">09</span>Scaffolding</button>
+        <button data-i="7"><span class="n">08</span>Scaffolding</button>
       </div>
       <div class="panel" id="panel">
         <figure class="on"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="Facade restoration">
@@ -442,18 +443,21 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
           <figcaption><h3>Roofing</h3>
           <p>Full roofing services including IRMA, cold-applied, hot applied and standing seam metal.</p>
           <ul><li>IRMA</li><li>Cold-applied</li><li>Single-ply</li><li>Standing seam</li><li>Asbestos removal</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Window and facade restoration">
-          <figcaption><h3>Windows &amp; Restoration</h3>
-          <p>Window refurbishment and historic wood restoration.</p>
-          <ul><li>Refurbishment</li><li>Painting</li><li>Caulking</li><li>Wood restoration</li></ul></figcaption></figure>
+        <!-- TO CONFIRM WITH AWR: garage-repairs blurb/bullets are placeholder copy, and
+             there is no garage photo in the asset library yet — this image is a stand-in. -->
+        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Garage repairs">
+          <figcaption><h3>Garage Repairs</h3>
+          <p>Parking garage and plaza deck repairs, from concrete work to waterproofing.</p>
+          <ul><li>Concrete repair</li><li>Traffic coatings</li><li>Waterproofing</li><li>Expansion joints</li></ul></figcaption></figure>
         <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="Exterior cleaning">
           <figcaption><h3>Exterior Cleaning</h3>
           <p>Professional power washing and facade cleaning.</p>
           <ul><li>Power washing</li><li>Facade cleaning</li></ul></figcaption></figure>
         <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-aerial-top.webp" alt="Building inspection">
           <figcaption><h3>Inspections &amp; Repairs</h3>
-          <p>Comprehensive building investigations, inspections and repairs.</p>
-          <ul><li>Investigations</li><li>Inspections</li><li>Probes</li><li>Repairs</li></ul></figcaption></figure>
+          <p>Comprehensive building investigations, inspections and repairs — including
+          boom and suspended scaffold inspections.</p>
+          <ul><li>Investigations</li><li>Inspections</li><li>Probes</li><li>Repairs</li><li>Boom &amp; suspended scaffold</li></ul></figcaption></figure>
         <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-rig.webp" alt="Structural steel work">
           <figcaption><h3>Steel &amp; Structural</h3>
           <p>Steel beam work and structural steel services.</p>
@@ -462,10 +466,6 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
           <figcaption><h3>Specialty Services</h3>
           <p>Plaza work, loading docks, copper dormers and more.</p>
           <ul><li>Copper dormers</li><li>Snow guards</li><li>Plaza replacement</li><li>Loading docks</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-entrance.webp" alt="Awning installation">
-          <figcaption><h3>Awnings</h3>
-          <p>Awning installation and maintenance.</p>
-          <ul><li>Installation</li><li>Repairs</li></ul></figcaption></figure>
         <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="Suspended scaffolding">
           <figcaption><h3>Scaffolding</h3>
           <p>Complete scaffolding services for all project types.</p>
@@ -477,15 +477,15 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 
 <section class="band">
   <div class="wrap">
-    <div class="sh c rv"><p class="eyebrow c">Since 1947</p>
-      <h2>Seventy-five years on<br>the New York skyline.</h2>
+    <div class="sh c rv"><p class="eyebrow c">Celebrating 80 years</p>
+      <h2>Eighty years on<br>the New York skyline.</h2>
       <p>Landmark work is unforgiving. That's the work we do.</p></div>
     <div class="numbers rv">
       <!-- TO CONFIRM WITH AWR: ownership/generations not stated on their current site -->
       <div class="num"><b>1947</b><span>Founded, and family-run ever since</span></div>
-      <div class="num"><b>75+</b><span>Years restoring NYC buildings</span></div>
-      <div class="num"><b>9</b><span>Service areas</span></div>
-      <div class="num"><b>30</b><span>Projects listed in our portfolio</span></div>
+      <div class="num"><b>80</b><span>Years restoring NYC buildings</span></div>
+      <div class="num word"><b>Tri-State</b><span>Service area — and across the Northeast</span></div>
+      <div class="num"><b>28</b><span>Projects listed in our portfolio</span></div>
     </div>
   </div>
 </section>
@@ -514,15 +514,13 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 800w, ../awrgroup-assets/web/projects/westend-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
         <span class="count">11 photos</span><div class="pm"><div><h3>246 West End Avenue</h3><p>2026</p></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <div class="proj nolink"><img srcset="../awrgroup-assets/web/crysler-building-sm.webp 800w, ../awrgroup-assets/web/crysler-building.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/crysler-building.webp" alt="Chrysler Building">
-        <div class="pm"><div><h3>The Chrysler Building</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
-      <div class="proj nolink"><img srcset="../awrgroup-assets/web/radio-city-sm.webp 800w, ../awrgroup-assets/web/radio-city.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/radio-city.webp" alt="Radio City Music Hall">
-        <div class="pm"><div><h3>Radio City Music Hall</h3><p>Masonry · Roofing · Specialty</p></div></div></div>
+      <div class="proj nolink"><img srcset="../awrgroup-assets/web/woolworth-sm.webp 800w, ../awrgroup-assets/web/woolworth.webp 1800w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/woolworth.webp" alt="Woolworth Building">
+        <div class="pm"><div><h3>Woolworth Building</h3><p>Historic Restoration</p></div></div></div>
       <div class="proj nolink"><img srcset="../awrgroup-assets/web/flatiron-sm.webp 800w, ../awrgroup-assets/web/flatiron.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/flatiron.webp" alt="Flatiron Building">
         <div class="pm"><div><h3>Flatiron Building</h3><p>Historic Restoration</p></div></div></div>
     </div>
     <div class="tagrow rv">
-      <span>Woolworth Building</span><span>NY State Capitol</span><span>The Eldorado</span><span>The Carlyle Hotel</span><span>Warwick Hotel</span><span>666 Broadway</span><span>Hotel Pierre</span><span>685 3rd Avenue</span><span>105 Hudson Street</span><span>International Toy Center</span><span>50 East 42nd Street</span><span>140 Riverside Drive</span><span>1290 6th Avenue</span><span>1285 6th Avenue</span><span>3 Hanover Square</span><span>255 East 49th Street</span><span>International Design Center</span><span>491 Broadway</span><span>335 Madison Avenue</span><span>750 Seventh Avenue</span><span>540 Fifth Avenue</span>
+      <span>NY State Capitol</span><span>The Eldorado</span><span>The Carlyle Hotel</span><span>Warwick Hotel</span><span>666 Broadway</span><span>Hotel Pierre</span><span>685 3rd Avenue</span><span>105 Hudson Street</span><span>International Toy Center</span><span>50 East 42nd Street</span><span>140 Riverside Drive</span><span>1290 6th Avenue</span><span>1285 6th Avenue</span><span>3 Hanover Square</span><span>255 East 49th Street</span><span>International Design Center</span><span>491 Broadway</span><span>335 Madison Avenue</span><span>750 Seventh Avenue</span><span>540 Fifth Avenue</span>
     </div>
   </div>
 </section>
@@ -578,7 +576,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <a href="#work">Projects</a></div>
     <div class="fcol"><h4>Contact</h4><a href="tel:7187290412">718.729.0412</a>
       <a href="mailto:info@awrgroup.com">info@awrgroup.com</a></div>
-    <div class="fcol"><h4>Since</h4><p>1947</p><p>75+ years</p></div>
+    <div class="fcol"><h4>Since</h4><p>1947</p><p>80 years</p></div>
   </div>
   <div class="fbot"><p>© 2026 AWR Group Inc.</p><p>Concept 04 — the mix</p></div>
 </div></footer>
@@ -605,7 +603,7 @@ const show=b=>{btns().forEach(x=>x.classList.toggle('on',x===b));
   const i=+b.dataset.i;figs.forEach((f,n)=>f.classList.toggle('on',n===i));};
 list.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b)});
 
-// On phones the shared panel can't work (it sits below all nine items and there is no
+// On phones the shared panel can't work (it sits below all eight items and there is no
 // hover), so each image moves inline under its own button as an accordion instead.
 const mq=matchMedia('(max-width:860px)');
 function relayout(){
