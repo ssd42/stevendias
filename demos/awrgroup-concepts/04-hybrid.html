@@ -2,13 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWR Group Inc. — Concept 04 · The Mix</title>
+
+<!-- LAUNCH SWITCH: this page currently lives on stevendias.com, which noindexes
+     everything outside the homepage and blog. Delete the robots line below and
+     update SITE_URL in the tags that follow when it moves to AWR's own domain. -->
+<meta name="robots" content="noindex, nofollow">
+
+<title>AWR Group — Building Restoration &amp; Waterproofing | New York</title>
+<meta name="description" content="Exterior restoration, waterproofing, masonry and roofing for landmark and commercial buildings across the New York tri-state area. Family-run since 1947.">
+<meta name="theme-color" content="#163D1D">
+<link rel="canonical" href="https://awrgroup.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AWR Group Inc.">
+<meta property="og:title" content="AWR Group — Building Restoration &amp; Waterproofing">
+<meta property="og:description" content="Exterior restoration, waterproofing, masonry and roofing for landmark and commercial buildings across the New York tri-state area. Family-run since 1947.">
+<meta property="og:url" content="https://awrgroup.com/">
+<meta property="og:image" content="https://awrgroup.com/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Copper dome restoration under scaffold at 240 Centre Street, Manhattan">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <link rel="icon" href="../awrgroup-assets/web/mark.webp">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "name": "AWR Group Inc.",
+  "description": "Exterior building restoration, waterproofing, masonry, roofing and historic preservation for landmark and commercial buildings.",
+  "url": "https://awrgroup.com/",
+  "telephone": "+1-718-729-0412",
+  "email": "info@awrgroup.com",
+  "foundingDate": "1947",
+  "areaServed": [
+    {"@type": "State", "name": "New York"},
+    {"@type": "State", "name": "New Jersey"},
+    {"@type": "State", "name": "Connecticut"}
+  ],
+  "knowsAbout": ["Masonry & Facade Restoration","Roofing","Garage Repairs","Exterior Cleaning",
+                 "Inspections & Repairs","Steel & Structural","Specialty Services","Scaffolding"]
+}
+</script>
 <style>
 :root{
   --forest:#163D1D;--forest-2:#1F5427;--brand:#4A7C2C;--lime:#9BD46E;
@@ -125,7 +163,7 @@ header.stuck .burger span{background:var(--ink)}
 .q:hover .ico{background:var(--lime)}
 .q .ico svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.5;transition:.35s var(--ease)}
 .q:hover .ico svg{stroke:var(--forest)}
-.q h4{color:#fff;font-size:1.06rem;font-weight:500;margin-bottom:.1rem}
+.q .qt{display:block;color:#fff;font-size:1.06rem;font-weight:500;margin-bottom:.1rem}
 .q p{font-size:.86rem;color:rgba(255,255,255,.6);line-height:1.35;font-weight:300}
 
 /* ---------- marquee of landmarks ---------- */
@@ -254,7 +292,7 @@ section{padding:6.5rem 0}
 footer{background:var(--stone);padding:3.6rem 0 2rem;margin-top:5rem}
 .frow{display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;align-items:flex-start}
 .frow>div:first-child img{height:60px}
-.fcol h4{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--body);
+.fcol h2{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--body);
          margin-bottom:.75rem;font-weight:600}
 .fcol a,.fcol p{display:block;color:var(--ink);font-size:.97rem;font-weight:300;padding:.55rem 0}
 .fcol a:hover{color:var(--brand)}
@@ -402,16 +440,16 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   <div class="wrap qgrid">
     <a href="#services" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="1"/><path d="M3 11h18M9 11v10M15 11v10M6 7l6-4 6 4"/></svg></span>
-      <div><h4>Services</h4><p>Eight service areas</p></div></a>
+      <div><span class="qt">Services</span><p>Eight service areas</p></div></a>
     <a href="#work" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="9" height="18" rx="1"/><rect x="13" y="9" width="7" height="12" rx="1"/><path d="M7 7h1M7 11h1M7 15h1M16 13h1M16 17h1"/></svg></span>
-      <div><h4>Projects</h4><p>Woolworth · Flatiron · Eldorado</p></div></a>
+      <div><span class="qt">Projects</span><p>Woolworth · Flatiron · Eldorado</p></div></a>
     <a href="#about" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></span>
-      <div><h4>About</h4><p>Founded 1947</p></div></a>
+      <div><span class="qt">About</span><p>Founded 1947</p></div></a>
     <a href="#contact" class="q">
       <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-6.7 8-12a8 8 0 1 0-16 0c0 5.3 8 12 8 12z"/><circle cx="12" cy="10" r="2.8"/></svg></span>
-      <div><h4>Contact</h4><p>718.729.0412</p></div></a>
+      <div><span class="qt">Contact</span><p>718.729.0412</p></div></a>
   </div>
 </div>
 
@@ -571,7 +609,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <p>Send us the address and what you're seeing, and we'll be in touch
       about next steps.</p>
       <div class="btns">
-        <a href="tel:7187290412" class="pill p-white">718.729.0412
+        <a href="tel:+17187290412" class="pill p-white">718.729.0412
           <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
         <a href="mailto:info@awrgroup.com" class="pill p-ghost">info@awrgroup.com
           <span class="b"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
@@ -585,13 +623,14 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
     <div><img src="../awrgroup-assets/web/logo-trans.png" alt="AWR Group Inc.">
       <p style="color:var(--body);font-size:.92rem;margin-top:.9rem;max-width:260px;font-weight:300">
       Exterior building restoration &amp; historic preservation across the New York metro area.</p></div>
-    <div class="fcol"><h4>Company</h4><a href="#about">About</a><a href="#services">Services</a>
+    <div class="fcol"><h2>Company</h2><a href="#about">About</a><a href="#services">Services</a>
       <a href="#work">Projects</a></div>
-    <div class="fcol"><h4>Contact</h4><a href="tel:7187290412">718.729.0412</a>
+    <div class="fcol"><h2>Contact</h2><a href="tel:+17187290412">718.729.0412</a>
       <a href="mailto:info@awrgroup.com">info@awrgroup.com</a></div>
-    <div class="fcol"><h4>Since</h4><p>1947</p><p><span class="yrs">80</span> years</p></div>
+    <div class="fcol"><h2>Since</h2><p>1947</p><p><span class="yrs">80</span> years</p></div>
   </div>
-  <div class="fbot"><p>© 2026 AWR Group Inc.</p><p>Concept 04 — the mix</p></div>
+  <div class="fbot"><p>© <span class="yr">2026</span> AWR Group Inc.</p>
+    <p>Restoration &amp; waterproofing since 1947</p></div>
 </div></footer>
 
 
@@ -636,6 +675,7 @@ list.addEventListener('mouseover',e=>{
 const FOUNDED=1947, FLOOR=80;
 const YEARS=Math.max(FLOOR, new Date().getFullYear()-FOUNDED);
 document.querySelectorAll('.yrs').forEach(e=>{e.textContent=YEARS});
+document.querySelectorAll('.yr').forEach(e=>{e.textContent=new Date().getFullYear()});
 
 // marquee: duplicate for a seamless loop
 const m=document.getElementById('marq');m.innerHTML+=m.innerHTML;
