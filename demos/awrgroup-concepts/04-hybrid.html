@@ -19,7 +19,7 @@
   --ease:cubic-bezier(.4,0,.2,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-padding-top:86px;scroll-behavior:smooth}
 body{font-family:var(--f);color:var(--ink);background:var(--paper);font-size:17px;
      line-height:1.62;-webkit-font-smoothing:antialiased;letter-spacing:-.005em;overflow-x:hidden}
 img{max-width:100%;display:block}
@@ -53,7 +53,11 @@ h1,h2,h3{line-height:1.08;letter-spacing:-.03em;font-weight:500}
 .p-sm .b{width:32px;height:32px}
 
 /* ---------- header ---------- */
-header{position:absolute;top:0;left:0;right:0;z-index:80;padding:1.3rem 0;transition:.35s var(--ease)}
+/* Transition padding/shadow only. Animating background-color too meant that on a
+   momentum scroll past the threshold you caught frames of a half-transparent bar
+   with the logo floating over the content behind it. */
+header{position:absolute;top:0;left:0;right:0;z-index:80;padding:1.3rem 0;
+       transition:padding .35s var(--ease),box-shadow .35s var(--ease)}
 /* Solid, not blurred: a fixed backdrop-filter re-blurs the whole strip every
    frame while scrolling, which cost ~16ms/frame on its own. .97 alpha reads
    near-identically. */
@@ -81,7 +85,11 @@ header.stuck .p-ghost .b svg{stroke:#fff}
 header.stuck .burger span{background:var(--ink)}
 
 /* ---------- hero: Skyline's cinema + Greene's copy ---------- */
-.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;background:#000}
+/* svh = the viewport with browser chrome showing. Plain vh on a phone left the
+   hero short of the screen, so the top of the green quick-bar peeked in and cut
+   its first item in half. */
+.hero{position:relative;min-height:100vh;min-height:100svh;
+      display:flex;align-items:flex-end;overflow:hidden;background:#000}
 .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
           filter:grayscale(1) contrast(1.1) brightness(.62);
           animation:bloom 2.4s var(--ease) .35s forwards, float 32s ease-in-out 3s infinite alternate}
@@ -182,9 +190,12 @@ section{padding:6.5rem 0}
 .band>*{position:relative;z-index:1}
 .band .sh h2{color:#fff}.band .sh p{color:rgba(255,255,255,.72)}
 .band .eyebrow{color:var(--lime)}
-.numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.15rem}
+.numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.15rem}
 .num{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
-     border-radius:var(--r-sm);padding:2rem 1.5rem;transition:.35s var(--ease)}
+     border-radius:var(--r-sm);padding:2rem 1.5rem;transition:.35s var(--ease);
+     /* word and numeric values set different cap heights — pin the labels to the
+        bottom so the row reads as one line instead of three floating baselines */
+     display:flex;flex-direction:column;justify-content:space-between}
 .num:hover{background:rgba(255,255,255,.12);transform:translateY(-4px)}
 .num b{display:block;font-size:clamp(2.3rem,4.4vw,3.3rem);font-weight:500;line-height:1;
        letter-spacing:-.045em}
@@ -213,14 +224,12 @@ section{padding:6.5rem 0}
 .tagrow{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2.2rem}
 .tagrow span{background:#fff;border:1px solid var(--line);border-radius:999px;
   padding:.5rem 1.1rem;font-size:.88rem;color:var(--body);transition:.28s var(--ease);font-weight:300}
-.tagrow span:hover{background:var(--forest);color:#fff;border-color:var(--forest)}
 
 /* ---------- about ---------- */
 .split{display:grid;grid-template-columns:1fr 1.05fr;gap:4rem;align-items:center}
 .about-img{position:relative}
 .about-img img{border-radius:var(--r);aspect-ratio:4/4.7;object-fit:cover;width:100%;
-               filter:grayscale(.85) contrast(1.05);transition:filter .8s var(--ease)}
-.about-img:hover img{filter:grayscale(0)}
+               filter:contrast(1.03);transition:filter .8s var(--ease)}
 .about-img .badge{position:absolute;left:-22px;bottom:36px;background:var(--forest);color:#fff;
   border-radius:var(--r-sm);padding:1.3rem 1.6rem;box-shadow:0 20px 44px rgba(22,61,29,.28)}
 .about-img .badge b{display:block;font-size:2.1rem;font-weight:500;line-height:1;letter-spacing:-.04em}
@@ -309,7 +318,6 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   .qgrid{grid-template-columns:repeat(2,1fr)}
   .q:nth-child(2){border-right:0}
   .q:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.13)}
-  .numbers{grid-template-columns:repeat(2,1fr)}
   .pgrid{grid-template-columns:repeat(2,1fr)}
   .svc{grid-template-columns:1fr;gap:2rem}
   .split{grid-template-columns:1fr;gap:2.4rem}
@@ -339,7 +347,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   .hnav.open{display:flex;position:absolute;top:100%;left:4%;right:4%;background:#fff;
     flex-direction:column;align-items:stretch;gap:.1rem;padding:1.1rem;border-radius:var(--r-sm);
     box-shadow:0 20px 50px rgba(0,0,0,.16);margin-top:.7rem}
-  .hnav.open>a{color:var(--ink);padding:.8rem .4rem}
+  .hnav.open>a{color:var(--ink);padding:.9rem .4rem;min-height:44px;display:flex;align-items:center}
   .hnav.open .pill{margin-top:.5rem;justify-content:space-between}
 }
 @media(max-width:620px){
@@ -347,7 +355,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
   .qgrid{grid-template-columns:1fr}
   .q{border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}
   .numbers,.pgrid{grid-template-columns:1fr}
-  .hero{min-height:92vh}
+  .hero{min-height:100svh}
   .hero .btns{flex-direction:column;align-items:stretch}
   .hero .pill{justify-content:space-between}
   .cta{padding:3rem 1.4rem;border-radius:var(--r-sm)}
@@ -374,7 +382,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 </header>
 
 <section class="hero" id="top" style="padding:0">
-  <img fetchpriority="high" src="../awrgroup-assets/web/projects/centre-dome-skyline.webp" alt="Copper dome restoration at 240 Centre Street, Manhattan">
+  <img fetchpriority="high" srcset="../awrgroup-assets/web/projects/centre-dome-skyline-sm.webp 900w, ../awrgroup-assets/web/projects/centre-dome-skyline.webp 1800w" sizes="100vw" src="../awrgroup-assets/web/projects/centre-dome-skyline.webp" alt="Copper dome restoration at 240 Centre Street, Manhattan">
   <div class="wrap"><div class="hero-in">
     <!-- TO CONFIRM WITH AWR: ownership/generations not stated on their current site -->
     <span class="chip"><i></i> Family-run since 1947</span>
@@ -410,7 +418,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 <div class="marq">
   <div class="marq-track" id="marq">
     <span>240 Centre Street</span><span>200 Rector Street</span><span>250 Cabrini Boulevard</span>
-    <span>195 Bowery</span><span>684 Broadway</span><span>246 West End Avenue</span>
+    <span>195 Bowery</span><span>684 Broadway</span><span>246 West End Avenue</span><span>4 Park Avenue</span><span>NYU — 35 West 4th Street</span>
     <span>Flatiron Building</span><span>Woolworth Building</span>
     <span>NY State Capitol</span><span>The Eldorado</span>
   </div>
@@ -435,38 +443,38 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
         <button data-i="7"><span class="n">08</span>Scaffolding</button>
       </div>
       <div class="panel" id="panel">
-        <figure class="on"><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="Facade restoration">
+        <figure class="on"><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="Facade restoration">
           <figcaption><h3>Masonry &amp; Facade Restoration</h3>
           <p>Complete parapet and facade work for historic and commercial buildings.</p>
           <ul><li>Parapet demolition</li><li>Wall stabilization</li><li>Coping repair</li><li>Curtain wall</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-roof-bridge.webp" alt="Roof replacement">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/cabrini-roof-bridge-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-roof-bridge.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/cabrini-roof-bridge.webp" alt="Roof replacement">
           <figcaption><h3>Roofing</h3>
           <p>Full roofing services including IRMA, cold-applied, hot applied and standing seam metal.</p>
           <ul><li>IRMA</li><li>Cold-applied</li><li>Single-ply</li><li>Standing seam</li><li>Asbestos removal</li></ul></figcaption></figure>
         <!-- TO CONFIRM WITH AWR: garage-repairs blurb/bullets are placeholder copy, and
              there is no garage photo in the asset library yet — this image is a stand-in. -->
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Garage repairs">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 600w, ../awrgroup-assets/web/projects/westend-facade.webp 1050w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="Garage repairs">
           <figcaption><h3>Garage Repairs</h3>
           <p>Parking garage and plaza deck repairs, from concrete work to waterproofing.</p>
           <ul><li>Concrete repair</li><li>Traffic coatings</li><li>Waterproofing</li><li>Expansion joints</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="Exterior cleaning">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="Exterior cleaning">
           <figcaption><h3>Exterior Cleaning</h3>
           <p>Professional power washing and facade cleaning.</p>
           <ul><li>Power washing</li><li>Facade cleaning</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-aerial-top.webp" alt="Building inspection">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/centre-aerial-top-sm.webp 800w, ../awrgroup-assets/web/projects/centre-aerial-top.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/centre-aerial-top.webp" alt="Building inspection">
           <figcaption><h3>Inspections &amp; Repairs</h3>
           <p>Comprehensive building investigations, inspections and repairs — including
           boom and suspended scaffold inspections.</p>
           <ul><li>Investigations</li><li>Inspections</li><li>Probes</li><li>Repairs</li><li>Boom &amp; suspended scaffold</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-rig.webp" alt="Structural steel work">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/bowery-scaffold-rig-sm.webp 600w, ../awrgroup-assets/web/projects/bowery-scaffold-rig.webp 787w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/bowery-scaffold-rig.webp" alt="Structural steel work">
           <figcaption><h3>Steel &amp; Structural</h3>
           <p>Steel beam work and structural steel services.</p>
           <ul><li>Block repairs</li><li>Lintel replacement</li><li>I-beam repair</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="Specialty restoration">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="Specialty restoration">
           <figcaption><h3>Specialty Services</h3>
           <p>Plaza work, loading docks, copper dormers and more.</p>
           <ul><li>Copper dormers</li><li>Snow guards</li><li>Plaza replacement</li><li>Loading docks</li></ul></figcaption></figure>
-        <figure><img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="Suspended scaffolding">
+        <figure><img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="Suspended scaffolding">
           <figcaption><h3>Scaffolding</h3>
           <p>Complete scaffolding services for all project types.</p>
           <ul><li>Suspended</li><li>Supported</li><li>Installation</li></ul></figcaption></figure>
@@ -477,15 +485,14 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 
 <section class="band">
   <div class="wrap">
-    <div class="sh c rv"><p class="eyebrow c">Celebrating 80 years</p>
-      <h2>Eighty years on<br>the New York skyline.</h2>
+    <div class="sh c rv"><p class="eyebrow c">Celebrating <span class="yrs">80</span> years</p>
+      <h2><span class="yrs">80</span> years on<br>the New York skyline.</h2>
       <p>Landmark work is unforgiving. That's the work we do.</p></div>
     <div class="numbers rv">
       <!-- TO CONFIRM WITH AWR: ownership/generations not stated on their current site -->
       <div class="num"><b>1947</b><span>Founded, and family-run ever since</span></div>
-      <div class="num"><b>80</b><span>Years restoring NYC buildings</span></div>
+      <div class="num"><b class="yrs">80</b><span>Years restoring NYC buildings</span></div>
       <div class="num word"><b>Tri-State</b><span>Service area — and across the Northeast</span></div>
-      <div class="num"><b>28</b><span>Projects listed in our portfolio</span></div>
     </div>
   </div>
 </section>
@@ -496,23 +503,29 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <h2>Buildings you already <em>know</em>.</h2>
       <p>A portfolio you can walk past.</p></div>
     <div class="pgrid rv">
-      <button class="proj" data-g="centre" data-n="14" aria-label="240 Centre Street — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street dome restoration">
-        <span class="count">14 photos</span><div class="pm"><div><h3>240 Centre Street</h3><p>2026</p></div>
+      <button class="proj" data-g="centre" data-n="14" aria-label="240 Centre Street — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/centre-dome-scaffold-sm.webp 800w, ../awrgroup-assets/web/projects/centre-dome-scaffold.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/centre-dome-scaffold.webp" alt="240 Centre Street dome restoration">
+        <span class="count">14 photos</span><div class="pm"><div><h3>240 Centre Street</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
       <button class="proj" data-g="rector" data-n="14" aria-label="200 Rector Street — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/rector-skyline-sm.webp 800w, ../awrgroup-assets/web/projects/rector-skyline.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-skyline.webp" alt="200 Rector Street">
-        <span class="count">14 photos</span><div class="pm"><div><h3>200 Rector Street</h3><p>2025</p></div>
+        <span class="count">14 photos</span><div class="pm"><div><h3>200 Rector Street</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="cabrini" data-n="14" aria-label="250 Cabrini Boulevard — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard">
-        <span class="count">14 photos</span><div class="pm"><div><h3>250 Cabrini Boulevard</h3><p>2025–2026</p></div>
+      <button class="proj" data-g="cabrini" data-n="14" aria-label="250 Cabrini Boulevard — open photo gallery, 14 photos"><img srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/cabrini-facade-up-sm.webp 800w, ../awrgroup-assets/web/projects/cabrini-facade-up.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/cabrini-facade-up.webp" alt="250 Cabrini Boulevard">
+        <span class="count">14 photos</span><div class="pm"><div><h3>250 Cabrini Boulevard</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="bowery" data-n="6" aria-label="195 Bowery — open photo gallery, 6 photos"><img srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery">
-        <span class="count">6 photos</span><div class="pm"><div><h3>195 Bowery</h3><p>2026</p></div>
+      <button class="proj" data-g="bowery" data-n="6" aria-label="195 Bowery — open photo gallery, 6 photos"><img srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/bowery-scaffold-crew-sm.webp 800w, ../awrgroup-assets/web/projects/bowery-scaffold-crew.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/bowery-scaffold-crew.webp" alt="195 Bowery">
+        <span class="count">6 photos</span><div class="pm"><div><h3>195 Bowery</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="broadway" data-n="3" aria-label="684 Broadway — open photo gallery, 3 photos"><img srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway">
-        <span class="count">3 photos</span><div class="pm"><div><h3>684 Broadway</h3><p>2025</p></div>
+      <button class="proj" data-g="broadway" data-n="3" aria-label="684 Broadway — open photo gallery, 3 photos"><img srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/broadway-facade-sm.webp 800w, ../awrgroup-assets/web/projects/broadway-facade.webp 1400w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/broadway-facade.webp" alt="684 Broadway">
+        <span class="count">3 photos</span><div class="pm"><div><h3>684 Broadway</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
-      <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 800w, ../awrgroup-assets/web/projects/westend-facade.webp 1400w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
-        <span class="count">11 photos</span><div class="pm"><div><h3>246 West End Avenue</h3><p>2026</p></div>
+      <button class="proj" data-g="westend" data-n="11" aria-label="246 West End Avenue — open photo gallery, 11 photos"><img srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 600w, ../awrgroup-assets/web/projects/westend-facade.webp 1050w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/westend-facade-sm.webp 600w, ../awrgroup-assets/web/projects/westend-facade.webp 1050w" sizes="(max-width:860px) 92vw, 52vw" src="../awrgroup-assets/web/projects/westend-facade.webp" alt="246 West End Avenue">
+        <span class="count">11 photos</span><div class="pm"><div><h3>246 West End Avenue</h3></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="park" data-n="4" aria-label="4 Park Avenue — open photo gallery, 4 photos"><img srcset="../awrgroup-assets/web/projects/park-tower-sm.webp 800w, ../awrgroup-assets/web/projects/park-tower.webp 1024w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/park-tower.webp" alt="4 Park Avenue">
+        <span class="count">4 photos</span><div class="pm"><div><h3>4 Park Avenue</h3></div>
+        <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
+      <button class="proj" data-g="nyu" data-n="3" aria-label="NYU — 35 West 4th Street — open photo gallery, 3 photos"><img srcset="../awrgroup-assets/web/projects/nyu-west4th-sm.webp 400w, ../awrgroup-assets/web/projects/nyu-west4th.webp 576w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/nyu-west4th.webp" alt="NYU, 35 West 4th Street">
+        <span class="count">3 photos</span><div class="pm"><div><h3>NYU — 35 West 4th Street</h3></div>
         <span class="go"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></button>
       <div class="proj nolink"><img srcset="../awrgroup-assets/web/woolworth-sm.webp 800w, ../awrgroup-assets/web/woolworth.webp 1800w" sizes="(max-width:620px) 92vw, (max-width:1080px) 46vw, 30vw" loading="lazy" decoding="async" src="../awrgroup-assets/web/woolworth.webp" alt="Woolworth Building">
         <div class="pm"><div><h3>Woolworth Building</h3><p>Historic Restoration</p></div></div></div>
@@ -528,7 +541,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 <section class="bp" id="about">
   <div class="wrap split rv">
     <div class="about-img">
-      <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/cabrini-facade-detail.webp" alt="Restored brick and stonework detail">
+      <img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/cabrini-facade-detail-sm.webp 600w, ../awrgroup-assets/web/projects/cabrini-facade-detail.webp 1050w" sizes="(max-width:980px) 92vw, 46vw" src="../awrgroup-assets/web/projects/cabrini-facade-detail.webp" alt="Restored brick and stonework detail">
       <div class="badge"><b>1947</b><span>Established</span></div>
     </div>
     <div>
@@ -552,7 +565,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 
 <section id="contact" style="padding-bottom:0">
   <div class="wrap"><div class="cta rv">
-    <img loading="lazy" decoding="async" src="../awrgroup-assets/web/projects/rector-harbor.webp" alt="">
+    <img loading="lazy" decoding="async" srcset="../awrgroup-assets/web/projects/rector-harbor-sm.webp 800w, ../awrgroup-assets/web/projects/rector-harbor.webp 1400w" sizes="(max-width:1080px) 92vw, 1200px" src="../awrgroup-assets/web/projects/rector-harbor.webp" alt="">
     <div class="cta-in">
       <h2>Tell us about your building.</h2>
       <p>Send us the address and what you're seeing, and we'll be in touch
@@ -576,7 +589,7 @@ button.proj:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
       <a href="#work">Projects</a></div>
     <div class="fcol"><h4>Contact</h4><a href="tel:7187290412">718.729.0412</a>
       <a href="mailto:info@awrgroup.com">info@awrgroup.com</a></div>
-    <div class="fcol"><h4>Since</h4><p>1947</p><p>80 years</p></div>
+    <div class="fcol"><h4>Since</h4><p>1947</p><p><span class="yrs">80</span> years</p></div>
   </div>
   <div class="fbot"><p>© 2026 AWR Group Inc.</p><p>Concept 04 — the mix</p></div>
 </div></footer>
@@ -617,39 +630,80 @@ mq.addEventListener('change',relayout);
 list.addEventListener('mouseover',e=>{
   if(mq.matches)return; const b=e.target.closest('button'); if(b)show(b);});
 
+// Years in business, derived from the founding year so the site never goes stale.
+// AWR wants to say 80 from now on, so the count floors there: it holds at 80
+// until the actual figure catches up in 2027, then tracks on its own.
+const FOUNDED=1947, FLOOR=80;
+const YEARS=Math.max(FLOOR, new Date().getFullYear()-FOUNDED);
+document.querySelectorAll('.yrs').forEach(e=>{e.textContent=YEARS});
+
 // marquee: duplicate for a seamless loop
 const m=document.getElementById('marq');m.innerHTML+=m.innerHTML;
 
 // sticky header
 const hdr=document.getElementById('hdr');
 addEventListener('scroll',()=>hdr.classList.toggle('stuck',scrollY>90),{passive:true});
-document.querySelector('.burger').onclick=()=>document.getElementById('nav').classList.toggle('open');
+const navEl=document.getElementById('nav'), burger=document.querySelector('.burger');
+const setMenu=open=>{ navEl.classList.toggle('open',open); burger.setAttribute('aria-expanded',open); };
+setMenu(false);
+burger.onclick=()=>setMenu(!navEl.classList.contains('open'));
+// the panel sits over the content you just jumped to — close it on tap
+navEl.addEventListener('click',e=>{ if(e.target.closest('a')) setMenu(false); });
+// ...and anywhere outside it, or on Escape
+document.addEventListener('click',e=>{
+  if(!navEl.classList.contains('open')) return;
+  if(e.target.closest('#nav')||e.target.closest('.burger')) return;
+  setMenu(false);
+});
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&navEl.classList.contains('open')) setMenu(false); });
 
 
 /* ---------- project lightbox ---------- */
 (()=>{
   const lb=document.getElementById('lb'), img=document.getElementById('lbImg'),
         tEl=document.getElementById('lbTitle'), cEl=document.getElementById('lbCount');
-  let slug=null,total=0,i=0,opener=null,title='';
-  const src=n=>`../awrgroup-assets/web/projects/gallery/${slug}/${String(n).padStart(2,'0')}.webp`;
-  const preload=n=>{ if(n>=0&&n<total){const p=new Image();p.src=src(n);} };
+  const gals=[...document.querySelectorAll('button.proj[data-g]')];
+  let g=0,slug=null,total=0,i=0,title='';
+  const path=(sl,n)=>`../awrgroup-assets/web/projects/gallery/${sl}/${String(n).padStart(2,'0')}.webp`;
+  const src=n=>path(slug,n);
+  function preload(n){
+    // past either end, the neighbouring gallery is what loads next — prefetch that
+    if(n>=0&&n<total){ new Image().src=src(n); return; }
+    const b=gals[(g+(n<0?-1:1)+gals.length)%gals.length];
+    if(b) new Image().src=path(b.dataset.g, n<0 ? (+b.dataset.n)-1 : 0);
+  }
+  function load(k,atEnd){
+    const b=gals[k]; g=k;
+    slug=b.dataset.g; total=+b.dataset.n;
+    title=b.querySelector('h3').textContent;
+    i=atEnd?total-1:0;
+  }
   function render(){
     img.src=src(i); img.alt=`${title}, photo ${i+1} of ${total}`;
     tEl.textContent=title; cEl.textContent=`${i+1} / ${total}`;
     preload(i+1); preload(i-1);
   }
-  function go(d){ if(!total)return; i=(i+d+total)%total; render(); }
+  // Paging past either end of a gallery rolls into the next/previous building
+  // rather than looping inside the one you opened.
+  function go(d){
+    if(!total)return;
+    const n=i+d;
+    if(n<0)            load((g-1+gals.length)%gals.length, true);
+    else if(n>=total)  load((g+1)%gals.length, false);
+    else               i=n;
+    render();
+  }
   function open(btn){
-    slug=btn.dataset.g; total=+btn.dataset.n; i=0; opener=btn;
-    title=btn.querySelector('h3').textContent;
+    load(gals.indexOf(btn),false);
     lb.hidden=false; document.body.style.overflow='hidden';
     render(); document.getElementById('lbClose').focus();
   }
   function close(){
     lb.hidden=true; document.body.style.overflow='';
-    img.removeAttribute('src'); if(opener) opener.focus();
+    img.removeAttribute('src');
+    if(gals[g]) gals[g].focus();   // return to whichever building we ended on
   }
-  document.querySelectorAll('button.proj[data-g]').forEach(b=>b.addEventListener('click',()=>open(b)));
+  gals.forEach(b=>b.addEventListener('click',()=>open(b)));
   document.getElementById('lbClose').onclick=close;
   document.getElementById('lbPrev').onclick=()=>go(-1);
   document.getElementById('lbNext').onclick=()=>go(1);
